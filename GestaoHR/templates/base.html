@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>oi
+
+    </h1>
+    <form method="post">
+
+        {{ form.as_p }}
+        <button type="submit">Enviar</button>
+
+    </form>
+
+    <h3>    def clean(self):
+        self.validate_CPF()
+
+    #validar o CPF.
+    def validate_CPF(self):
+        CPF = self.CPF
+        if not CPF.isdigit() or len(CPF) != 11:
+            raise ValidationError("O CPF deve conter 11 dígitos.")</h3>
+</body>
+</html>
