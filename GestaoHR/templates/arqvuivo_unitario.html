@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Detalhe do arquivo{% endblock %}
+
+{% block 'Material' %}
+
+<h3>Visualiar {{detalhe.EI_OC}}</h3>
+
+<div class="form-row">
+    <div class="col">
+    <label for="">EI/OC </label>
+    <input type="text" value="{{detalhe.EI_OC}}" disabled>
+    <label for=""> Tipo Seriço </label>
+    <input type="text" value="{{detalhe.tipo}}" disabled>
+    <label for="">Municipio</label>
+    <input type="text" value="{{detalhe.municipio}}"disabled>
+    </div>
+</div>
+
+
+<div class="form-row">
+    <div class="col">
+    <label for="">Responsavel Desenho </label>
+    <input type="text" value="{{detalhe.Responsavel}}"disabled>
+    <br><label for="">As Biult</label>
+    <p><a href="{{detalhe.AS_Biult.url}}">Baixar</a></p>
+    <label for="">Medicao</label>
+    <p><a href="{{detalhe.Medicao.url}}">Baixar</a></p>
+    <label for="">Arquivo DWG</label>
+    <br><p><a href="{{detalhe.DWG.url}}">Baixar</a></p>
+    <br><label for="">AES</label>
+    <br><p><a href="{{detalhe.AES.url}}">Baixar</a></p>
+    <br><label for="">ACOS</label>
+    <br><p><a href="{{detalhe.ACOS.url}}">Baixar</a></p>
+    </div>             
+</div>
+
+</ul>
+
+{% endblock %}

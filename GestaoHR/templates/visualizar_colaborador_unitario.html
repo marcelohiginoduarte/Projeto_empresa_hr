@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar colaborador{% endblock %}
+
+{% block 'Material' %}
+<h2>Dados do colaborador: <h4>{{objeto.Nome}}</h4>.</h1>
+<hr>
+<br>
+            <div class="form-row">
+                <div class="col">
+                <label for="">Nome </label>
+                <input type="text" value="{{objeto.Nome}}" disabled>
+                <label for=""> CPF </label>
+                <input type="text" value="{{objeto.CPF}}" disabled>
+                <label for="">RG</label>
+                <input type="text" value="{{objeto.RG}}"disabled>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="">Serviço</label>
+                    <input type="text" value="{{objeto.Servico}}" disabled>
+                    <label for="">CNH</label>
+                    <input type="text" value="{{objeto.CNH}}"disabled>
+                    <label for="">Vencimento CNH</label>
+                    <input type="text" value="{{objeto.Vencimento_CNH}}"disabled>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                <label for="">Data Contratacao</label>
+                <input type="text" value="{{objeto.Data_contratacao}}" disabled>
+                <label for="">Data ferias</label>
+                <input type="text" value="{{objeto.Data_ferias}}"disabled>
+                <label for="">Matricula</label>
+                <input type="text" value="{{objeto.matricula}}"disabled>
+                </div>
+            </div>
+            <div class="">
+                <div class="col">
+                <label for="">ASO </label>
+                <p><a href="{{objeto.ASO.url}}">Baixar</a></p>
+                <label for=""> Validade ASO</label>
+                <input type="text" value="{{objeto.validade_aso}}"disabled>
+                <label for="">PIS</label>
+                <input type="text" value="{{objeto.PIS}}"disabled>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="col">
+                <label for="">Salario </label>
+                <input type="text" value="{{objeto.Salario}}"disabled>
+                <br><label for="">Controle da folha de ponto </label>
+                <br><p><a href="{{objeto.Controle_folha_ponto.url}}">Baixar</a></p>
+                <label for="">Seguro de Vida </label>
+                <p><a href="{{objeto.Seguro_de_vida.url}}">Baixar</a></p>
+                </div>             
+            </div>
+            
+    </ul>
+
+
+{% endblock %}

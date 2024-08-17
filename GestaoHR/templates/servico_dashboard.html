@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+
+{% block 'Material' %}
+
+<ul>
+    <div class="d-flex flex-row justify-content-between">
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-right: 10px;">
+            <div class="card-body">
+                <h3 class="card-title">Andamento</h3>
+                <H4 class="card-title">R${{somar_andamento|floatformat:2}}</H4>
+                <H6 class="card-title">{{contar_andamento}}</H6>
+            </div>
+        </div>
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+            <div class="card-body">
+                <h3 class="card-title">Concluidos</h3>
+                <H4 class="card-title">R$ ?? ?? </H4>
+                <H6 class="card-title">{{ Concluido }}</H6>
+            </div>
+        </div>
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+            <div class="card-body">
+                <h3 class="card-title">Programação</h3>
+                <H4 class="card-title">R$ {{somar_programacao}}</H4>
+                <H6 class="card-title">{{contar_programacao}}</H6>
+            </div>
+        </div>
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+            <div class="card-body">
+                <h3 class="card-title">Fechamento</h3>
+                <H4 class="card-title">R$ ?? ??</H4>
+                <H6 class="card-title">{{Fechamento}}</H6>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-between">
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+            <div class="card-body">
+                <h3 class="card-title">Pagamento</h3>
+                <H4 class="card-title">R$ ?? ??</H4>
+                <H6 class="card-title">{{Fechamento}}</H6>
+            </div>
+        </div>
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+            <div class="card-body">
+                <h3 class="card-title">Pagamento</h3>
+                <H4 class="card-title">R$ ?? ??</H4>
+                <H6 class="card-title">{{Fechamento}}</H6>
+            </div>
+        </div>
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+            <div class="card-body">
+                <h3 class="card-title">Pagamento</h3>
+                <H4 class="card-title">R$ ?? ??</H4>
+                <H6 class="card-title">{{Fechamento}}</H6>
+            </div>
+        </div>
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+            <div class="card-body">
+                <h3 class="card-title">Pagamento</h3>
+                <H4 class="card-title">R$ ?? ??</H4>
+                <H6 class="card-title">{{Fechamento}}</H6>
+            </div>
+        </div>
+    </div>
+    </ul>
+
+
+
+{% endblock %}

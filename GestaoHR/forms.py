@@ -1,8 +1,29 @@
 from django import forms
-from GestaoHR.models import collaborator
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos
 
 class CollaboratorForm(forms.ModelForm):
     class Meta:
         model = collaborator
-        fields = ['Nome', 'CPF', 'Data_contratacao']
+        fields = ['Nome', 'CPF', 'RG', 'Data_contratacao', 'Servico', 'CNH', 'Vencimento_CNH', 'Data_contratacao', 'matricula', 'ASO', 'validade_aso', 'PIS', 'Salario', 'Controle_folha_ponto', 'Seguro_de_vida']
         
+
+class testform(forms.ModelForm):
+    class Meta:
+        model = Aquivo
+        fields = ['Nome','Arquivo_ponto','Mes','Ano']
+
+
+class Servicoform(forms.ModelForm):
+    class Meta:
+        model = Servico
+        fields = ['Numero_Servico', 'PEP', 'Servico', 'Mês_servico', 'Ano_servico','data_da_solicitacao', 'Municipio', 'Endereco', 'Status','data_programacao', 'Valor_parcial', 'Valor_final', 'desenho_servico','foto_antes', 'foto_depois' , 'Observacao']
+
+class DemandaInternaform(forms.ModelForm):
+    class Meta:
+        model = DemandaInterna
+        fields = ['Atividade', 'tipo', 'responsavel', 'status', 'data_solicitacao', 'data_conclusão', 'responsavel', 'arquivos', 'arquivos_complementar', 'arquivos_complementar1', 'arquivos_complementar2']
+
+class BancoArquivoform(forms.ModelForm):
+    class Meta:
+        model = BancoArquivos
+        fields = ['EI_OC', 'tipo','municipio','Responsavel', 'AS_Biult', 'Medicao', 'DWG', 'AES', 'ACOS']

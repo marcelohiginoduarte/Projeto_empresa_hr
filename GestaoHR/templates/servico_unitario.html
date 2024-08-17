@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar Servico{% endblock %}
+
+{% block 'Material' %}
+<h2>Dados do serviço: <h4>{{servico.Numero_Servico}}</h4>.</h1>
+<hr>
+<br>
+
+            <div class="form-row">
+                <div class="col">
+                <label for="">Numero_Servico </label>
+                <input type="text" value="{{servico.Numero_Servico}}" disabled>
+                <label for=""> PEP </label>
+                <input type="text" value="{{servico.PEP}}" disabled>
+                <label for="">Servico</label>
+                <input type="text" value="{{servico.Servico}}"disabled>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label for="">Mês_servico</label>
+                    <input type="text" value="{{servico.Mês_servico}}" disabled>
+                    <label for="">Ano_servico</label>
+                    <input type="text" value="{{servico.Ano_servico}}"disabled>
+                    <label for="">Vencimento CNH</label>
+                    <input type="text" value="{{servico.data_da_solicitacao}}"disabled>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                <label for="">Status</label>
+                <input type="text" value="{{servico.Status}}" disabled>
+                <label for="">Municipio</label>
+                <input type="text" value="{{servico.Municipio}}"disabled>
+                <label for="">Endereço</label>
+                <input type="text" value="{{servico.Endereco}}"disabled>
+                </div>
+            </div>
+            <div class="">
+                <div class="col">
+                <label for=""> Data da Programação</label>
+                <input type="text" value="{{servico.data_programacao}}"disabled>   
+                <label for=""> Valor parcial</label>
+                <input type="text" value="{{servico.Valor_parcial}}"disabled>
+                <label for=""> Valor final</label>
+                <input type="text" value="{{servico.Valor_final}}"disabled>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="col">
+                <label for="">foto antes</label>
+                <p><br><a href="{{servico.foto_antes.url}}">Baixar</a></p>
+                <label for="">foto depois</label>
+                <p><br><a href="{{servico.foto_depois.url}}">Baixar</a></p>
+                <br>
+                <label for="">Desenho servico</label><br>
+                <p><br><a href="{{servico.desenho_servico.url}}">Baixar</a></p>
+                <label for=""> Observacao</label>
+                <input type="text" value="{{servico.Observacao}}"disabled>
+
+                </div>             
+            </div>
+    </ul>
+
+
+{% endblock %}

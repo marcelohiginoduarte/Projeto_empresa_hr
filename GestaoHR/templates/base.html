@@ -1,29 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>{% block 'titulo' %}{% endblock %}</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+     {% load static %}
+    <link rel="stylesheet" href="{% static '/CSS/style.css' %}">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 </head>
+
 <body>
+    <div class="wrapper">
 
-    <h1>oi
+        
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>JJ Serviços</h3>
+            </div>
 
-    </h1>
-    <form method="post">
+            <ul class="list-unstyled components">
+                <p>Gestão Empresarial</p>
+                usuario: {{request.user}}
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Gestão RH</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="{% url 'createcollaborador' %}">Cadastrar</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'testej' %}">Visualizar Colaborador</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'viewcollaborator' %}">Visualização colaboradores</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'folhadeponto' %}">Salvar Folha de ponto</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'visualizarfolhasdeponto' %}">Visualizar Folha de ponto</a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Serviços</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="{% url 'contarlista' %}">Dashborad</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'criarservico' %}">Cadastrar Serviço</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'visualizartodosservios' %}">Visualizar Serviços</a>
+                        </li>
 
-        {{ form.as_p }}
-        <button type="submit">Enviar</button>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#pagenSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Demanda Interna</a>
+                    <ul class="collapse list-unstyled" id="pagenSubmenu">
+                        <li>
+                            <a href="{% url 'demandainternacriar' %}">Cadastrar Demanda</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'Demandainternaviews' %}">Visualizar Demandas</a>
+                        </li>
+                        <li>
+                            <a href="#">Alterar Demandas</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#pagemSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Arquivos</a>
+                    <ul class="collapse list-unstyled" id="pagemSubmenu">
+                        <li>
+                            <a href="{% url 'criararquivos' %}">Cadastrar Arquivo</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'visualizararquivos' %}">Pesquisar Arquivo</a>
+                        </li>
+                        <li>
+                            <a href="#">Alterar Arquivo</a>
+                        </li>
+                    </ul>
+                </li>
 
-    </form>
+                <li>
+                    <a href="#">Contatos</a>
+                </li>
+            </ul>
+        </nav>
 
-    <h3>    def clean(self):
-        self.validate_CPF()
+        <!-- Page Content  -->
+        <div id="content">
 
-    #validar o CPF.
-    def validate_CPF(self):
-        CPF = self.CPF
-        if not CPF.isdigit() or len(CPF) != 11:
-            raise ValidationError("O CPF deve conter 11 dígitos.")</h3>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Menu</span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">{% block 'excel' %}{% endblock %}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                </div>
+            </nav>
+            {% block 'Material' %}
+      
+            {% endblock %}
+        </div>
+    </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
 </body>
+
 </html>

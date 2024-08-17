@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+{% block 'excel' %}<a href="{% url 'exportarservicoexecel' %}">Exportar</a>{% endblock %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
+
+{% block 'Material' %}
+    <h1>Visualizar Serviços</h1>
+    <form method="get">
+      {{ServicoFilter.form.as_p}}
+      <button class="btn btn-info" type="submit">Filtrar</button>
+    </form>
+    <hr>
+    <a href="{% url 'exportarservicoexecel' %}">Exportar</a>
+    <ul>
+      {% for servico in page_obj %}
+      <li>{{servico.Servico}}</li>
+      {% endfor %}
+    </ul>
+    <div class="pagination">
+      <span class="page-links">
+          {% if page_obj.has_previous %}
+              <a href="{% url 'visualizartodosservios' %}page={{ page_obj.previous_page_number }}">Anterior</a>
+          {% endif %}
+
+          <span class="current">
+              Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+          </span>
+
+          {% if page_obj.has_next %}
+              <a href="{% url 'visualizartodosservios' %}page={{ page_obj.next_page_number }}">Próxima</a>
+          {% endif %}
+      </span>
+  </div>
+
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Serviço</th>
+            <th scope="col">PEP</th>
+            <th scope="col">Tipo Serviço</th>
+            <th scope="col">Mês Servico</th>
+            <th scope="col">Ano Servico</th>
+            <th scope="col">Status</th>
+            <th scope="col">Municipio</th>
+            <th scope="col">Data Programação</th>
+            <th scope="col">Valor Parcial</th>
+            <th scope="col">Valor Final</th>
+            <th scope="col">Desenho Serviço</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Remover</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for servico in ServicoFilter.qs %}
+              <tr>
+                <td><a href="{% url 'servicounitario' pk=servico.id %}">{{servico.Numero_Servico}}</a></td>
+                <td>{{servico.PEP}}</td>
+                <td>{{servico.Servico}}</td>
+                <td>{{servico.Mês_servico}}</td>
+                <td>{{servico.Ano_servico}}</td>
+                <td><a href="{% url 'editarstatus' pk=servico.id %}">{{ servico.Status}}</a></td>
+                <td>{{servico.Municipio}}</td>
+                <td>{{servico.data_programacao}}</td>
+                <td>R${{ servico.Valor_parcial}}</td>
+                <td>R${{ servico.Valor_final}}</td>
+                <td><a href="{{servico.desenho_servico.url}}">Baixar PDF</a></td>
+                <td><a href="{% url 'verservicoind' pk=servico.id %}">Editar</a></td>
+                <td><a href="{% url 'remover_servico' pk=servico.id %}">Remover</a></td>
+            {% endfor %}
+{% endblock %}

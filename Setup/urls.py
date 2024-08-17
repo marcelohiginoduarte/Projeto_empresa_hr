@@ -15,10 +15,56 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from GestaoHR import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('crate/', views.base, name='ceatecolaborador'),
+    #login
+    path('accounts/', include('django.contrib.auth.urls')),
+
+    path('', views.home, name='homapage'),
+    path('create/', views.create_Collaborator, name='createcollaborador'),
+    path('view/collaborator', views.to_view_collaborator, name='viewcollaborator'),
+    path('editar/collaborator/<int:pk>/', views.FazerUpdate.as_view(), name='fazerupdate'),
+    path('visualizar/collaborator/<int:pk>/', views.VisualizarCollaborator.as_view(), name='visualizar'),
+    path('visualizacao/teste', views.to_view_collaborator1, name='testej'),
+    path('visualizar/<int:pk>/', views.visualizar_com_id, name='detalhevisualizaçao'),
+    path('verdetalhe/<int:pk>/', views.DetalheView.as_view(), name='detalheviews'),
+    path('verdetalhe/deletar/<int:pk>/', views.DeletarColaborador.as_view(), name='deletarcolaborador'),
+    path('tset1', views.uploadfotos, name='folhadeponto'),
+    path('visualizarfolhasdeponto', views.visualizar_folhas_ponto, name='visualizarfolhasdeponto'),
+    path('exportar_execel', views.exportar_para_execel_colaboradores, name='exportarexecelcolaboradores'),
+
+    path('servico/register/', views.create_servico, name='criarservico'),
+    path('servico/visualizartodos/', views.visualiazer_servicos, name='visualizartodosservios'),
+    path('visualizarservicos/<int:pk>/', views.ServicoUpdate.as_view(), name='verservicoind'),
+    path('visualizarservicosstatus/<int:pk>/', views.ServicoUpdateStatus.as_view(), name='editarstatus'),
+    path('servico/remover/<int:pk>/', views.ServicoDelete.as_view(), name='remover_servico'),
+    path('servico/execel', views.servico_exportar_execel, name='exportarservicoexecel'),
+    path('contar/servicos', views.intem_lista, name='contarlista'),
+    path('somar/servicos', views.somar_valor_status, name='somarvalores'),
+    path('servico/unitarioviews/<int:pk>/', views.servico_visualizar_com_id, name='servicounitario'),
+
+
+    path('demandainterna/criar', views.createdemanda, name='demandainternacriar'),
+    path('demandainterna/visualizartodas/', views.demandainternavisualizartd, name='Demandainternaviews'),
+    path('demandasinternasvisualizar/<int:pk>', views.DemandaUpdate.as_view(), name='demandaupdate'),
+    path('demandasinternasdeletar/<int:pk>', views.RemoverDemanda.as_view(), name='demandadelete'),
+    path('demandainterna/status/<int:pk>', views.DemandainternaStatus.as_view(), name='demandaatualizarstatus'),
+    path('demanainterna/execel', views.demandainterna_exportar_execel, name='demanainternaexportarexcel'),
+
+
+    path('arquivo/criar', views.CreateArquivos, name='criararquivos'),
+    path('arquivo/visualizar', views.visualizar_arquivos, name='visualizararquivos'),
+    path('arquivo/visualizar/<int:pk>', views.ArquivoUodate.as_view(), name='visualizararquivospk'),
+    path('arquivo/views/<int:pk>', views.ArquivoViews.as_view(), name='verarquivos'),
+
+
+    path('logar', views.logar, name='login'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

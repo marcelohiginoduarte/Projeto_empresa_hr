@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+{% block 'excel' %}<a href="{% url 'exportarexecelcolaboradores' %}">Exportar</a>{% endblock %}
+{% block 'Material' %}
+    <h1>Visualizar colaboradores {{collaborator.Nome}}</h1>
+    <form method="get">
+      {{collaboratorfilter.form.as_p}}
+      <button class="btn btn-info" type="submit">Filtrar</button>
+    </form>
+    <hr>
+    
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">CPF</th>
+            <th scope="col">RG</th>
+            <th scope="col">Data Contratação</th>
+            <th scope="col">Data Ferias</th>
+            <th scope="col">Aso</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Remover</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for collaborator in collaboratorfilter.qs %}
+              <tr>
+                <td><a href="{% url 'detalheviews' pk=collaborator.id %}">{{collaborator.Nome}}</a></td>
+                <td>{{collaborator.CPF}}</td>
+                <td>{{collaborator.RG}}</td>
+                <td>{{collaborator.Data_contratacao}}</td>
+                <td>{{ collaborator.Data_ferias}}</td>
+                <td><a href="{{collaborator.ASO.url}}">Baixar PDF</a></td>
+                <td><a href="{% url 'fazerupdate' pk=collaborator.id %}">Editar</a></td>
+                <td><a href="{% url 'deletarcolaborador' pk=collaborator.id %}">Remover</a></td>
+            {% endfor %}
+{% endblock %}

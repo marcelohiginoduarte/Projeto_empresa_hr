@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+
+
+{% block 'Material' %}
+    <h2>Excluir Serviço {{ servico.Numero_Servico }}</h2>
+    <p>Tem certeza de que deseja excluir "{{ servico.Numero_Servico }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-info" type="submit">Confirmar Exclusão</button>
+        <a href="{% url 'Demandainternaviews' %}">Cancelar</a>  <!-- Substitua 'ferias_listar' pela sua rota de listagem de ferias -->
+    </form>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+
+{% block 'Material' %}
+            <h1>Arquivos JJ</h1>
+            <form method="get">
+              {{ArquivoFilter.form.as_p}}
+              <button class="btn btn-info" type="submit">Filtrar</button>
+              <br>
+            </form>
+            <br>
+ 
+
+            {% for arquivos in ArquivoFilter.qs %}
+              <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'verarquivos' pk=arquivos.id %}">{{arquivos.EI_OC}}</a></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{arquivos.tipo}}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">{{arquivos.municipio}}</h6>
+                    <a href="{{arquivos.AS_Biult.url}}" class="card-link">AS-BUILT</a>
+                    <a href="{{arquivos.Medicao.url}}" class="card-link">Medição</a>
+                    <a href="{% url 'visualizararquivospk' pk=arquivos.id %}" class="card-link">Editar</a>
+                  </div>
+                </div>
+                <br>
+            {% endfor %}
+{% endblock %}

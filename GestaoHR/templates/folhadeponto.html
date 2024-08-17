@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+
+{% block 'Material' %}
+
+
+
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }} 
+    <button class="btn btn-info" type="submit" >Salvar</button>
+</form>
+
+
+{% endblock %}

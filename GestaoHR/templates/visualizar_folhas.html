@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+
+{% block 'Material' %}
+    <h3>Folhas de ponto</h3>
+    <form method="get">
+      {{ AquivoFilter.form.as_p }}
+      <button class="btn btn-info" type="submit">Filtrar </button>
+     </form>
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Mês</th>
+            <th scope="col">Ano</th>
+            <th scope="col">Arquivo</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for folha in AquivoFilter.qs %}
+              <tr>
+                <td>{{folha.Nome}}</td>
+                <td>{{folha.Mes}}</td>
+                <td>{{folha.Ano}}</td>
+                <td><a href="{{folha.Arquivo_ponto.url}}">Baixar</a></td>
+            {% endfor %}
+{% endblock %}

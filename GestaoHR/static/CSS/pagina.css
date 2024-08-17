@@ -1,0 +1,30 @@
+<style>
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .pagination .page-links {
+        display: inline-flex;
+        list-style: none;
+        padding: 0;
+    }
+    .pagination .page-links a {
+        color: #007bff;
+        text-decoration: none;
+        margin: 0 5px;
+        padding: 8px 12px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+    }
+    .pagination .page-links .current {
+        margin: 0 5px;
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 4px;
+    }
+    .pagination .page-links a:hover {
+        background-color: #e9ecef;
+    }
+</style>
