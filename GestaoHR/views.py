@@ -215,17 +215,24 @@ def intem_lista(request):
     Concluido = Servico.objects.filter(Status='Concluido').count()
     Fechamento = Servico.objects.filter(Status='Fechamento').count()
     Pagamento = Servico.objects.filter(Status='Pagamento').count()
-    
+    Recebido = Servico.objects.filter(Status='Recebido').count()
 
 
     context = {
         'contar_andamento':contar_andamento,
         'somar_andamento':Servico.somar_valor_status('Andamento'),
+        'somar_programacao':Servico.somar_valor_status('Programação'),
+        'somar_concluido':Servico.somar_valor_status('Concluido'),
+        'somar_Fechamento':Servico.somar_valor_status('Fechamento'),
+        'somar_Pagamento':Servico.somar_valor_status('Pagamento'),
+        'somar_Espera':Servico.somar_valor_status('Espera'),
+        'somar_Recebido':Servico.somar_valor_status('Recebido'),
         'contar_programacao':contar_programacao,
         'contar_espera':contar_espera,
         'Pagamento':Pagamento,
         'Concluido':Concluido,
         'Fechamento':Fechamento,
+        'Recebido':Recebido,
     }
     return render(request, 'servico_dashboard.html', context)
 
