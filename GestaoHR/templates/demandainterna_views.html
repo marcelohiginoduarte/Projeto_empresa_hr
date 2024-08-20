@@ -39,8 +39,8 @@
                 <td>{{demandas.responsavel}}</td>
                 <td><a href="{% url 'demandaatualizarstatus' pk=demandas.id %}">{{demandas.status}}</a></td>
                 <td>{{ demandas.data_solicitacao}}</td>
-                <td>{{demandas.data_conclusão}}</td>
-                <td>{{demandas.responsavel}}</td>
+                <td>{{demandas.data_conclusão|default_if_none:"" }}</td>
+                <td>{{demandas.responsavel|default_if_none:"" }}</td>
                 <td>
                   {% if demandas.arquivos %}
                   <a href="{{demandas.arquivos.url}}">Baixar PDF</a>

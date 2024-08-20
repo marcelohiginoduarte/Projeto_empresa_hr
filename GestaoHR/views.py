@@ -296,7 +296,7 @@ class DemandainternaStatus(UpdateView):
     model = DemandaInterna
     template_name = 'demandainterna_update.html'
     fields = ['status']
-    success_url = ('demandainterna/visualizartodas')
+    success_url = reverse_lazy('Demandainternaviews')
 
 #Remover Demanada Interna
 

@@ -150,14 +150,14 @@ class Servico(models.Model):
 
     Numero_Servico = models.CharField(max_length=100, unique=True ,blank=False, null=False)
     PEP = models.IntegerField(unique=True, blank=False, null=False)
-    Servico = models.CharField(choices=tipo_servico, max_length=50, blank=False, null=False)
-    Mês_servico = models.CharField(choices=Mes_Mes,max_length=4, blank=False, null=False)
-    Ano_servico = models.CharField(max_length=4,blank=False, null=False)
-    data_da_solicitacao = models.DateField(blank=False, null=False)
-    Status = models.CharField(choices=tipo_status, max_length=25, blank=False, null=False)
-    Municipio = models.CharField(max_length=50,choices=Municipios, blank=False, null=False)
+    Servico = models.CharField(choices=tipo_servico, max_length=50, blank=False, null=False, default='')
+    Mês_servico = models.CharField(choices=Mes_Mes,max_length=4, blank=False, null=False, default='')
+    Ano_servico = models.CharField(max_length=4,blank=False, null=False, default='')
+    data_da_solicitacao = models.DateField(blank=False, null=False, default='')
+    Status = models.CharField(choices=tipo_status, max_length=25, blank=False, null=False, default='')
+    Municipio = models.CharField(max_length=50,choices=Municipios, blank=False, null=False, default='')
     Endereco = models.CharField(max_length=100, blank=False, null=False)
-    data_programacao = models.DateField(blank=True, null=True)
+    data_programacao = models.DateField(blank=True, null=True, default='')
     Valor_parcial = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     Valor_final = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     desenho_servico = models.FileField(upload_to='media/desenhoservico/arquivos/', blank=True, null=True)
@@ -184,15 +184,18 @@ class DemandaInterna(models.Model):
         ('Andamento', 'Andamento'),
         ('Realizando', 'Realizado'),
         ('Correção', 'Correção'),
+        ('Enviado Equatorial', 'Enviado Equatorial'),
+        ('Aprovado Equatorial', 'Aprovado Equatorial'),
+        ('Correção Equatorial', 'Correção Equatorial'),
     ]
 
     Atividade = models.CharField(max_length=100, blank=False, null=False)
     tipo = models.CharField(max_length=50, choices=tipo_atividade, blank=False, null=False)
-    responsavel = models.CharField(max_length=50, blank=True, null=True)
+    responsavel = models.CharField(max_length=50, blank=True, null=True, default='')
     status = models.CharField(max_length=30,choices=tipo_status, blank=False, null=False)
-    data_solicitacao = models.DateField(blank=True, null=True)
-    data_conclusão= models.DateField(blank=True, null=True)
-    responsavel = models.CharField(max_length=50, blank=True, null=True)
+    data_solicitacao = models.DateField(blank=True, null=True, default='')
+    data_conclusão= models.DateField(blank=True, null=True, default='')
+    responsavel = models.CharField(max_length=50, blank=True, null=True, default='')
     arquivos = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)
     arquivos_complementar = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)
     arquivos_complementar1 = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)

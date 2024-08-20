@@ -19,7 +19,9 @@ class ServicoFilter (django_filters.FilterSet):
 class DemandaFilter(django_filters.FilterSet):
     class Meta:
         model = DemandaInterna
-        fields = {'Atividade':['icontains']}
+        fields = {'Atividade':['icontains'],
+                  'status':['exact'],
+                  }
 
     
 class ArquivoFilter(django_filters.FilterSet):
