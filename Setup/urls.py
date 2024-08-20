@@ -19,6 +19,7 @@ from django.urls import path, include
 from GestaoHR import views
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -64,6 +65,7 @@ urlpatterns = [
 
 
     path('logar', views.logar, name='login'),
+    path('logout', views.logout_view, name='logout'),
 ]
 
 if settings.DEBUG:

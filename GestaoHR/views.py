@@ -7,7 +7,7 @@ from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, 
 from datetime import datetime, timedelta
 from .filters import collaboratorFilter, AquivoFilter, ArquivoFilter, ServicoFilter,DemandaFilter
 from django_filters.views import FilterView
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 import pandas as pd
@@ -369,7 +369,7 @@ def logar(request):
     if request.user.is_authenticated:
         return redirect("")
     if request.method != "POST":
-        return render(request, "login_fora.html")
+        return render(request, "login_teste.html")
     username = request.POST.get("username")
     password = request.POST.get("password")
     user = authenticate(username=username, password=password)
@@ -409,3 +409,7 @@ def demandainterna_exportar_execel(request):
     response['Content-Disposition'] = 'attachment; filename="demandainterna_excel.xlsx"'
     df.to_excel(response, index=False)
     return response
+
+def logout_view(request):
+    logout(request)
+    return redirect ("homapage")

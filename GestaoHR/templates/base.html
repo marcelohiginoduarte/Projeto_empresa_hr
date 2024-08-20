@@ -112,12 +112,16 @@
                     <button type="button" id="sidebarCollapse" class="btn btn-info">
                         <i class="fas fa-align-left"></i>
                         <span>Menu</span>
-                    </button><br>
-                    <div>
+                    </button>
+                    <div class="col">
                     <button type="button" id="sidebarCollapse" class="btn btn-info" onclick="history.back()"> 
-                        <i class="fas fa-align-left"></i>
+                        <i class="fa-solid fa-backward"></i>
                         <span>Voltar</span>
                     </button>
+                    <button type="button" id="sidebarCollapse" class="btn btn-info" onclick="history.back()"> 
+                        <a href="{% url 'logout' %}">logout</a>
+                    </button>
+                    
                     </div>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">

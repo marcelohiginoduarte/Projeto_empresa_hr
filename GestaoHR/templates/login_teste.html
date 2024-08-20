@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'CSS/stylelogin.css' %}">
+</head>
+<body>
+    <div class="page">
+        <form method="POST" class="formLogin">
+            {% csrf_token %}
+            <h1>J J Serviços</h1>
+            <p>Digite os seus dados de acesso no campo abaixo.</p>
+            <label  for="id_username">Usuário</label>
+            <input type="text" name="username" placeholder="Digite seu login" autofocus="true" />
+            <label for="password">Senha</label>
+            <input type="password" name="password" placeholder="Digite sua senha" />
+            <a href="/">Esqueci minha senha</a>
+            <input type="submit" value="Acessar" class="btn" />
+        </form>
+    </div>
+    
+</body>
+</html>
