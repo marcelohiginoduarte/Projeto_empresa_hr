@@ -41,10 +41,26 @@
                 <td>{{ demandas.data_solicitacao}}</td>
                 <td>{{demandas.data_conclusão}}</td>
                 <td>{{demandas.responsavel}}</td>
-                <td><a href="{{demandas.arquivos.url}}">Baixar PDF</a></td>
-                <td><a href="{{demandas.arquivos_complementar.url}}">Baixar PDF</a></td>
-                <td><a href="{{demandas.arquivos_complementar1.url}}">Baixar PDF</a></td>
-                <td><a href="{{demandas.arquivos_complementar2.url}}">Baixar PDF</a></td>
+                <td>
+                  {% if demandas.arquivos %}
+                  <a href="{{demandas.arquivos.url}}">Baixar PDF</a>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if demandas.arquivos_complementar %}
+                  <a href="{{demandas.arquivos_complementar.url}}">Baixar PDF</a>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if demandas.arquivos_complementar1 %}
+                  <a href="{{demandas.arquivos_complementar1.url}}">Baixar PDF</a>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if demandas.arquivos_complementar1 %}
+                  <a href="{{demandas.arquivos_complementar2.url}}">Baixar PDF</a>
+                  {% endif %}
+                </td>
                 <td><a href="{% url 'demandaupdate' pk=demandas.id %}">Editar</a></td>
                 <td><a href="{% url 'demandadelete' pk=demandas.id %}">Remover</a></td>
 

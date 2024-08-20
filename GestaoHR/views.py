@@ -274,7 +274,8 @@ def createdemanda(request):
 class DemandaUpdate(UpdateView):
     model = DemandaInterna
     template_name = 'demandainterna_update.html'
-    fields = ['Atividade', 'tipo', 'responsavel', 'status', 'data_solicitacao', 'data_conclusão', 'responsavel', 'arquivos', 'arquivos_complementar', 'arquivos_complementar1', 'arquivos_complementar2']
+    form_class =DemandaInternaform
+    #fields = ['Atividade', 'tipo', 'responsavel', 'status', 'data_solicitacao', 'data_conclusão', 'responsavel', 'arquivos', 'arquivos_complementar', 'arquivos_complementar1', 'arquivos_complementar2']
     success_url = reverse_lazy('Demandainternaviews')
 
 @login_required

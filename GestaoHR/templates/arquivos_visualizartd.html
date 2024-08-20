@@ -17,8 +17,12 @@
                     <h5 class="card-title"><a href="{% url 'verarquivos' pk=arquivos.id %}">{{arquivos.EI_OC}}</a></h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{arquivos.tipo}}</h6>
                     <h6 class="card-subtitle mb-2 text-muted">{{arquivos.municipio}}</h6>
+                    {% if arquivos.AS_Biult %}
                     <a href="{{arquivos.AS_Biult.url}}" class="card-link">AS-BUILT</a>
+                    {% endif %}
+                    {% if arquivos.Medicao %}
                     <a href="{{arquivos.Medicao.url}}" class="card-link">Medição</a>
+                    {% endif %}
                     <a href="{% url 'visualizararquivospk' pk=arquivos.id %}" class="card-link">Editar</a>
                   </div>
                 </div>
