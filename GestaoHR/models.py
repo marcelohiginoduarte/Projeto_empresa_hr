@@ -149,7 +149,7 @@ class Servico(models.Model):
     ]
 
     Numero_Servico = models.CharField(max_length=100, unique=True ,blank=False, null=False)
-    PEP = models.IntegerField(unique=True, blank=False, null=False)
+    PEP = models.CharField(unique=True, blank=False, null=False)
     Servico = models.CharField(choices=tipo_servico, max_length=50, blank=False, null=False, default='')
     Mês_servico = models.CharField(choices=Mes_Mes,max_length=4, blank=False, null=False, default='')
     Ano_servico = models.CharField(max_length=4,blank=False, null=False, default='')
