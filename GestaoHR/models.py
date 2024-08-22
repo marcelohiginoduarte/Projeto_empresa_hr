@@ -168,6 +168,10 @@ class Servico(models.Model):
     @staticmethod
     def somar_valor_status(status):
         return Servico.objects.filter(Status=status).aggregate(Sum('Valor_final',default=0)).get('Valor_final__sum')
+    
+    @staticmethod
+    def somar_valor_status_parcial(status):
+        return Servico.objects.filter(Status=status).aggregate(Sum('Valor_parcial',default=0)).get('Valor_parcial__sum')
         
         
 

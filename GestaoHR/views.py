@@ -225,7 +225,7 @@ def intem_lista(request):
         'somar_concluido':Servico.somar_valor_status('Concluido'),
         'somar_Fechamento':Servico.somar_valor_status('Fechamento'),
         'somar_Pagamento':Servico.somar_valor_status('Pagamento'),
-        'somar_Espera':Servico.somar_valor_status('Espera'),
+        'somar_Espera':Servico.somar_valor_status_parcial('Espera'),
         'somar_Recebido':Servico.somar_valor_status('Recebido'),
         'contar_programacao':contar_programacao,
         'contar_espera':contar_espera,
