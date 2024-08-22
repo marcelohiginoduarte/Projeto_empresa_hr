@@ -21,7 +21,8 @@
             <th scope="col">Status</th>
             <th scope="col">DT Solicitação</th>
             <th scope="col">DT Conclusão</th>
-            <th scope="col">Responsavel</th>
+            <th scope="col">Responsavel</th>]
+            <th scope="col">Observação</th>
             <th scope="col">Desenho Tecnico</th>
             <th scope="col">DWG</th>
             <th scope="col">Arquivo complementar</th>
@@ -41,6 +42,11 @@
                 <td>{{ demandas.data_solicitacao}}</td>
                 <td>{{demandas.data_conclusão|default_if_none:"" }}</td>
                 <td>{{demandas.responsavel|default_if_none:"" }}</td>
+
+                <td>
+                  {% if demandas.Observacao %}
+                  {{demandas.Observacao}}</td>
+                  {% endif %}
                 <td>
                   {% if demandas.arquivos %}
                   <a href="{{demandas.arquivos.url}}">Baixar PDF</a>
