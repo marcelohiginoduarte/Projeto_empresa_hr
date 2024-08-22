@@ -335,7 +335,7 @@ def visualizar_arquivos(request):
 class ArquivoUodate(UpdateView):
     model = BancoArquivos
     template_name= 'arquivo_update.html'
-    fields = ['AS_Biult', 'Medicao', 'DWG', 'AES', 'ACOS', 'Arquivo_complementar']
+    fields = ['EI_OC','tipo','municipio' ,'AS_Biult', 'Responsavel','Medicao', 'DWG', 'AES', 'ACOS']
     success_url = 'visualizararquivos'
 
 @login_required

@@ -22,15 +22,24 @@
     <label for="">Responsavel Desenho </label>
     <input type="text" value="{{detalhe.Responsavel}}"disabled>
     <br><label for="">As Biult</label>
+    {% if detakhe.AS_Biult %}
     <p><a href="{{detalhe.AS_Biult.url}}">Baixar</a></p>
+    {% endif %}
     <label for="">Medicao</label>
+    {% if detalhe.Medicao %}
     <p><a href="{{detalhe.Medicao.url}}">Baixar</a></p>
+    {% endif %}
     <label for="">Arquivo DWG</label>
     <br><p><a href="{{detalhe.DWG.url}}">Baixar</a></p>
+    
     <br><label for="">AES</label>
+    {% if detalhe.AES %}
     <br><p><a href="{{detalhe.AES.url}}">Baixar</a></p>
+    {% endif %}
     <br><label for="">ACOS</label>
+    {% if detalhe.ACOS %}
     <br><p><a href="{{detalhe.ACOS.url}}">Baixar</a></p>
+    {% endif %}
     </div>             
 </div>
 

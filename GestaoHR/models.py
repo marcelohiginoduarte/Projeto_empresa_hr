@@ -149,7 +149,7 @@ class Servico(models.Model):
     ]
 
     Numero_Servico = models.CharField(max_length=100, unique=True ,blank=False, null=False)
-    PEP = models.CharField(unique=True, blank=False, null=False)
+    PEP = models.CharField(max_length=40, unique=True, blank=False, null=False)
     Servico = models.CharField(choices=tipo_servico, max_length=50, blank=False, null=False, default='')
     Mês_servico = models.CharField(choices=Mes_Mes,max_length=4, blank=False, null=False, default='')
     Ano_servico = models.CharField(max_length=4,blank=False, null=False, default='')
@@ -182,7 +182,7 @@ class DemandaInterna(models.Model):
     tipo_status = [
         ('Aguardando', 'Aguardando'),
         ('Andamento', 'Andamento'),
-        ('Realizando', 'Realizado'),
+        ('Realizado', 'Realizado'),
         ('Correção', 'Correção'),
         ('Enviado Equatorial', 'Enviado Equatorial'),
         ('Aprovado Equatorial', 'Aprovado Equatorial'),
@@ -196,7 +196,7 @@ class DemandaInterna(models.Model):
     data_solicitacao = models.DateField(blank=True, null=True, default='')
     data_conclusão= models.DateField(blank=True, null=True, default='')
     responsavel = models.CharField(max_length=50, blank=True, null=True, default='')
-    arquivos = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)
+    arquivos  = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)
     arquivos_complementar = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)
     arquivos_complementar1 = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)
     arquivos_complementar2 = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)
