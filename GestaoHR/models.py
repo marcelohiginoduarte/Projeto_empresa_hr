@@ -196,6 +196,7 @@ class DemandaInterna(models.Model):
     data_solicitacao = models.DateField(blank=True, null=True, default='')
     data_conclusão= models.DateField(blank=True, null=True, default='')
     responsavel = models.CharField(max_length=50, blank=True, null=True, default='')
+    Observacao = models.TextField(max_length=200, blank=True, null=True)
     arquivos  = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)
     arquivos_complementar = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)
     arquivos_complementar1 = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)

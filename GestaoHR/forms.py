@@ -21,7 +21,7 @@ class Servicoform(forms.ModelForm):
 class DemandaInternaform(forms.ModelForm):
     class Meta:
         model = DemandaInterna
-        fields = ['Atividade', 'tipo', 'responsavel', 'status', 'data_solicitacao', 'data_conclusão', 'responsavel', 'arquivos', 'arquivos_complementar', 'arquivos_complementar1', 'arquivos_complementar2']
+        fields = ['Atividade', 'tipo', 'responsavel', 'status', 'data_solicitacao', 'data_conclusão', 'responsavel', 'arquivos', 'Observacao','arquivos_complementar', 'arquivos_complementar1', 'arquivos_complementar2']
 
 class BancoArquivoform(forms.ModelForm):
     class Meta:
