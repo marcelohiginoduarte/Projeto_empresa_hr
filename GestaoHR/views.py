@@ -156,7 +156,7 @@ def create_servico(request):
 class ServicoDelete(DeleteView):
     model = Servico
     template_name = 'servico__confirm_delete.html'
-    success_url = 'visualizartodosservios'
+    success_url = reverse_lazy('visualizartodosservios')
 
 #visualizar serviços
 @login_required
