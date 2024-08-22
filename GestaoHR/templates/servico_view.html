@@ -66,7 +66,10 @@
                 <td>{{servico.data_programacao}}</td>
                 <td>R${{ servico.Valor_parcial}}</td>
                 <td>R${{ servico.Valor_final}}</td>
-                <td><a href="{{servico.desenho_servico.url}}">Baixar PDF</a></td>
+                <td>
+                  {% if servico.desenho_servico  %}
+                  <a href="{{servico.desenho_servico.url}}">Baixar PDF</a>
+                  {% endif %}</td>
                 <td><a href="{% url 'verservicoind' pk=servico.id %}">Editar</a></td>
                 <td><a href="{% url 'remover_servico' pk=servico.id %}">Remover</a></td>
             {% endfor %}

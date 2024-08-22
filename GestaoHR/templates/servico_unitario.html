@@ -50,12 +50,18 @@
             <div class="form-row">
                 <div class="col">
                 <label for="">foto antes</label>
+                {% if servico.foto_antes %}
                 <p><br><a href="{{servico.foto_antes.url}}">Baixar</a></p>
                 <label for="">foto depois</label>
+                {% endif %}
+                {% if servico.foto_depois %}
                 <p><br><a href="{{servico.foto_depois.url}}">Baixar</a></p>
+                {% endif %}
                 <br>
                 <label for="">Desenho servico</label><br>
+                {% if servico.desenho_servico %}
                 <p><br><a href="{{servico.desenho_servico.url}}">Baixar</a></p>
+                {% endif %}
                 <label for=""> Observacao</label>
                 <input type="text" value="{{servico.Observacao}}"disabled>
 
