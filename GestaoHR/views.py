@@ -14,6 +14,8 @@ import pandas as pd
 from django.http import HttpResponse
 from django.db.models import Sum
 from asgiref.sync import sync_to_async
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 def home(request):
@@ -164,7 +166,14 @@ def visualiazer_servicos(request):
     visualizar_sd= ServicoFilter(request.GET, queryset=Servico.objects.all())
     return render(request, 'servico_view.html', {'ServicoFilter':visualizar_sd})
 
+
+#preencher status automatico
+
+
+
 #pagina de serviços
+
+
 
 def listar_servico_paginas(request):
     todos = Servico.objects.all()

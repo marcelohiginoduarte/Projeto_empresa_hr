@@ -8,7 +8,7 @@ from django.db.models import Sum
 class collaborator(models.Model):
     tipo_servico = [
         ('Administrativo','Administrativo'),
-        ('Externo', 'Externo'),
+        ('Operacional', 'Operacional'),
     ]
     Nome = models.CharField(max_length=150, blank=False, null=False)
     CPF = models.CharField(max_length=11, unique=True, blank=False, null=False)
@@ -197,7 +197,7 @@ class DemandaInterna(models.Model):
     tipo = models.CharField(max_length=50, choices=tipo_atividade, blank=False, null=False)
     responsavel = models.CharField(max_length=50, blank=True, null=True, default='')
     status = models.CharField(max_length=30,choices=tipo_status, blank=False, null=False)
-    data_solicitacao = models.DateField(blank=True, null=True, default='')
+    data_solicitacao = models.DateField(blank=False, null=False )
     data_conclusão= models.DateField(blank=True, null=True, default='')
     responsavel = models.CharField(max_length=50, blank=True, null=True, default='')
     Observacao = models.TextField(max_length=200, blank=True, null=True)
