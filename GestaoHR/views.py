@@ -169,6 +169,16 @@ def visualiazer_servicos(request):
 
 #preencher status automatico
 
+@receiver(post_save, sender=Servico)
+def preencher_formulario(sender, instance, **kwargs):
+    if instance.Status == 'Fechamento':
+        DemandaInterna.objects.create(
+            Atividade=instance.Numero_Servico,  # Acessa o campo da instância atual
+            tipo='',
+            responsavel='',  
+            status='Aguardando',
+            data_solicitacao= datetime.now().date()  # Passa a data diretamente
+        )
 
 
 #pagina de serviços
