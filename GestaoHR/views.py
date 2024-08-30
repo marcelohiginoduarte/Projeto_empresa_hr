@@ -324,6 +324,31 @@ class RemoverDemanda(DeleteView):
     template_name = 'demanda__confirm_delete.html'
     success_url = reverse_lazy('Demandainternaviews')
 
+
+#Dash demanda interna
+
+def dashdemandainterna(request):
+    contaraguardando = DemandaInterna.objects.filter(status='Aguardando').count()
+    contarAndamento = DemandaInterna.objects.filter(status='Andamento').count()
+    contarRealizado = DemandaInterna.objects.filter(status='Realizado').count()
+    contarCorreção = DemandaInterna.objects.filter(status='Correção').count()
+    contarEnviadoEquatorial = DemandaInterna.objects.filter(status='Enviado Equatorial').count()
+    contarAprovadoEquatorial = DemandaInterna.objects.filter(status='Aprovado Equatorial').count()
+    contarCorreçãoEquatorial = DemandaInterna.objects.filter(status='Correção Equatorial').count()
+
+    context ={
+        'contaraguardando':contaraguardando,
+        'contarAndamento':contarAndamento,
+        'contarRealizado':contarRealizado,
+        'contarCorreção':contarCorreção,
+        'contarEnviadoEquatorial':contarEnviadoEquatorial,
+        'contarAprovadoEquatorial':contarAprovadoEquatorial,
+        'contarCorreçãoEquatorial':contarCorreçãoEquatorial,
+
+    }
+
+    return render(request, 'demanda_dashboard.html', context)
+
 #Banco de arquivos
 
 @login_required

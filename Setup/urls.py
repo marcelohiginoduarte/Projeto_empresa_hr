@@ -56,6 +56,7 @@ urlpatterns = [
     path('demandasinternasdeletar/<int:pk>', views.RemoverDemanda.as_view(), name='demandadelete'),
     path('demandainterna/status/<int:pk>', views.DemandainternaStatus.as_view(), name='demandaatualizarstatus'),
     path('demanainterna/execel', views.demandainterna_exportar_execel, name='demanainternaexportarexcel'),
+    path('demandainterna/dash', views.dashdemandainterna, name='dashdemandainterna'),
 
 
     path('arquivo/criar', views.CreateArquivos, name='criararquivos'),
