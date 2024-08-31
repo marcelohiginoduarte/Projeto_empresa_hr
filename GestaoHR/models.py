@@ -198,7 +198,7 @@ class DemandaInterna(models.Model):
     responsavel = models.CharField(max_length=50, blank=True, null=True, default='')
     status = models.CharField(max_length=30,choices=tipo_status, blank=False, null=False)
     data_solicitacao = models.DateField(blank=True, null=True )
-    data_conclusão= models.DateField(blank=True, null=True, default='')
+    data_conclusão= models.DateField(blank=True, null=True)
     responsavel_demanda = models.CharField(max_length=50, blank=True, null=True, default='')
     Observacao = models.TextField(max_length=200, blank=True, null=True)
     arquivos  = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)

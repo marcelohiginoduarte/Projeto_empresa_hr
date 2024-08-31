@@ -17,7 +17,7 @@ from asgiref.sync import sync_to_async
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-
+@login_required
 def home(request):
     return render(request, 'home.html',)
 
@@ -174,10 +174,10 @@ def preencher_formulario(sender, instance, **kwargs):
     if instance.Status == 'Fechamento':
         DemandaInterna.objects.create(
             Atividade=instance.Numero_Servico,  # Acessa o campo da instância atual
-            tipo='',
+            tipo='Aguardando',
             responsavel='',  
             status='Aguardando',
-            data_solicitacao= datetime.now().date()  # Passa a data diretamente
+            data_solicitacao= datetime.now().date() # Passa a data diretamente
         )
 
 
