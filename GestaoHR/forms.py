@@ -1,3 +1,4 @@
+from typing import Any
 from django import forms
 from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos
 
@@ -22,6 +23,7 @@ class DemandaInternaform(forms.ModelForm):
     class Meta:
         model = DemandaInterna
         fields = ['Atividade', 'tipo', 'responsavel', 'status', 'data_solicitacao', 'data_conclusão', 'responsavel_demanda', 'arquivos', 'Observacao','arquivos_complementar', 'arquivos_complementar1', 'arquivos_complementar2']
+
 
 class BancoArquivoform(forms.ModelForm):
     class Meta:

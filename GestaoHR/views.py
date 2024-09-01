@@ -297,6 +297,7 @@ class DemandaUpdate(UpdateView):
     #fields = ['Atividade', 'tipo', 'responsavel', 'status', 'data_solicitacao', 'data_conclusão', 'responsavel', 'arquivos', 'arquivos_complementar', 'arquivos_complementar1', 'arquivos_complementar2']
     success_url = reverse_lazy('Demandainternaviews')
 
+
 @login_required
 def demanda_interna_update(request, pk):
     demandas = get_object_or_404(DemandaInterna, pk=pk)
