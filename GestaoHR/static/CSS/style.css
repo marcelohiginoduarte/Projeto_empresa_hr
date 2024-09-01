@@ -11,14 +11,14 @@ p {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: #fcfcfc;
+    color: #000000;
 }
 
 a,
 a:hover,
 a:focus {
     color: inherit;
-    text-decoration: none;
+    text-decoration: none;s
     transition: all 0.3s;
 }
 
@@ -58,7 +58,7 @@ a:focus {
     min-width: 250px;
     max-width: 250px;
     background: #4a4b4e;
-    color: #fff;
+    color: #f3efef;
     transition: all 0.3s;
 }
 
@@ -94,7 +94,7 @@ a:focus {
 
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
-    color: #fff;
+    color: #f3efef;
     background: #3b3d47;
 }
 
@@ -136,7 +136,7 @@ a.download {
 a.article,
 a.article:hover {
     background: #e4e6ee !important;
-    color: #fff !important;
+    color: #020202 !important;
 }
 
 /* ---------------------------------------------------
