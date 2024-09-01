@@ -447,7 +447,7 @@ def servico_exportar_execel(request):
 #exportar execel Demandas internas 
 
 def demandainterna_exportar_execel(request):
-    demandainterna_execel = Servico.objects.all().values()
+    demandainterna_execel = DemandaInterna.objects.all().values()
     df = pd.DataFrame(demandainterna_execel)
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="demandainterna_excel.xlsx"'
