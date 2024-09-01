@@ -177,6 +177,7 @@ def preencher_formulario(sender, instance, **kwargs):
             tipo='Aguardando',
             responsavel='',  
             status='Aguardando',
+            Observacao='Obra executada, Atenção incluir as informações para fechamento.',
             data_solicitacao= datetime.now().date() # Passa a data diretamente
         )
 
