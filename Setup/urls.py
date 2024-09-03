@@ -67,6 +67,8 @@ urlpatterns = [
 
     path('logar', views.logar, name='login'),
     path('logout', views.logout_view, name='logout'),
+
+    path('fotoscampo', views.upload_fotos, name='fotoscampo'),
 ]
 
 if settings.DEBUG:

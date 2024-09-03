@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo
 from django.urls import reverse_lazy
-from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform
+from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform
 from datetime import datetime, timedelta
 from .filters import collaboratorFilter, AquivoFilter, ArquivoFilter, ServicoFilter,DemandaFilter
 from django_filters.views import FilterView
@@ -308,7 +308,7 @@ def demanda_interna_update(request, pk):
 
 @login_required
 def demandainternavisualizartd(request):
-    demanda = DemandaFilter(request.GET, queryset= DemandaInterna.objects.all())
+    demanda = DemandaFilter(request.GET, queryset= DemandaInterna.objects.all().order_by('status'))
     return render(request, 'demandainterna_views.html', {'DemandaFilter':demanda})
 
 #auterar status demanda interna
@@ -459,3 +459,16 @@ def demandainterna_exportar_execel(request):
 def logout_view(request):
     logout(request)
     return redirect ("homapage")
+
+#FOTOS DE CAMPO
+
+def upload_fotos(request):
+    if request.method =='POST':
+        form = FotosCampoform(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('sucesso')
+    else:
+        form = FotosCampoform()
+    
+    return render(request, 'upload_fotos_campo.html', {'form':form})

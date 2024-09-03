@@ -274,3 +274,20 @@ class BancoArquivos(models.Model):
     DWG = models.FileField(upload_to='media/desenhoservico/Arquivos/', blank=True, null=True)
     AES = models.FileField(upload_to='media/desenhoservico/Arquivos/', blank=True, null=True)
     ACOS = models.FileField(upload_to='media/desenhoservico/Arquivos/', blank=True, null=True)
+
+
+class FotosCampo(models.Model):
+    Poste_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    Poste_depois = models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    cava_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    cava_depois= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    GPS_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    GPS_depois= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    Estrutura_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    Estrutura_depois= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    panoramica = models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    Equipamento_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    Equipamento_depois= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    
+    def __str__(self):
+        return self.GPS_antes or 'Foto sem arquivo'

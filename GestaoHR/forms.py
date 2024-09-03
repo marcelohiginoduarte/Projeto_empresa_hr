@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo
 
 class CollaboratorForm(forms.ModelForm):
     class Meta:
@@ -29,3 +29,9 @@ class BancoArquivoform(forms.ModelForm):
     class Meta:
         model = BancoArquivos
         fields = ['EI_OC', 'tipo','municipio','Responsavel', 'AS_Biult', 'Medicao', 'DWG', 'AES', 'ACOS']
+
+class FotosCampoform(forms.Form):
+    class Meta:
+        model = FotosCampo
+        fields = ['Poste_antes', 'Poste_depois', 'cava_antes', 'cava_depois', 'GPS_antes', 'GPS_depois', 'Estrutura_antes', 'Estrutura_depois', 'panoramica', 'Equipamento_antes', 'Equipamento_depois']
+    

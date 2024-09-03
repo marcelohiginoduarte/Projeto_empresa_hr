@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Criar Demandas{% endblock %}
+
+{% block 'Material' %}
+
+
+
+<h3>Cadastro de Demandas interna.</h3>
+<hr>
+<h2>Upload de Fotos</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form">
+        {{ form.management_form }}
+        {% for form in form %}
+            <div class="form-row">
+                {{ form.as_p }}
+            </div>
+        {% endfor %}
+    </div>
+    <button type="button" onclick="adicionarCampo()">Adicionar mais fotos</button>
+    <button type="submit">Salvar</button>
+</form>
+
+
+{% endblock %}
