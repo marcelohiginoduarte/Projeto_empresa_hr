@@ -1,0 +1,6 @@
+<h1>Histórico de Arquivos: {{ arquivo.Nome }}</h1>
+<ul>
+    {% for versao in arquivo.versoes.all %}
+        <li>{{ versao.data_envio }} - <a href="{{ versao.arquivo.url }}">{{ versao.arquivo.name }}</a></li>
+    {% endfor %}
+</ul>

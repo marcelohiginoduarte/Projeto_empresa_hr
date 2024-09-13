@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt
 
 class CollaboratorForm(forms.ModelForm):
     class Meta:
@@ -30,8 +30,20 @@ class BancoArquivoform(forms.ModelForm):
         model = BancoArquivos
         fields = ['EI_OC', 'tipo','municipio','Responsavel', 'AS_Biult', 'Medicao', 'DWG', 'AES', 'ACOS']
 
-class FotosCampoform(forms.Form):
+class FotosCampoform(forms.ModelForm):
     class Meta:
         model = FotosCampo
         fields = ['Poste_antes', 'Poste_depois', 'cava_antes', 'cava_depois', 'GPS_antes', 'GPS_depois', 'Estrutura_antes', 'Estrutura_depois', 'panoramica', 'Equipamento_antes', 'Equipamento_depois']
     
+FotocampoFormSet = forms.inlineformset_factory(arquivos_foto, FotosCampo, FotosCampoform, extra=1)
+
+class SESMTFORM(forms.ModelForm):
+    class Meta:
+        model = SESMT
+        fields = ['Brigada_emergerncia', 'CIPA', 'CNPJ_CRB', 'CRB', 'Documentacao_veiculo', 'manual_veiculo', 'orcamentos', 'PCSMO', 'prg', 'plano_de_atendimento_emergencia', 'plano_de_manutencao_frota', 'POP_lM_construcao', 'POP_LV_contrucao', 'POP_sesmt', 'PPCI', 'SESMT_t', 'Ultima_atualização']
+
+
+class ArquivoSesmtForm(forms.ModelForm):
+    class Meta:
+        model = ArquivoSesmt
+        fields = ['Nome', 'arquivo', 'versao_anterior']

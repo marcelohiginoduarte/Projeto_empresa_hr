@@ -1,26 +1,37 @@
 {% extends 'base.html' %}
-{% block 'titulo' %}Criar Demandas{% endblock %}
+{% block 'titulo' %}Evidencias de Campo{% endblock %}
 
 {% block 'Material' %}
 
 
 
-<h3>Cadastro de Demandas interna.</h3>
+<h3>Evidencias de Campo</h3>
 <hr>
-<h2>Upload de Fotos</h2>
+<h4>Criação das Evidencias</h4>
+<br>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="form">
-        {{ form.management_form }}
-        {% for form in form %}
+    {{ arquivos_foto.as_p }}
+    <div id="formset">
+        {{ formset.management_form }}
+        {% for form in formset %}
             <div class="form-row">
                 {{ form.as_p }}
             </div>
         {% endfor %}
     </div>
-    <button type="button" onclick="adicionarCampo()">Adicionar mais fotos</button>
-    <button type="submit">Salvar</button>
+    <button type="button" id="add-photo">Add another photo</button>
+    <button type="submit">Save Album</button>
 </form>
 
+<script type="text/javascript">
+    document.getElementById('add-photo').addEventListener('click', function() {
+        var formset = document.getElementById('formset');
+        var newForm = formset.lastElementChild.cloneNode(true);
+        var totalForms = document.getElementById('id_form-TOTAL_FORMS');
+        totalForms.value = parseInt(totalForms.value) + 1;
+        formset.appendChild(newForm);
+    });
+</script>
 
 {% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
+
+{% block 'Material' %}
+    <div class="row">
+        <div class="card border-secondary mb-3 mx-3" style="max-width: 18rem;">
+            <div class="card-header">Brigada de Emergencia</div>
+            <div class="card-body text-secondary">
+            {% if Brigada_emergerncia %}
+            <h5 class="card-title"><a href="{{arquivos.Brigada_emergerncia.url pk=arquivos.id}}">Baixar</a></h5>
+            {% else%}
+            <h5 class="card-title"><a href="{{arquivos.Brigada_emergerncia.url pk=arquivos.id }}">Sem arquivo</a></h5>
+            {% endif %}
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+         </div>
+    </div>
+    <div class="card border-secondary mb-3 mx-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body text-secondary">
+        <h5 class="card-title">Secondary card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+    </div>
+    <div class="card border-secondary mb-3 mx-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body text-secondary">
+        <h5 class="card-title">Secondary card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+    </div>
+    </div>
+
+
+
+{% endblock %}

@@ -276,7 +276,11 @@ class BancoArquivos(models.Model):
     ACOS = models.FileField(upload_to='media/desenhoservico/Arquivos/', blank=True, null=True)
 
 
+class arquivos_foto(models.Model):
+    projeto = models.CharField(max_length=25, null=False, blank=False)
+
 class FotosCampo(models.Model):
+    projeto = models.ForeignKey(arquivos_foto, on_delete=models.CASCADE, related_name='fotos')
     Poste_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
     Poste_depois = models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
     cava_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
@@ -291,3 +295,32 @@ class FotosCampo(models.Model):
     
     def __str__(self):
         return self.GPS_antes or 'Foto sem arquivo'
+
+class SESMT (models.Model):
+    Brigada_emergerncia = models.FileField(upload_to='media/sesmt/brigada', blank=True, null=True)    
+    CIPA = models.FileField(upload_to='media/sesmt/cipa', blank=True, null=True)
+    CNPJ_CRB = models.FileField(upload_to='media/sesmt/cnpj', blank=True, null=True)
+    CRB = models.FileField(upload_to='media/sesmt/crb', blank=True, null=True)
+    Documentacao_veiculo = models.FileField(upload_to='media/sesmt/documentoveiculo', blank=True, null=True)
+    manual_veiculo = models.FileField(upload_to='media/sesmt/manual', blank=True, null=True)
+    orcamentos = models.FileField(upload_to='media/sesmt/orcamento', blank=True, null=True)
+    PCSMO = models.FileField(upload_to='media/sesmt/pcsmo', blank=True, null=True)
+    prg = models.FileField(upload_to='media/sesmt/prg', blank=True, null=True)
+    plano_de_atendimento_emergencia = models.FileField(upload_to='media/sesmt/planodeatendimento', blank=True, null=True)
+    plano_de_manutencao_frota = models.FileField(upload_to='media/sesmt/plfrota', blank=True, null=True)
+    POP_lM_construcao = models.FileField(upload_to='media/sesmt/POPLMCONST', blank=True, null=True)
+    POP_LV_contrucao = models.FileField(upload_to='media/sesmt/POPLVCONST', blank=True, null=True)
+    POP_sesmt = models.FileField(upload_to='media/sesmt/POPSESMT', blank=True, null=True)
+    PPCI = models.FileField(upload_to='media/sesmt/PPCI', blank=True, null=True)
+    SESMT_t = models.FileField(upload_to='media/sesmt/sesmt_t', blank=True, null=True)
+    Ultima_atualização = models.CharField(max_length=50)
+
+class ArquivoSesmt(models.Model):
+    Nome = models.CharField(max_length=50)
+    arquivo = models.FileField(upload_to='media/sesmt/sesmt_t')
+    data_envio= models.DateTimeField(auto_now_add=True)
+    versao_anterior = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='versoes')
+
+    def __str__(self):
+        return self.Nome
+

@@ -69,6 +69,11 @@ urlpatterns = [
     path('logout', views.logout_view, name='logout'),
 
     path('fotoscampo', views.upload_fotos, name='fotoscampo'),
+
+    path('sesmt', views.crearsesmt, name='criarsesmt'),
+    path('versesmt/', views.versesmt, name='mostrararquivossesmt'),
+    path('versesmt/<int:pk>/', views.versesmt, name='mostrararquivossesmt1'),
+    path('versaoarquivo/<int:arquivo_id>/', views.atualizararquivo, name='versaodosarquivos')
 ]
 
 if settings.DEBUG:

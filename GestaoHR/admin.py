@@ -1,5 +1,5 @@
 from django.contrib import admin
-from GestaoHR.models import collaborator, Aquivo, Servico, BancoArquivos, DemandaInterna
+from GestaoHR.models import collaborator, Aquivo, Servico, BancoArquivos, DemandaInterna, SESMT, ArquivoSesmt
 
 admin.site.register(collaborator)
 
@@ -28,5 +28,15 @@ class Listandobdarquivos(admin.ModelAdmin):
     admin.site.register(DemandaInterna)
 
 class ListandoDemandaInterna(admin.ModelAdmin):
+    list_display = ('Atividade', 'tipo')
+    list_display_links = ('Atividade', 'tipo')
+
+admin.site.register(SESMT)
+class ListandoSESMT(admin.ModelAdmin):
+    list_display = ('Atividade', 'tipo')
+    list_display_links = ('Atividade', 'tipo')
+
+admin.site.register(ArquivoSesmt)
+class ArquivosLista(admin.ModelAdmin):
     list_display = ('Atividade', 'tipo')
     list_display_links = ('Atividade', 'tipo')

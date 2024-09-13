@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt
 from django.urls import reverse_lazy
-from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform
+from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm
 from datetime import datetime, timedelta
 from .filters import collaboratorFilter, AquivoFilter, ArquivoFilter, ServicoFilter,DemandaFilter
 from django_filters.views import FilterView
@@ -463,12 +463,60 @@ def logout_view(request):
 #FOTOS DE CAMPO
 
 def upload_fotos(request):
-    if request.method =='POST':
-        form = FotosCampoform(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
+    if request.method == 'POST':
+        arquivos_foto_form = FotosCampoform(request.POST)
+        formset = FotocampoFormSet(request.POST, request.FILES)
+        
+        if arquivos_foto_form.is_valid() and formset.is_valid():
+            arquivos_foto = arquivos_foto_form.save()
+            formset.instance = arquivos_foto
+            formset.save()
             return redirect('sucesso')
     else:
-        form = FotosCampoform()
+        arquivos_foto_form = FotosCampoform()
+        formset = FotocampoFormSet()
     
-    return render(request, 'upload_fotos_campo.html', {'form':form})
+    return render(request, 'upload_fotos_campo.html', {'arquivos_foto_form': arquivos_foto_form, 'formset': formset})
+
+#SESMT
+#criar arquivos
+def crearsesmt(request):
+    erro = None
+    texto = None
+
+    if request.method == 'POST':
+        form = SESMTFORM(request.POST, request.FILES)  # Certifique-se de incluir request.FILES
+        print(form.errors)  # Imprime os erros no console para depuração
+        if form.is_valid():
+            form.save()
+            return redirect('mostrararquivossesmt')
+    else:
+        form = SESMTFORM()
+        erro = request.GET.get('erro')
+        texto = request.GET.get('texto')
+    
+    return render(request, 'SESMT.html', {'form': form, 'erro': erro, 'texto': texto})
+
+#Ver os arquivos
+
+def versesmt(request, pk):
+    arquivos = SESMT.objects.get(pk=pk)
+    return render(request, 'sesmt_ver.html',  {'arquivos':arquivos})
+
+
+#novos arquivos
+
+def atualizararquivo(request, arquivo_id):
+    arquivo_antigo = get_object_or_404(ArquivoSesmt, id=arquivo_id)
+
+    if request.method == 'POST':
+        form = ArquivoSesmtForm(request.POST, request.FILE)
+        if form.is_valid():
+            novo_arquivo = form.save(commit=False)
+            novo_arquivo.versao_anterior = arquivo_antigo
+            novo_arquivo.save()
+            return redirect('listadearquivos')
+    else:
+        form = ArquivoSesmtForm()
+
+    return render(request, 'arquivossesmt.html', {'form': form, 'arquivo_antigo':arquivo_antigo})
