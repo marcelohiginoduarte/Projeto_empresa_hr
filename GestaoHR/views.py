@@ -314,7 +314,10 @@ def demanda_interna_update(request, pk):
 @login_required
 def demandainternavisualizartd(request):
     demanda = DemandaFilter(request.GET, queryset= DemandaInterna.objects.all().order_by('status'))
-    return render(request, 'demandainterna_views.html', {'DemandaFilter':demanda})
+    paginator = Paginator(demanda.qs, 20)
+    page_number = request.GET.get('page',1)
+    page_obj=paginator.get_page(page_number)
+    return render(request, 'demandainterna_views.html', {'DemandaFilter':demanda, 'page_obj':page_obj})
 
 #auterar status demanda interna
 
