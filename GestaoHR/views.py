@@ -166,7 +166,10 @@ class ServicoDelete(DeleteView):
 @login_required
 def visualiazer_servicos(request):
     visualizar_sd= ServicoFilter(request.GET, queryset=Servico.objects.all())
-    return render(request, 'servico_view.html', {'ServicoFilter':visualizar_sd})
+    paginator = Paginator(visualizar_sd.qs, 20)
+    page_number = request.GET.get('page',1)
+    page_obj=paginator.get_page(page_number)
+    return render(request, 'servico_view.html', {'ServicoFilter':visualizar_sd, 'page_obj':page_obj})
 
 
 #preencher status automatico

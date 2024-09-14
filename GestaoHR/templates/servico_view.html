@@ -5,22 +5,16 @@
 <link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
 
 {% block 'Material' %}
-    <h1>Visualizar Serviços</h1>
+    <h1>aqui </h1>
     <form method="get">
       {{ServicoFilter.form.as_p}}
       <button class="btn btn-info" type="submit">Filtrar</button>
     </form>
     <hr>
-    <a href="{% url 'exportarservicoexecel' %}">Exportar</a>
-    <ul>
-      {% for servico in page_obj %}
-      <li>{{servico.Servico}}</li>
-      {% endfor %}
-    </ul>
     <div class="pagination">
       <span class="page-links">
           {% if page_obj.has_previous %}
-              <a href="{% url 'visualizartodosservios' %}page={{ page_obj.previous_page_number }}">Anterior</a>
+              <a href="{% url 'visualizartodosservios' %}?page={{ page_obj.previous_page_number }}">Anterior</a>
           {% endif %}
 
           <span class="current">
@@ -28,7 +22,7 @@
           </span>
 
           {% if page_obj.has_next %}
-              <a href="{% url 'visualizartodosservios' %}page={{ page_obj.next_page_number }}">Próxima</a>
+              <a href="{% url 'visualizartodosservios' %}?page={{ page_obj.next_page_number }}">Próxima</a>
           {% endif %}
       </span>
   </div>
@@ -54,7 +48,7 @@
           </tr>
         </thead>
         <tbody>
-            {% for servico in ServicoFilter.qs %}
+            {% for servico in page_obj.object_list %}
               <tr>
                 <td><a href="{% url 'servicounitario' pk=servico.id %}">{{servico.Numero_Servico}}</a></td>
                 <td>{{servico.PEP}}</td>
