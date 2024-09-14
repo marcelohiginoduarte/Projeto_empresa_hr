@@ -279,8 +279,12 @@ class BancoArquivos(models.Model):
 class arquivos_foto(models.Model):
     projeto = models.CharField(max_length=25, null=False, blank=False)
 
+    def __str__(self):
+        return self.projeto
+
 class FotosCampo(models.Model):
     projeto = models.ForeignKey(arquivos_foto, on_delete=models.CASCADE, related_name='fotos')
+    poste = models.CharField(max_length=4, null=False, blank=False)
     Poste_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
     Poste_depois = models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
     cava_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)

@@ -11,7 +11,7 @@
 <br>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ arquivos_foto.as_p }}
+    {{ arquivos_foto_form.as_p }}
     <div id="formset">
         {{ formset.management_form }}
         {% for form in formset %}
@@ -25,13 +25,31 @@
 </form>
 
 <script type="text/javascript">
-    document.getElementById('add-photo').addEventListener('click', function() {
-        var formset = document.getElementById('formset');
-        var newForm = formset.lastElementChild.cloneNode(true);
-        var totalForms = document.getElementById('id_form-TOTAL_FORMS');
-        totalForms.value = parseInt(totalForms.value) + 1;
-        formset.appendChild(newForm);
+    document.addEventListener('DOMContentLoaded', function() {
+        const formsetDiv = document.getElementById('formset');
+        const addPhotoButton = document.getElementById('add-photo');
+        const totalFormsInput = document.querySelector('#id_form-TOTAL_FORMS'); // Ajuste conforme o prefixo do formset
+        let totalForms = parseInt(totalFormsInput.value, 10);
+
+        // Ao clicar no botão, clonamos o último formulário e o incrementamos
+        addPhotoButton.addEventListener('click', function() {
+            const formRow = document.querySelectorAll('.form-row');
+            const newForm = formRow[formRow.length - 1].cloneNode(true); // Clona o último formulário
+
+            // Atualize os índices dos campos no novo formulário
+            newForm.innerHTML = newForm.innerHTML.replace(/form-(\d+)-/g, `form-${totalForms}-`);
+            
+            // Limpe o valor dos inputs clonados
+            const inputs = newForm.querySelectorAll('input');
+            inputs.forEach(input => input.value = '');
+
+            // Insira o novo formulário no DOM
+            formsetDiv.appendChild(newForm);
+
+            // Atualize o TOTAL_FORMS
+            totalForms += 1;
+            totalFormsInput.value = totalForms;
+        });
     });
 </script>
-
 {% endblock %}

@@ -1,9 +1,10 @@
+from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
 from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt
 from django.urls import reverse_lazy
-from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm
+from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms
 from datetime import datetime, timedelta
 from .filters import collaboratorFilter, AquivoFilter, ArquivoFilter, ServicoFilter,DemandaFilter
 from django_filters.views import FilterView
@@ -16,6 +17,7 @@ from django.db.models import Sum
 from asgiref.sync import sync_to_async
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.forms import modelformset_factory
 
 @login_required
 def home(request):
@@ -462,9 +464,11 @@ def logout_view(request):
 
 #FOTOS DE CAMPO
 
+FotocampoFormSet = modelformset_factory(FotosCampo, form=FotosCampoform, extra=1)
+
 def upload_fotos(request):
     if request.method == 'POST':
-        arquivos_foto_form = FotosCampoform(request.POST)
+        arquivos_foto_form = FotosCampoform(request.POST, request.FILES)
         formset = FotocampoFormSet(request.POST, request.FILES)
         
         if arquivos_foto_form.is_valid() and formset.is_valid():
@@ -520,3 +524,28 @@ def atualizararquivo(request, arquivo_id):
         form = ArquivoSesmtForm()
 
     return render(request, 'arquivossesmt.html', {'form': form, 'arquivo_antigo':arquivo_antigo})
+
+#salvar projeto para foto
+
+def Salvar_projeto_foto(request):
+    erro = None
+    texto = None
+
+    if request.method == 'POST':
+        form = Projeto_fotoforms(request.POST, request.FILES)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('salvarprojetofoto')
+    else:
+        form = Projeto_fotoforms()
+        erro = request.GET.get('erro')
+        texto = request.GET.get('texto')
+    
+    return render(request, 'salvarprojetofoto.html', {'form':form, 'erro':erro, 'texto':texto})
+
+#verfotos
+
+def verfotos(request):
+    fotos = FotosCampo.objects.all()
+    return render(request, 'vertodasfotos.html', {'fotos':fotos})

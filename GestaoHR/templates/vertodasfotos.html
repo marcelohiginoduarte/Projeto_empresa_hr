@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+{% block 'excel' %}<a href="{% url 'exportarservicoexecel' %}">Exportar</a>{% endblock %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
+
+
+    <h1>Ver fotos</h1>
+<body>
+{% block 'Material' %}
+    <h3>Ver fotos</h3>
+    <hr>
+
+    {% for foto in fotos %}
+    <div class="card text-white bg-success mb-3" style="max-width: 10rem;">
+        <div class="card-header"><a href="#">{{foto.projeto}}</a></div>
+        <div class="card-body">
+          <h5 class="card-title">{{foto.poste}}</h5>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
+</body>
