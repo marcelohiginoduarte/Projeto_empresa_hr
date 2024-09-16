@@ -278,6 +278,7 @@ class BancoArquivos(models.Model):
 
 class arquivos_foto(models.Model):
     projeto = models.CharField(max_length=25, null=False, blank=False)
+    ativo = models.BooleanField(default=True)
 
     def __str__(self):
         return self.projeto

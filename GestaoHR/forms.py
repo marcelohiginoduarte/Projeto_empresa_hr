@@ -53,3 +53,8 @@ class ArquivoSesmtForm(forms.ModelForm):
     class Meta:
         model = ArquivoSesmt
         fields = ['Nome', 'arquivo', 'versao_anterior']
+
+class arquivos_fotos_projetoform(forms.ModelForm):
+    class Meta:
+        model = arquivos_foto
+        fields = ['projeto', 'ativo']

@@ -68,9 +68,12 @@ urlpatterns = [
     path('logar', views.logar, name='login'),
     path('logout', views.logout_view, name='logout'),
 
+    path('projetoativo', views.verprojetoativo, name='projetoativo'),
     path('fotoscampo', views.upload_fotos, name='fotoscampo'),
     path('salvarprojetofoto', views.Salvar_projeto_foto, name='salvarprojetofoto'),
     path('verfotos', views.verfotos, name='vertodasasfotos'),
+    path('updateprojeto/<int:pk>', views.atualizativo.as_view(), name='updatedoprojeto'),
+    path('projetodelete/<int:pk>', views.Deletarprojeto.as_view(), name='deletarprojetofoto'),
 
     path('sesmt', views.crearsesmt, name='criarsesmt'),
     path('versesmt/', views.versesmt, name='mostrararquivossesmt'),

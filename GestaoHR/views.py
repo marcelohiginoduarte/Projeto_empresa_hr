@@ -4,7 +4,7 @@ from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
 from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt
 from django.urls import reverse_lazy
-from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms
+from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform
 from datetime import datetime, timedelta
 from .filters import collaboratorFilter, AquivoFilter, ArquivoFilter, ServicoFilter,DemandaFilter
 from django_filters.views import FilterView
@@ -555,3 +555,24 @@ def Salvar_projeto_foto(request):
 def verfotos(request):
     fotos = FotosCampo.objects.all()
     return render(request, 'vertodasfotos.html', {'fotos':fotos})
+
+#verprojetoativo
+
+def verprojetoativo(request):
+    projetos_ativos = arquivos_foto.objects.all()
+    return render (request, 'verprojetosativos.html', {'projetos_ativos':projetos_ativos})
+
+#update ativos
+
+class atualizativo(UpdateView):
+    model=arquivos_foto
+    template_name = 'arquivofotoprojetoutdate.html'
+    form_class = arquivos_fotos_projetoform
+    success_url = reverse_lazy('projetoativo')
+
+#deletar Projeto
+
+class Deletarprojeto(DeleteView):
+    model = arquivos_foto
+    template_name = 'arquivofotodemanda__confirm_delete.html'
+    success_url = reverse_lazy('projetoativo')

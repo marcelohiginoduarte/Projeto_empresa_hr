@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Ver projetos ativos{% endblock %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
+
+{% block 'Material' %}
+    <h3>Projetos Ativos </h3>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Projeto</th>
+            <th scope="col">Ativo</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Remover</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for projetos in projetos_ativos %}
+              <tr>
+                <td><a href="{% url 'updatedoprojeto' pk=projetos.id %}">{{projetos.projeto}}</a></td>
+                <td><a href="{% url 'updatedoprojeto' pk=projetos.id %}">{{projetos.ativo}}</a></td>
+                <td><a href="{% url 'updatedoprojeto' pk=projetos.id %}">Editar</a></td>
+                <td><a href="{% url 'deletarprojetofoto' pk=projetos.id  %}">Remover</a></td>
+            {% endfor %}
+{% endblock %}
