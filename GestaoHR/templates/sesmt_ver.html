@@ -1,37 +1,260 @@
 {% extends 'base.html' %}
-{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+{% block 'titulo' %}Arquivos SESMT{% endblock %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
 {% block 'Material' %}
-    <div class="row">
-        <div class="card border-secondary mb-3 mx-3" style="max-width: 18rem;">
-            <div class="card-header">Brigada de Emergencia</div>
-            <div class="card-body text-secondary">
-            {% if Brigada_emergerncia %}
-            <h5 class="card-title"><a href="{{arquivos.Brigada_emergerncia.url pk=arquivos.id}}">Baixar</a></h5>
-            {% else%}
-            <h5 class="card-title"><a href="{{arquivos.Brigada_emergerncia.url pk=arquivos.id }}">Sem arquivo</a></h5>
+<style>
+    .container {
+        display: flex;
+        flex-wrap: wrap; /* Permite que os itens quebrem para a linha seguinte quando necessário */
+        gap: 20px; /* Espaçamento entre os cards */
+        padding: 20px; /* Espaçamento ao redor do container */
+    }
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        width: 200px; /* Largura do card */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        text-align: center;
+        position: relative;
+    }
+    .card a {
+        display: block;
+        margin-bottom: 10px;
+        text-decoration: none;
+        color: #333;
+    }
+    .card p {
+        margin: 0;
+    }
+    .card .actions {
+        display: flex;
+        justify-content: space-between;
+    }
+    .card .actions a {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    .card .actions a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<body>
+    <h1>Lista de Documentos</h1>
+    <div class="container">
+            {% for arquivo in arquivos %}
+                {% if arquivo.Brigada_emergerncia %}
+                    <div class="card">
+                        <a href="{{ arquivo.Brigada_emergerncia.url }}" target="_blank">
+                            <p>Brigada Emergerncia</p>
+                        </a>
+                        <div class="actions">
+                            <a href="#">Editar</a>
+                            <a href="#">Visualizar</a>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if arquivo.CNPJ_CRB %}
+                    <div class="card"> 
+                        <a href="{{ arquivo.CNPJ_CRB.url }}" target="_blank">
+                            <p>CNPJ CRB</p>
+                        </a>
+                        <div class="actions">
+                            <a href="#">Editar</a>
+                            <a href="#">Visualizar</a>
+                        </div>
+                    </div>
+                {% endif %}
+                    
+
+
+                {% if arquivo.CIPA %}
+                    <div class="card">
+                        <a href="{{ arquivo.CIPA.url }}" target="_blank">
+                            <p>Cipa</p>
+                        </a>
+                        <div class="actions">
+                            <a href="#">Editar</a>
+                            <a href="#">Visualizar</a>
+                        </div>
+                    </div>
+                {% endif %} 
+                {% if arquivo.CRB %}
+                    <div class="card">
+                        <a href="{{ arquivo.CRB.url }}" target="_blank">
+                            <p>CRB</p>
+                        </a>
+                        <div class="actions">
+                            <a href="#">Editar</a>
+                            <a href="#">Visualizar</a>
+                        </div>
+                    </div>
+                {% endif %} 
+            {% endfor %}
+    </div>
+    <div class="container">
+        {% for arquivo in arquivos %}
+            {% if arquivo.Documentacao_veiculo %}
+                <div class="card">
+                    <a href="{{ arquivo.Documentacao_veiculo.url }}" target="_blank">
+                        <p>Documentacao veiculo</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
             {% endif %}
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-         </div>
-    </div>
-    <div class="card border-secondary mb-3 mx-3" style="max-width: 18rem;">
-        <div class="card-header">Header</div>
-        <div class="card-body text-secondary">
-        <h5 class="card-title">Secondary card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-    <div class="card border-secondary mb-3 mx-3" style="max-width: 18rem;">
-        <div class="card-header">Header</div>
-        <div class="card-body text-secondary">
-        <h5 class="card-title">Secondary card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-    </div>
+
+            {% if arquivo.manual_veiculo %}
+                <div class="card"> 
+                    <a href="{{ arquivo.manual_veiculo.url }}" target="_blank">
+                        <p>Manual Veiculo</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
+            {% endif %}
+                
 
 
+            {% if arquivo.orcamentos %}
+                <div class="card">
+                    <a href="{{ arquivo.orcamentos.url }}" target="_blank">
+                        <p>Orcamentos</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
+            {% endif %} 
+            {% if arquivo.PCSMO %}
+                <div class="card">
+                    <a href="{{ arquivo.PCSMO.url }}" target="_blank">
+                        <p>PCSMO</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
+            {% endif %} 
+        {% endfor %}
+    </div>
+    <div class="container">
+        {% for arquivo in arquivos %}
+            {% if arquivo.prg %}
+                <div class="card">
+                    <a href="{{ arquivo.prg.url }}" target="_blank">
+                        <p>PRG</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if arquivo.plano_de_atendimento_emergencia %}
+                <div class="card"> 
+                    <a href="{{ arquivo.plano_de_atendimento_emergencia.url }}" target="_blank">
+                        <p>PL. AT. Emergerncia</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
+            {% endif %}
+                
+
+
+            {% if arquivo.plano_de_manutencao_frota %}
+                <div class="card">
+                    <a href="{{ arquivo.plano_de_manutencao_frota.url }}" target="_blank">
+                        <p>PL Manutencao Frota</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
+            {% endif %} 
+            {% if arquivo.POP_lM_construcao %}
+                <div class="card">
+                    <a href="{{ arquivo.POP_lM_construcao.url }}" target="_blank">
+                        <p>POP-LM Construcao</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
+            {% endif %} 
+        {% endfor %}
+    </div>
+    <div class="container">
+        {% for arquivo in arquivos %}
+            {% if arquivo.POP_LV_contrucao %}
+                <div class="card">
+                    <a href="{{ arquivo.POP_LV_contrucao.url }}" target="_blank">
+                        <p>POP-LV Construção</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if arquivo.POP_sesmt %}
+                <div class="card"> 
+                    <a href="{{ arquivo.POP_sesmt.url }}" target="_blank">
+                        <p>POP Sesmt</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
+            {% endif %}
+                
+
+
+            {% if arquivo.PPCI %}
+                <div class="card">
+                    <a href="{{ arquivo.PPCI.url }}" target="_blank">
+                        <p>PPCI</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
+            {% endif %} 
+            {% if arquivo.SESMT_t %}
+                <div class="card">
+                    <a href="{{ arquivo.SESMT_t.url }}" target="_blank">
+                        <p>SESMT</p>
+                    </a>
+                    <div class="actions">
+                        <a href="#">Editar</a>
+                        <a href="#">Visualizar</a>
+                    </div>
+                </div>
+            {% endif %} 
+        {% endfor %}
+    </div>
+</body>
 
 {% endblock %}

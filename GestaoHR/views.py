@@ -509,12 +509,13 @@ def crearsesmt(request):
 
 #Ver os arquivos
 
-def versesmt(request, pk):
-    arquivos = SESMT.objects.get(pk=pk)
+def versesmt(request):
+    arquivos = SESMT.objects.all()
     return render(request, 'sesmt_ver.html',  {'arquivos':arquivos})
 
 
-#novos arquivos
+#novos arquivos sesmt
+
 
 def atualizararquivo(request, arquivo_id):
     arquivo_antigo = get_object_or_404(ArquivoSesmt, id=arquivo_id)
@@ -530,6 +531,15 @@ def atualizararquivo(request, arquivo_id):
         form = ArquivoSesmtForm()
 
     return render(request, 'arquivossesmt.html', {'form': form, 'arquivo_antigo':arquivo_antigo})
+
+
+#Update SESMT
+
+class SesmtUpdate(UpdateView):
+    model = SESMT
+    template_name = 'sesmt_update.html'
+    fields = ['Brigada_emergerncia', 'CIPA', 'CNPJ_CRB', 'CRB', 'Documentacao_veiculo', 'manual_veiculo', 'orcamentos', 'PCSMO', 'prg', 'plano_de_atendimento_emergencia', 'plano_de_manutencao_frota', 'POP_lM_construcao', 'POP_LV_contrucao', 'POP_sesmt', 'PPCI', 'SESMT_t','Ultima_atualização']
+    success_url = reverse_lazy('mostrararquivossesmt')
 
 #salvar projeto para foto
 

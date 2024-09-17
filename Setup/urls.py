@@ -77,7 +77,7 @@ urlpatterns = [
 
     path('sesmt', views.crearsesmt, name='criarsesmt'),
     path('versesmt/', views.versesmt, name='mostrararquivossesmt'),
-    path('versesmt/<int:pk>/', views.versesmt, name='mostrararquivossesmt1'),
+    path('updatesesmt/<int:pk>/', views.SesmtUpdate.as_view(), name='vertodosarquivosesmts'),
     path('versaoarquivo/<int:arquivo_id>/', views.atualizararquivo, name='versaodosarquivos')
 ]
 

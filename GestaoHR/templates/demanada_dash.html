@@ -6,29 +6,29 @@
 
 
 <ul>
-    <div class="d-flex flex-row justify-content-between">
-        <div class="card text-white bg-success mb-3" style="flex: 1; margin-right: 10px;">
+    <div class="d-flex flex-wrap justify-content-between">
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-right: 10px; min-width: 250px;">
             <div class="card-body">
                 <h3 class="card-title">Aguardando</h3>
                 <H4 class="card-title">R${{somar_andamento|floatformat:,}}</H4>
                 <H6 class="card-title">{{}}</H6>
             </div>
         </div>
-        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-right: 10px; min-width: 250px;">
             <div class="card-body">
                 <h3 class="card-title">Andamento</h3>
                 <H4 class="card-title">R${{somar_concluido|floatformat:2}}</H4>
                 <H6 class="card-title">{{ Concluido }}</H6>
             </div>
         </div>
-        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-right: 10px; min-width: 250px;">
             <div class="card-body">
                 <h3 class="card-title">Realizando</h3>
                 <H4 class="card-title">R$ {{somar_programacao|floatformat:2}}</H4>
                 <H6 class="card-title">{{contar_programacao}}</H6>
             </div>
         </div>
-        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-right: 10px; min-width: 250px;">
             <div class="card-body">
                 <h3 class="card-title">Correção</h3>
                 <H4 class="card-title">R${{somar_Fechamento|floatformat:2}}</H4>
@@ -36,15 +36,15 @@
             </div>
         </div>
     </div>
-    <div class="d-flex flex-row justify-content-between">
-        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+    <div class="d-flex flex-wrap justify-content-between">
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-right: 10px; min-width: 250px;">
             <div class="card-body">
                 <h3 class="card-title">Enviado Equatorial</h3>
                 <H4 class="card-title">R${{somar_Pagamento|floatformat:2}}</H4>
                 <H6 class="card-title">{{Pagamento}}</H6>
             </div>
         </div>
-        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-right: 10px; min-width: 250px;">
             <div class="card-body">
                 <h3 class="card-title">Aprovado Equatorial'</h3>
                 <H4 class="card-title">R${{somar_Espera|floatformat:2}}</H4>
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <div class="card text-white bg-success mb-3" style="flex: 1; margin-left: 10px;">
+        <div class="card text-white bg-success mb-3" style="flex: 1; margin-right: 10px; min-width: 250px;">
             <div class="card-body">
                 <h3 class="card-title">Correção Equatorial</h3>
                 <H4 class="card-title">R${{somar_Recebido|floatformat:2}}</H4>
