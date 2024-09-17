@@ -55,7 +55,7 @@
                             <p>Brigada Emergerncia</p>
                         </a>
                         <div class="actions">
-                            <a href="#">Editar</a>
+                            <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                             <a href="#">Visualizar</a>
                         </div>
                     </div>
@@ -65,9 +65,10 @@
                     <div class="card"> 
                         <a href="{{ arquivo.CNPJ_CRB.url }}" target="_blank">
                             <p>CNPJ CRB</p>
+                            <br>
                         </a>
                         <div class="actions">
-                            <a href="#">Editar</a>
+                            <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                             <a href="#">Visualizar</a>
                         </div>
                     </div>
@@ -78,10 +79,11 @@
                 {% if arquivo.CIPA %}
                     <div class="card">
                         <a href="{{ arquivo.CIPA.url }}" target="_blank">
-                            <p>Cipa</p>
+                            <p>Cipa  </p>
+                            <br>
                         </a>
                         <div class="actions">
-                            <a href="#">Editar</a>
+                            <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                             <a href="#">Visualizar</a>
                         </div>
                     </div>
@@ -90,10 +92,12 @@
                     <div class="card">
                         <a href="{{ arquivo.CRB.url }}" target="_blank">
                             <p>CRB</p>
+                            <br>
                         </a>
                         <div class="actions">
-                            <a href="#">Editar</a>
+                            <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                             <a href="#">Visualizar</a>
+                            <br>
                         </div>
                     </div>
                 {% endif %} 
@@ -107,7 +111,7 @@
                         <p>Documentacao veiculo</p>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
                     </div>
                 </div>
@@ -117,9 +121,10 @@
                 <div class="card"> 
                     <a href="{{ arquivo.manual_veiculo.url }}" target="_blank">
                         <p>Manual Veiculo</p>
+                        <br>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
                     </div>
                 </div>
@@ -131,9 +136,10 @@
                 <div class="card">
                     <a href="{{ arquivo.orcamentos.url }}" target="_blank">
                         <p>Orcamentos</p>
+                        <br>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
                     </div>
                 </div>
@@ -142,9 +148,10 @@
                 <div class="card">
                     <a href="{{ arquivo.PCSMO.url }}" target="_blank">
                         <p>PCSMO</p>
+                        <br>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
                     </div>
                 </div>
@@ -157,9 +164,10 @@
                 <div class="card">
                     <a href="{{ arquivo.prg.url }}" target="_blank">
                         <p>PRG</p>
+                        <br>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
                     </div>
                 </div>
@@ -169,9 +177,10 @@
                 <div class="card"> 
                     <a href="{{ arquivo.plano_de_atendimento_emergencia.url }}" target="_blank">
                         <p>PL. AT. Emergerncia</p>
+                        <br>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
                     </div>
                 </div>
@@ -185,7 +194,7 @@
                         <p>PL Manutencao Frota</p>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
                     </div>
                 </div>
@@ -196,7 +205,7 @@
                         <p>POP-LM Construcao</p>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
                     </div>
                 </div>
@@ -211,7 +220,7 @@
                         <p>POP-LV Construção</p>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
                     </div>
                 </div>
@@ -221,10 +230,12 @@
                 <div class="card"> 
                     <a href="{{ arquivo.POP_sesmt.url }}" target="_blank">
                         <p>POP Sesmt</p>
+                        <br>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
+                        
                     </div>
                 </div>
             {% endif %}
@@ -235,9 +246,10 @@
                 <div class="card">
                     <a href="{{ arquivo.PPCI.url }}" target="_blank">
                         <p>PPCI</p>
+                        <br>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
                     </div>
                 </div>
@@ -246,9 +258,10 @@
                 <div class="card">
                     <a href="{{ arquivo.SESMT_t.url }}" target="_blank">
                         <p>SESMT</p>
+                        <br>
                     </a>
                     <div class="actions">
-                        <a href="#">Editar</a>
+                        <a href="{% url 'vertodosarquivosesmts' pk=arquivo.id %}">Editar</a>
                         <a href="#">Visualizar</a>
                     </div>
                 </div>
