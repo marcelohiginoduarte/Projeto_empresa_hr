@@ -45,6 +45,11 @@ class collaborator(models.Model):
         return self.Nome
     
 
+    class Meta:
+        permissions = [
+            ('Acesso_RH', 'Acesso_HR'),
+        ]
+
 class Aquivo(models.Model):
     Mes_Mes=[
         ('Jan','Jan'),
@@ -329,3 +334,21 @@ class ArquivoSesmt(models.Model):
     def __str__(self):
         return self.Nome
 
+class Document(models.Model):
+    # Campo para armazenar o arquivo
+    file = models.FileField(upload_to='documents/')
+    # Campo para armazenar a versão do arquivo
+    version = models.PositiveIntegerField(default=1)
+    # Campo para armazenar a data da última atualização
+    updated_at = models.DateTimeField(auto_now=True)
+    # Campo opcional para armazenar uma descrição do arquivo
+    description = models.TextField(blank=True)
+
+    class Meta:
+        # Define uma ordem padrão (opcional)
+        ordering = ['-updated_at']
+        # Adiciona uma restrição para garantir que não existam arquivos duplicados com a mesma versão
+        unique_together = ('file', 'version')
+
+    def __str__(self):
+        return f"{self.file.name} (v{self.version})"

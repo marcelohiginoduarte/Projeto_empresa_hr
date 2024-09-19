@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, arquivos_foto
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, arquivos_foto, Document
 from django.forms import modelformset_factory
 
 class CollaboratorForm(forms.ModelForm):
@@ -58,3 +58,8 @@ class arquivos_fotos_projetoform(forms.ModelForm):
     class Meta:
         model = arquivos_foto
         fields = ['projeto', 'ativo']
+
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ['file', 'version', 'description']

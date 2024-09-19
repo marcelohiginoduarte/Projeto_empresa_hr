@@ -2,14 +2,14 @@ from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, Document
 from django.urls import reverse_lazy
-from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform
+from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform, DocumentForm
 from datetime import datetime, timedelta
 from .filters import collaboratorFilter, AquivoFilter, ArquivoFilter, ServicoFilter,DemandaFilter
 from django_filters.views import FilterView
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
 import pandas as pd
 from django.http import HttpResponse
@@ -18,6 +18,7 @@ from asgiref.sync import sync_to_async
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.forms import modelformset_factory
+from django.contrib import messages
 
 @login_required
 def home(request):
@@ -25,6 +26,7 @@ def home(request):
 
 @login_required
 def create_Collaborator(request):
+    
     erro = None
     texto = None
 
@@ -51,8 +53,13 @@ def create_Collaborator(request):
 
     return render(request, 'register.html', {'form': form, 'erro': erro, 'texto': texto})
 
+
 @login_required
 def to_view_collaborator(request):
+    if not request.user.has_perm('app_name.pode_ver_pagina'):
+        # Adiciona uma mensagem de alerta
+        messages.error(request, 'Você não tem permissão para acessar esta página.')
+        return redirect('homapage')  # Redireciona para uma página de erro ou inicial
     view_collaborator =collaboratorFilter(request.GET, queryset=collaborator.objects.all())
     return render(request, 'view_collaborator.html', {'collaboratorfilter':view_collaborator })
 
@@ -62,6 +69,7 @@ class DeletarColaborador(DeleteView):
     model = collaborator
     template_name = 'colaborador__confirm_delete.html'
     success_url = reverse_lazy('viewcollaborator')
+
 
 @login_required
 def detalhe_fucionario(request, pk):
@@ -586,3 +594,22 @@ class Deletarprojeto(DeleteView):
     model = arquivos_foto
     template_name = 'arquivofotodemanda__confirm_delete.html'
     success_url = reverse_lazy('projetoativo')
+
+#teste
+
+class DocumentCreateView(CreateView):
+    model = Document
+    form_class = DocumentForm
+    template_name = 'document_form.html'
+    success_url = '/success/'  # Redirecionar para uma URL de sucesso
+
+class DocumentUpdateView(UpdateView):
+    model = Document
+    form_class = DocumentForm
+    template_name = 'document_form.html'
+    success_url = '/success/'  # Redirecionar para uma URL de sucesso
+
+class DocumentListView(ListView):
+    model = Document
+    template_name = 'document_list.html'
+    context_object_name = 'documents'

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document List</title>
+</head>
+<body>
+    <h1>Document List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>File</th>
+                <th>Version</th>
+                <th>Last Updated</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for document in documents %}
+            <tr>
+                <td><a href="{{ document.file.url }}">{{ document.file.name }}</a></td>
+                <td>{{ document.version }}</td>
+                <td>{{ document.updated_at }}</td>
+                <td>{{ document.description }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No documents found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
