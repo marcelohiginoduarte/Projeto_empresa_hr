@@ -41,7 +41,7 @@ class FotosCampoform(forms.ModelForm):
         model = FotosCampo
         fields = ['projeto','poste' ,'Poste_antes', 'Poste_depois', 'cava_antes', 'cava_depois', 'GPS_antes', 'GPS_depois', 'Estrutura_antes', 'Estrutura_depois', 'panoramica', 'Equipamento_antes', 'Equipamento_depois']
     
-FotocampoFormSet = modelformset_factory(FotosCampo, FotosCampoform, extra=1, can_delete=True)
+FotocampoFormSet = modelformset_factory(FotosCampo, fields=('projeto','poste' ,'Poste_antes', 'Poste_depois', 'cava_antes', 'cava_depois', 'GPS_antes', 'GPS_depois', 'Estrutura_antes', 'Estrutura_depois', 'panoramica', 'Equipamento_antes', 'Equipamento_depois'), extra=1)
 
 class SESMTFORM(forms.ModelForm):
     class Meta:

@@ -477,24 +477,29 @@ def logout_view(request):
     return redirect ("homapage")
 
 #FOTOS DE CAMPO
-
 FotocampoFormSet = modelformset_factory(FotosCampo, form=FotosCampoform, extra=1)
 
-def upload_fotos(request):
+def upload_fotos(request): 
     if request.method == 'POST':
         arquivos_foto_form = FotosCampoform(request.POST, request.FILES)
         formset = FotocampoFormSet(request.POST, request.FILES)
         
         if arquivos_foto_form.is_valid() and formset.is_valid():
-            arquivos_foto = arquivos_foto_form.save()
-            formset.instance = arquivos_foto
-            formset.save()
-            return redirect('sucesso')
+            arquivos_foto = arquivos_foto_form.save()  # Salva a instância de 'arquivos_foto'
+            
+            # Associa o formset à instância de arquivos_foto
+            formset.instance = arquivos_foto  # Esta linha deve estar antes do 'formset.is_valid()'
+            
+            formset.save()  # Agora salva todas as fotos associadas a 'arquivos_foto'
+            return redirect('vertodasasfotos')
     else:
         arquivos_foto_form = FotosCampoform()
         formset = FotocampoFormSet()
     
-    return render(request, 'upload_fotos_campo.html', {'arquivos_foto_form': arquivos_foto_form, 'formset': formset})
+    return render(request, 'upload_fotos_campo.html', {
+        'arquivos_foto_form': arquivos_foto_form, 
+        'formset': formset
+    })
 
 #SESMT
 #criar arquivos
@@ -573,6 +578,13 @@ def Salvar_projeto_foto(request):
 def verfotos(request):
     fotos = FotosCampo.objects.all()
     return render(request, 'vertodasfotos.html', {'fotos':fotos})
+
+#Fotos pequenas
+
+def fotos_campo_view(request, projeto_id):
+    fotos = FotosCampo.objects.filter(projeto_id=projeto_id)
+    return render(request, 'fotos_campo.html', {'fotos': fotos})
+
 
 #verprojetoativo
 

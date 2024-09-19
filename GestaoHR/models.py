@@ -303,8 +303,20 @@ class FotosCampo(models.Model):
     Equipamento_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
     Equipamento_depois= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
     
-    def __str__(self):
-        return self.GPS_antes or 'Foto sem arquivo'
+    def save(self, *args, **kwargs):
+        if self.Poste_antes and not self.Poste_antes.name.endswith('_thumbnail.jpg'):
+            # Gerar miniatura
+            image = Image.open(self.Poste_antes)
+            image.thumbnail((200, 200))
+
+            thumb_io = io.BytesIO()
+            image.save(thumb_io, format='JPEG')
+            thumb_file = ContentFile(thumb_io.getvalue(), 'Poste_antes_thumbnail.jpg')
+
+            # Salvar a miniatura no campo correspondente
+            self.Poste_antes_thumbnail.save('Poste_antes_thumbnail.jpg', thumb_file, save=False)
+
+        super().save(*args, **kwargs)
 
 class SESMT (models.Model):
     Brigada_emergerncia = models.FileField(upload_to='media/sesmt/brigada', blank=True, null=True)    

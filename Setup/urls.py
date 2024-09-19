@@ -72,6 +72,7 @@ urlpatterns = [
     path('fotoscampo', views.upload_fotos, name='fotoscampo'),
     path('salvarprojetofoto', views.Salvar_projeto_foto, name='salvarprojetofoto'),
     path('verfotos', views.verfotos, name='vertodasasfotos'),
+    path('fotos/<int:projeto_id>/', views.fotos_campo_view, name='fotos_campo'),
     path('updateprojeto/<int:pk>', views.atualizativo.as_view(), name='updatedoprojeto'),
     path('projetodelete/<int:pk>', views.Deletarprojeto.as_view(), name='deletarprojetofoto'),
 

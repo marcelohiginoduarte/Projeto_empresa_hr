@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block 'titulo' %}Evidencias de Campo{% endblock %}
-
+{% load static %}
 {% block 'Material' %}
 
 
@@ -20,36 +20,57 @@
             </div>
         {% endfor %}
     </div>
-    <button type="button" id="add-photo">Add another photo</button>
-    <button type="submit">Save Album</button>
+    <button type="button" id="add-photo">Incluir mais postes</button>
+    <button type="button" class="remove-form">Retirar postes</button>
+    <button type="submit">Salvar</button>
 </form>
-
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
-        const formsetDiv = document.getElementById('formset');
-        const addPhotoButton = document.getElementById('add-photo');
-        const totalFormsInput = document.querySelector('#id_form-TOTAL_FORMS'); // Ajuste conforme o prefixo do formset
-        let totalForms = parseInt(totalFormsInput.value, 10);
+    const formsetDiv = document.getElementById('formset');
+    const addPhotoButton = document.getElementById('add-photo');
+    const totalFormsInput = document.querySelector('#id_form-TOTAL_FORMS');
+    let totalForms = parseInt(totalFormsInput.value, 10);
 
-        // Ao clicar no botão, clonamos o último formulário e o incrementamos
-        addPhotoButton.addEventListener('click', function() {
-            const formRow = document.querySelectorAll('.form-row');
-            const newForm = formRow[formRow.length - 1].cloneNode(true); // Clona o último formulário
+    addPhotoButton.addEventListener('click', function() {
+        const formRows = document.querySelectorAll('.form-row');
+        const newForm = formRows[formRows.length - 1].cloneNode(true);
 
-            // Atualize os índices dos campos no novo formulário
-            newForm.innerHTML = newForm.innerHTML.replace(/form-(\d+)-/g, `form-${totalForms}-`);
-            
-            // Limpe o valor dos inputs clonados
-            const inputs = newForm.querySelectorAll('input');
-            inputs.forEach(input => input.value = '');
+        // Adiciona o atributo data-new para os formulários clonados
+        newForm.setAttribute('data-new', 'true');
 
-            // Insira o novo formulário no DOM
-            formsetDiv.appendChild(newForm);
+        const regex = new RegExp(`form-(\\d+)-`, 'g');
+        newForm.innerHTML = newForm.innerHTML.replace(regex, `form-${totalForms}-`);
 
-            // Atualize o TOTAL_FORMS
-            totalForms += 1;
-            totalFormsInput.value = totalForms;
+        const inputs = newForm.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            if (input.type !== 'hidden') {
+                input.value = '';
+            }
         });
+
+        // Adiciona um botão de remoção
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.textContent = 'Remover';
+        removeButton.classList.add('remove-form');
+        newForm.appendChild(removeButton);
+
+        formsetDiv.appendChild(newForm);
+
+        totalForms += 1;
+        totalFormsInput.value = totalForms;
     });
+
+    // Lida com o clique no botão de remoção
+    formsetDiv.addEventListener('click', function(event) {
+        if (event.target.classList.contains('remove-form')) {
+            event.target.parentElement.remove();
+            totalForms -= 1;
+            totalFormsInput.value = totalForms;
+        }
+    });
+});
 </script>
+<script src="{% static 'static/JS/formset-handler.js' %}"></script>
+
 {% endblock %}
