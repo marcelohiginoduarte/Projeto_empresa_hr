@@ -199,7 +199,7 @@ def preencher_formulario(sender, instance, **kwargs):
 #pagina de serviços
 
 
-
+@login_required
 def listar_servico_paginas(request):
     todos = Servico.objects.all()
     paginator = Paginator(todos, 2)
@@ -209,11 +209,13 @@ def listar_servico_paginas(request):
 
 #Update em Serviços
 
+
 class ServicoUpdate(UpdateView):
     model = Servico
     template_name = 'servico_update.html'
     fields = ['Numero_Servico', 'PEP', 'Servico', 'Mês_servico', 'Ano_servico', 'data_da_solicitacao', 'Municipio', 'Endereco', 'Status','data_programacao', 'Valor_parcial', 'Valor_final', 'desenho_servico','foto_antes', 'foto_depois' , 'Observacao']
     success_url = reverse_lazy('visualizartodosservios')
+
 
 class ServicoUpdateStatus(UpdateView):
     model = Servico
@@ -504,6 +506,7 @@ def upload_fotos(request):
 
 #SESMT
 #criar arquivos
+@login_required
 def crearsesmt(request):
     erro = None
     texto = None
@@ -523,6 +526,7 @@ def crearsesmt(request):
 
 #Ver os arquivos
 
+@login_required
 def versesmt(request):
     arquivos = SESMT.objects.all()
     return render(request, 'sesmt_ver.html',  {'arquivos':arquivos})
@@ -530,7 +534,7 @@ def versesmt(request):
 
 #novos arquivos sesmt
 
-
+@login_required
 def atualizararquivo(request, arquivo_id):
     arquivo_antigo = get_object_or_404(ArquivoSesmt, id=arquivo_id)
 
@@ -557,6 +561,7 @@ class SesmtUpdate(UpdateView):
 
 #salvar projeto para foto
 
+@login_required
 def Salvar_projeto_foto(request):
     erro = None
     texto = None
@@ -576,6 +581,7 @@ def Salvar_projeto_foto(request):
 
 #verfotos
 
+@login_required
 def verfotos(request):
     fotos = FotosCampo.objects.all()
     return render(request, 'vertodasfotos.html', {'fotos':fotos})
@@ -589,6 +595,7 @@ def fotos_campo_view(request, projeto_id):
 
 #verprojetoativo
 
+@login_required
 def verprojetoativo(request):
     projetos_ativos = FotoFilter(request.GET, queryset=FotosCampo.objects.all())
     filtro = projetos_ativos.qs
