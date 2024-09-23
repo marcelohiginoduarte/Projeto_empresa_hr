@@ -33,6 +33,21 @@ img {
     height: auto;
     display: block;
 }
+.image-container {
+        display: inline-block;
+        position: relative;
+    }
+
+.zoom-img {
+        width: 200px;
+        height: auto;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+
+.zoom-img:hover {
+        transform: scale(1.5); /* Aumenta 1.5x o tamanho */
+    }
 </style>
 
     <h1>Ver fotos</h1>
@@ -45,10 +60,11 @@ img {
             <div class="gallery-item">
                 <h5>Poste: {{ foto.poste }}</h5>
                 <hr>
+                <div class="row" style="display: flex; gap: 20px;">
                 {% if foto.Poste_antes %}
-                    <div>
+                    <div class="image-container">
                         <h4>Poste Antes:</h4>
-                        <img src="{{ foto.Poste_antes.url }}" alt="Poste Antes" style="width: 200px; height: auto;">
+                        <img src="{{ foto.Poste_antes.url }}" alt="Poste Antes" style="width: 200px; height: auto;" class="zoom-img">
                     </div>
                 {% endif %}
                 {% if foto.Poste_depois %}
@@ -57,6 +73,8 @@ img {
                         <img src="{{ foto.Poste_depois.url }}" alt="Poste Depois" style="width: 200px; height: auto;">
                     </div>
                 {% endif %}
+                </div>
+                <div class="row" style="display: flex; gap: 20px;">
                 {% if foto.cava_antes %}
                     <div>
                         <h4>Cava antes:</h4>
@@ -69,6 +87,8 @@ img {
                         <img src="{{ foto.cava_depois.url }}" alt="cava depois" style="width: 200px; height: auto;">
                     </div>
                 {% endif %}
+                </div>
+                <div class="row" style="display: flex; gap: 20px;">
                 {% if foto.GPS_antes %}
                     <div>
                         <h4>GPS antes:</h4>
@@ -81,6 +101,8 @@ img {
                         <img src="{{ foto.GPS_depois.url }}" alt="GPS depois" style="width: 200px; height: auto;">
                     </div>
                 {% endif %}
+                </div>
+                <div class="row" style="display: flex; gap: 20px;">
                 {% if foto.Estrutura_antes %}
                     <div>
                         <h4>Estrutura antes:</h4>
@@ -93,12 +115,16 @@ img {
                         <img src="{{ foto.Estrutura_depois.url }}" alt="Estrutura depois" style="width: 200px; height: auto;">
                     </div>
                 {% endif %}
+                </div>
+                <div class="row" style="display: flex; gap: 20px;">
                 {% if foto.panoramica %}
                     <div>
                         <h4>Estrutura antes:</h4>
                         <img src="{{ foto.panoramica.url }}" alt="panoramica" style="width: 200px; height: auto;">
                     </div>
                 {% endif %}
+                </div>
+                <div class="row" style="display: flex; gap: 20px;">
                 {% if foto.Equipamento_antes %}
                     <div>
                         <h4>Estrutura antes:</h4>
@@ -111,7 +137,7 @@ img {
                         <img src="{{ foto.Equipamento_depois.url }}" alt="Equipamento depois" style="width: 200px; height: auto;">
                     </div>
                 {% endif %}
-                <!-- Adicione outros campos de imagem da mesma forma -->
+                </div>
             </div>
         {% empty %}
             <p>Não há fotos disponíveis.</p>
