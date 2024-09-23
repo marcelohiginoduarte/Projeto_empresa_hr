@@ -8,16 +8,24 @@
     <h1>Ver fotos</h1>
 <body>
 {% block 'Material' %}
-    <h3>Ver fotos</h3>
+    <h3>Galeria de Evidencias</h3>
+    <form method="get">
+        {{FotoFilter.form.as_p}}
+        <button class="btn btn-info" type="submit">Filtrar</button>
+    </form>
     <hr>
-
-    {% for foto in fotos %}
-    <div class="card text-white bg-success mb-3" style="max-width: 10rem;">
-        <div class="card-header"><a href="{% url 'fotos_campo' projeto_id=foto.projeto.id %}">{{foto.projeto}}</a></div>
-        <div class="card-body">
-          <h5 class="card-title">{{foto.poste}}</h5>
+    <div class="row">
+        {% for foto in fotos %}
+        <div class="col-2 mb-3" >
+            <div class="card card-gray mb-2 mr-2" style="max-width: 10rem;">
+                <div class="card-header"><a href="{% url 'fotos_campo' projeto_id=foto.projeto.id %}">{{foto.projeto}}</a></div>
+                <div class="card-body">
+                <h5 class="card-title">Qt Postes {{foto.poste}}</h5>
+                </div>
+            </div>
+            
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 {% endblock %}
 </body>

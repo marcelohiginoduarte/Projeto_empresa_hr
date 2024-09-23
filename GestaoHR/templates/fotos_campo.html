@@ -1,34 +1,50 @@
 {% extends 'base.html' %}
-{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+{% block 'titulo' %}JJ-Fotos campo{% endblock %}
 {% block 'excel' %}<a href="{% url 'exportarservicoexecel' %}">Exportar</a>{% endblock %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
 <style>
-    .gallery {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    .gallery-item {
-        flex: 1 1 200px;
-        box-sizing: border-box;
-    }
-    .gallery img {
-        width: 100%;
-        height: auto;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+.gallery {
+    display: flex;
+    flex-wrap: wrap; /* permite que os itens sejam quebrados em várias linhas, se necessário */
+    gap: 16px; /* espaço entre os itens */
+}
+
+.gallery-item {
+    flex: 1 1 300px; /* permite que os itens cresçam e encolham, mantendo uma largura mínima */
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-photos {
+    display: flex;
+    justify-content: space-between; /* itens com espaço entre eles */
+    gap: 10px; /* espaçamento entre as imagens */
+}
+
+.gallery-photos div {
+    flex: 1; /* cada div ocupará 50% do espaço disponível */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
 </style>
 
     <h1>Ver fotos</h1>
 <body>
 {% block 'Material' %}
-<h1>Galeria de Fotos do Campo</h1>
     <div class="gallery">
         {% for foto in fotos %}
+        <h3>Evidencias de execução do serviço {{foto.projeto}}</h3>
+        <hr>
             <div class="gallery-item">
-                <h3>Poste: {{ foto.poste }}</h3>
+                <h5>Poste: {{ foto.poste }}</h5>
+                <hr>
                 {% if foto.Poste_antes %}
                     <div>
                         <h4>Poste Antes:</h4>

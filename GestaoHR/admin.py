@@ -61,4 +61,9 @@ class arquivofotocampo(admin.ModelAdmin):
     list_display_links = ('projeto',)
 
 admin.site.register(arquivos_foto, arquivofotocampo)
-admin.site.register(FotosCampo)
+
+class fotoadmin(admin.ModelAdmin):
+    list_display = ('projeto',)
+    list_display_links = ('projeto',)
+
+admin.site.register(FotosCampo, fotoadmin)

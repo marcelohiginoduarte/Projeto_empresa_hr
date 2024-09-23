@@ -1,5 +1,5 @@
 import django_filters
-from .models import collaborator, Aquivo, BancoArquivos, Servico, DemandaInterna
+from .models import collaborator, Aquivo, BancoArquivos, Servico, DemandaInterna, arquivos_foto
 
 class collaboratorFilter(django_filters.FilterSet):
     class Meta:
@@ -28,3 +28,8 @@ class ArquivoFilter(django_filters.FilterSet):
     class Meta:
         model = BancoArquivos
         fields = ['EI_OC']
+
+class FotoFilter(django_filters.FilterSet):
+    class Meta:
+        model = arquivos_foto
+        fields = ['projeto']

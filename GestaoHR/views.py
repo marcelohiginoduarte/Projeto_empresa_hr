@@ -6,7 +6,7 @@ from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, Banco
 from django.urls import reverse_lazy
 from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform, DocumentForm
 from datetime import datetime, timedelta
-from .filters import collaboratorFilter, AquivoFilter, ArquivoFilter, ServicoFilter,DemandaFilter
+from .filters import collaboratorFilter, AquivoFilter, ArquivoFilter, ServicoFilter,DemandaFilter, FotoFilter
 from django_filters.views import FilterView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
@@ -171,6 +171,7 @@ class ServicoDelete(DeleteView):
     success_url = reverse_lazy('visualizartodosservios')
 
 #visualizar serviços
+
 @login_required
 def visualiazer_servicos(request):
     visualizar_sd= ServicoFilter(request.GET, queryset=Servico.objects.all())
@@ -589,8 +590,9 @@ def fotos_campo_view(request, projeto_id):
 #verprojetoativo
 
 def verprojetoativo(request):
-    projetos_ativos = arquivos_foto.objects.all()
-    return render (request, 'verprojetosativos.html', {'projetos_ativos':projetos_ativos})
+    projetos_ativos = FotoFilter(request.GET, queryset=FotosCampo.objects.all())
+    filtro = projetos_ativos.qs
+    return render (request, 'verprojetosativos.html', {'FotoFilter':projetos_ativos, 'filtro':filtro})
 
 #update ativos
 
