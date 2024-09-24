@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+
+
+{% block 'Material' %}
+<body>
+    <div class="container">
+        <h1>Movimentação de Estoque: {{ produto.nome }}</h1>
+        
+        <p><strong>Quantidade Atual:</strong> {{ produto.quantidade }}</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Registrar Movimentação</button>
+        </form>
+
+        <a href="{% url 'listarestoque' %}">Voltar para lista de produtos</a>
+    </div>
+</body>
+{% endblock %}

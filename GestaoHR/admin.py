@@ -1,5 +1,5 @@
 from django.contrib import admin
-from GestaoHR.models import collaborator, Aquivo, Servico, BancoArquivos, DemandaInterna, SESMT, ArquivoSesmt, arquivos_foto, FotosCampo
+from GestaoHR.models import collaborator, Aquivo, Servico, BancoArquivos, DemandaInterna, SESMT, ArquivoSesmt, arquivos_foto, FotosCampo, Produto
 
 
 
@@ -67,3 +67,8 @@ class fotoadmin(admin.ModelAdmin):
     list_display_links = ('projeto',)
 
 admin.site.register(FotosCampo, fotoadmin)
+
+class Produtoadmin(admin.ModelAdmin):
+    list_display = ('nome','codigo')
+
+admin.site.register(Produto, Produtoadmin)

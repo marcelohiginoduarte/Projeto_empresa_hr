@@ -282,6 +282,7 @@ class BancoArquivos(models.Model):
     AES = models.FileField(upload_to='media/desenhoservico/Arquivos/', blank=True, null=True)
     ACOS = models.FileField(upload_to='media/desenhoservico/Arquivos/', blank=True, null=True)
 
+############### fOTOS DE CAMPO ########################
 
 class arquivos_foto(models.Model):
     projeto = models.CharField(max_length=25, null=False, blank=False)
@@ -306,6 +307,7 @@ class FotosCampo(models.Model):
     Equipamento_depois= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
     
 
+############### SESMT ########################
 
 class SESMT (models.Model):
     Brigada_emergerncia = models.FileField(upload_to='media/sesmt/brigada', blank=True, null=True)    
@@ -357,18 +359,18 @@ class Document(models.Model):
 ############### ESTOQUE EPI E EPC ########################
 
 
-class Categoria(models.Model):
-    nome = models.CharField(max_length=100)
-    
-    def __str__(self):
-        return self.nome
-
 class Produto(models.Model):
+
+    TIPO_CATEGORIA = [
+        ('EPI','EPI'),
+        ('EPC', 'EPC'),
+    ]
+
     nome = models.CharField(max_length=255)
     descricao = models.TextField(blank=True, null=True)
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     quantidade = models.IntegerField(default=0)
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    categoria = models.CharField(max_length=50  ,choices=TIPO_CATEGORIA, )
     codigo = models.CharField(max_length=100, unique=True)
     data_entrada = models.DateField(auto_now_add=True)
     
@@ -386,6 +388,7 @@ class MovimentacaoEstoque(models.Model):
     quantidade = models.IntegerField()
     data = models.DateTimeField(auto_now_add=True)
     observacao = models.TextField(blank=True, null=True)
+    realizado_para = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return f"{self.tipo} - {self.produto.nome} - {self.quantidade}"

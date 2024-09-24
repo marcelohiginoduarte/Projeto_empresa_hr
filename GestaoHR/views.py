@@ -2,9 +2,9 @@ from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, Document
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, Document, Produto, MovimentacaoEstoque
 from django.urls import reverse_lazy
-from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform, DocumentForm
+from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform, DocumentForm, MovimentacaoForm, CadastrarProduto
 from datetime import datetime, timedelta
 from .filters import collaboratorFilter, AquivoFilter, ArquivoFilter, ServicoFilter,DemandaFilter, FotoFilter
 from django_filters.views import FilterView
@@ -634,3 +634,44 @@ class DocumentListView(ListView):
     model = Document
     template_name = 'document_list.html'
     context_object_name = 'documents'
+
+############### ESTOQUE  ########################
+
+def listar_produtos(request):
+    produtos = Produto.objects.all()
+    return render(request, 'estoque_listarprodutos.html', {'produtos': produtos})
+
+def movimentacao_estoque(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+    if request.method == 'POST':
+        form = MovimentacaoForm(request.POST)
+        if form.is_valid():
+            movimentacao = form.save(commit=False)
+            movimentacao.produto = produto
+            if movimentacao.tipo == 'ENTRADA':
+                produto.quantidade += movimentacao.quantidade
+            elif movimentacao.tipo == 'SAIDA' and produto.quantidade >= movimentacao.quantidade:
+                produto.quantidade -= movimentacao.quantidade
+            produto.save()
+            movimentacao.save()
+            return redirect('listarestoque')
+    else:
+        form = MovimentacaoForm()
+    return render(request, 'estoque_movimentacao_estoque.html', {'produto': produto, 'form': form})
+
+def cadastra_produto(request):
+    erro = None
+    texto = None
+
+    if request.method == 'POST':
+        form = CadastrarProduto(request.POST, request.FILES)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('listarestoque')
+    else:
+        form = CadastrarProduto()
+        erro = request.GET.get('erro')
+        texto = request.GET.get('texto')
+
+    return render(request, 'estoque_cadastrar_produto.html', {'form':form, 'erro':erro, 'texto':texto})

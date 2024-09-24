@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, arquivos_foto, Document
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, arquivos_foto, Document, MovimentacaoEstoque, Produto
 from django.forms import modelformset_factory
 
 class CollaboratorForm(forms.ModelForm):
@@ -63,3 +63,24 @@ class DocumentForm(forms.ModelForm):
     class Meta:
         model = Document
         fields = ['file', 'version', 'description']
+
+
+class MovimentacaoForm(forms.ModelForm):
+    class Meta:
+        model = MovimentacaoEstoque
+        fields = ['tipo', 'quantidade', 'realizado_para']  # Adicionando o campo 'realizado_para'
+        widgets = {
+            'tipo': forms.Select(),
+            'quantidade': forms.NumberInput(attrs={'min': 1}),
+            'realizado_para': forms.TextInput(attrs={'placeholder': 'Nome do Colaborador'}),
+        }
+        labels = {
+            'tipo': 'Tipo de Movimentação',
+            'quantidade': 'Quantidade',
+            'realizado_para': 'Realizado Para',
+        }
+
+class CadastrarProduto(forms.ModelForm):
+    class Meta:
+        model = Produto
+        fields = ['nome', 'descricao', 'preco', 'quantidade', 'categoria', 'codigo']

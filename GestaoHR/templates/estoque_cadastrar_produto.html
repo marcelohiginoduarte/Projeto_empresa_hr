@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Estoque Cadastrar Produto{% endblock %}
+
+{% block 'Material' %}
+
+<H3>Cadastrar Produtos</H3>
+<span>Cadastro dos EPS E EPC</span>
+<hr>
+
+
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }} 
+    <button class="btn btn-info" type="submit" >Salvar</button>
+</form>
+
+
+
+
+{% endblock %}
