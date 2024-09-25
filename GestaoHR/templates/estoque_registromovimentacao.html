@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Registro de Movimentacao{% endblock %}
+
+
+{% block 'Material' %}
+
+<h3>Estoque de EPIS</h3>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Produto</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Quantidade</th>
+        <th scope="col">Data</th>
+        <th scope="col">Observacao</th>
+        <th scope="col">realizado_para</th>
+
+
+      </tr>
+    </thead>
+    <tbody>
+        {% for registro in movimentacao %}
+          <tr>
+            <td>{{registro.produto}}</td>
+            <td>{{registro.tipo}}</td>
+            <td>{{registro.quantidade}}</td>
+            <td>{{registro.data}}</td>
+            <td>{{registro.observacao}}</td>
+            <td>{{registro.realizado_para}}</td>
+        {% endfor %}
+{% endblock %}

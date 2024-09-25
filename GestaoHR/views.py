@@ -675,3 +675,7 @@ def cadastra_produto(request):
         texto = request.GET.get('texto')
 
     return render(request, 'estoque_cadastrar_produto.html', {'form':form, 'erro':erro, 'texto':texto})
+
+def registro_movimentacao(request):
+    movimentacao  = MovimentacaoEstoque.objects.all()
+    return render(request, 'estoque_registromovimentacao.html', {'movimentacao':movimentacao})
