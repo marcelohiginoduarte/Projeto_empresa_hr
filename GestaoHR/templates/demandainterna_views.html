@@ -63,12 +63,12 @@
                   {% endif %}
                 <td>
                   {% if demandas.arquivos %}
-                  <a href="{{demandas.arquivos.url}}">Baixar PDF</a>
+                  <a href="{{demandas.arquivos.url}}">Desenho Baixar</a>
                   {% endif %}
                 </td>
                 <td>
                   {% if demandas.arquivos_complementar %}
-                  <a href="{{demandas.arquivos_complementar.url}}">ACOS Baixar</a>
+                  <a href="{{demandas.arquivos_complementar.url}}">DWG Baixar</a>
                   {% endif %}
                 </td>
                 <td>
@@ -78,7 +78,7 @@
                 </td>
                 <td>
                   {% if demandas.arquivos_complementar2 %}
-                  <a href="{{demandas.arquivos_complementar2.url}}">Baixar PDF</a>
+                  <a href="{{demandas.arquivos_complementar2.url}}">ACOS Baixar</a>
                   {% endif %}
                 </td>
                 <td><a href="{% url 'demandaupdate' pk=demandas.id %}">Editar</a></td>
