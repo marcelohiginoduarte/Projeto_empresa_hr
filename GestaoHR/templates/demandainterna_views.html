@@ -39,8 +39,8 @@
             <th scope="col">Observação</th>
             <th scope="col">Desenho Tecnico</th>
             <th scope="col">DWG</th>
-            <th scope="col">Arquivo complementar</th>
-            <th scope="col">Arquivo 1</th>
+            <th scope="col">AES</th>
+            <th scope="col">ACOS</th>
             <th scope="col">Editar</th>
             <th scope="col">Remover</th>
 
@@ -68,12 +68,12 @@
                 </td>
                 <td>
                   {% if demandas.arquivos_complementar %}
-                  <a href="{{demandas.arquivos_complementar.url}}">Baixar PDF</a>
+                  <a href="{{demandas.arquivos_complementar.url}}">ACOS Baixar</a>
                   {% endif %}
                 </td>
                 <td>
                   {% if demandas.arquivos_complementar1 %}
-                  <a href="{{demandas.arquivos_complementar1.url}}">Baixar PDF</a>
+                  <a href="{{demandas.arquivos_complementar1.url}}">AES Baixar</a>
                   {% endif %}
                 </td>
                 <td>
