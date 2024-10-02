@@ -19,6 +19,21 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.forms import modelformset_factory
 from django.contrib import messages
+from .serializer import FotoSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import inch
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+import io
+from django.conf import settings
+import os
+
 
 @login_required
 def home(request):
@@ -588,9 +603,12 @@ def verfotos(request):
 
 #Fotos pequenas
 
-def fotos_campo_view(request, projeto_id):
-    fotos = FotosCampo.objects.filter(projeto_id=projeto_id)
-    return render(request, 'fotos_campo.html', {'fotos': fotos})
+
+@login_required
+def fotos_campo_view(request, pk):
+    arquivos = get_object_or_404(FotosCampo, pk=pk)
+    contexto={'arquivos':arquivos}
+    return render(request, 'fotos_campo.html', contexto)
 
 
 #verprojetoativo
@@ -679,3 +697,116 @@ def cadastra_produto(request):
 def registro_movimentacao(request):
     movimentacao  = MovimentacaoEstoque.objects.all()
     return render(request, 'estoque_registromovimentacao.html', {'movimentacao':movimentacao})
+
+
+#receberfotodopost
+
+class FotoUploadView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, format=None):
+        fotos = FotosCampo.objects.all()
+        serializer = FotoSerializer(fotos, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        print("Dados recebidos:", request.data)  # Adicione isto para depuração
+        print("Arquivos recebidos:", request.FILES)  # Verifique os arquivos recebidos
+
+        # Verifica se o campo 'Poste_antes' está presente
+        if 'Poste_antes' not in request.FILES:
+            return Response({"error": "Campo 'Poste_antes' não encontrado na requisição."}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = FotoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print("Erros de validação:", serializer.errors)  # Adicione isto para depuração
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#gerar PDF das fotos campo
+
+
+def gerar_pdf(request, pk):
+    buffer = io.BytesIO()
+
+    
+    p = canvas.Canvas(buffer, pagesize=A4)
+    largura, altura = A4
+
+    
+    nome_empresa = "Nome da Empresa XYZ" 
+    titulo_projeto = "Relatório de Execução do Projeto"  
+    numero_pagina = 1  
+
+    
+    def desenhar_legenda(canvas_obj, empresa, projeto, altura_atual, pagina_atual):
+        canvas_obj.setFont("Helvetica-Bold", 14)
+        canvas_obj.drawString(50, altura_atual, f"Empresa: {empresa}")
+        canvas_obj.setFont("Helvetica", 12)
+        canvas_obj.drawString(50, altura_atual - 20, f"Projeto: {projeto}")
+        canvas_obj.drawString(50, altura_atual - 40, "Relatório de Fotos")
+        canvas_obj.drawString(50, altura_atual - 60, f"Página: {pagina_atual}")
+        return altura_atual - 80  
+
+    
+    y_position = desenhar_legenda(p, nome_empresa, titulo_projeto, altura - 50, numero_pagina)
+
+    try:
+        foto = FotosCampo.objects.get(pk=pk)
+
+        p.setFont("Helvetica", 12)
+        p.drawString(50, y_position, f"Projeto: {foto.projeto}")
+        y_position -= 20
+
+        p.setFont("Helvetica-Bold", 12) 
+        p.drawString(50, y_position, f"Poste: {foto.poste}")
+        y_position -= 20  
+
+        campos_imagem = {
+            'Poste_antes': 'Poste Antes',
+            'Poste_depois': 'Poste Depois',
+            'cava_antes': 'Cava Antes',
+            'cava_depois': 'Cava Depois',
+            'GPS_antes': 'GPS Antes',
+            'GPS_depois': 'GPS Depois',
+            'Estrutura_antes': 'Estrutura Antes',
+            'Estrutura_depois': 'Estrutura Depois',
+            'panoramica': 'Panorâmica',
+            'Equipamento_antes': 'Equipamento Antes',
+            'Equipamento_depois': 'Equipamento Depois'
+        }
+
+        for campo, titulo in campos_imagem.items():
+            imagem = getattr(foto, campo) 
+            if imagem:  
+                try:
+                    image_path = imagem.path  
+
+                    
+                    if y_position - 160 < 50:  
+                        p.showPage()  
+                        numero_pagina += 1  
+                        y_position = altura - 50  
+                        y_position = desenhar_legenda(p, nome_empresa, titulo_projeto, y_position, numero_pagina)
+
+                    # Desenha a imagem
+                    p.drawImage(image_path, 50, y_position - 150, width=200, height=150)
+                    
+                    # Desenha o título da imagem
+                    p.setFont("Helvetica-Bold", 12)  
+                    p.drawString(50, y_position - 160, titulo)
+                    
+                    y_position -= 180  
+
+                except Exception as e:
+                    print(f"Erro ao carregar a imagem: {str(e)}")
+
+    except FotosCampo.DoesNotExist:
+        raise Http404("Foto não encontrada.")
+
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
+    return HttpResponse(buffer, content_type='application/pdf')

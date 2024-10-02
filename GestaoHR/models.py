@@ -292,19 +292,19 @@ class arquivos_foto(models.Model):
         return self.projeto
 
 class FotosCampo(models.Model):
-    projeto = models.ForeignKey(arquivos_foto, on_delete=models.CASCADE, related_name='fotos')
+    projeto = models.CharField(max_length=15, null=False, blank=False)
     poste = models.CharField(max_length=4, null=False, blank=False)
-    Poste_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
-    Poste_depois = models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
-    cava_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
-    cava_depois= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
-    GPS_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
-    GPS_depois= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
-    Estrutura_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
-    Estrutura_depois= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
-    panoramica = models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
-    Equipamento_antes= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
-    Equipamento_depois= models.ImageField(upload_to='media/fotos/campos', blank=True, null=True)
+    Poste_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Poste_depois = models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    cava_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    cava_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    GPS_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    GPS_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Estrutura_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Estrutura_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    panoramica = models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Equipamento_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Equipamento_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     
 
 ############### SESMT ########################
