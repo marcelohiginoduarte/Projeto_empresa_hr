@@ -790,10 +790,10 @@ def gerar_pdf(request, pk):
                         y_position = altura - 50  
                         y_position = desenhar_legenda(p, nome_empresa, titulo_projeto, y_position, numero_pagina)
 
-                    # Desenha a imagem
+                    
                     p.drawImage(image_path, 50, y_position - 150, width=200, height=150)
                     
-                    # Desenha o título da imagem
+                    
                     p.setFont("Helvetica-Bold", 12)  
                     p.drawString(50, y_position - 160, titulo)
                     

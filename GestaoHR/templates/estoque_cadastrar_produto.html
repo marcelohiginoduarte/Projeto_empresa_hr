@@ -4,33 +4,12 @@
 
 {% block 'Material' %}
 
-<h3>Estoque de EPIS</h3>
-<table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Nome</th>
-        <th scope="col">Descricao</th>
-        <th scope="col">Preco</th>
-        <th scope="col">Quantidade</th>
-        <th scope="col">Categoria</th>
-        <th scope="col">Codigo</th>
-        <th scope="col">data_entrada</th>
-        <th scope="col">Movimentar</th>
-        <th scope="col">Remover</th>
+<h3>Cadastrar Produto</h3>
+<hr>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }} 
+    <button class="btn btn-info" type="submit" >Salvar</button>
+</form>
 
-      </tr>
-    </thead>
-    <tbody>
-        {% for produto in produtos %}
-          <tr>
-            <td>{{produto.nome}}</td>
-            <td>{{produto.descricao}}</td>
-            <td>{{produto.preco}}</td>
-            <td>{{produto.quantidade}}</td>
-            <td>{{produto.categoria}}</td>
-            <td>{{produto.codigo}}</td>
-            <td>{{ produto.data_entrada}}</td>
-            <td><a href="{% url 'movimentacaoestoque' produto.id %}">Movimentar</a></td>
-            <td><a href="#">Remover</a></td>
-        {% endfor %}
 {% endblock %}
