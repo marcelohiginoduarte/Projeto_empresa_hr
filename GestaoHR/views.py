@@ -30,6 +30,7 @@ from reportlab.lib.units import inch
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
+from django.views.decorators.debug import sensitive_variables
 import io
 from django.conf import settings
 import os
@@ -335,6 +336,7 @@ def demanda_interna_update(request, pk):
     demandas = get_object_or_404(DemandaInterna, pk=pk)
     contexto = {'demandas':demandas}
     return render(request, 'demandainterna_update.html', contexto)
+
 #visualaizar todas
 
 @login_required
@@ -444,7 +446,7 @@ def arquivo_filtro(request):
 
 #login
 
-
+@sensitive_variables('password')
 def logar(request):
     if request.user.is_authenticated:
         return redirect("")
@@ -724,7 +726,7 @@ class FotoUploadView(APIView):
         print("Erros de validação:", serializer.errors)  # Adicione isto para depuração
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-#gerar PDF das fotos campo
+#gerar PDF das fotos campo  
 
 
 def gerar_pdf(request, pk):
@@ -735,7 +737,7 @@ def gerar_pdf(request, pk):
     largura, altura = A4
 
     
-    nome_empresa = "Nome da Empresa XYZ" 
+    nome_empresa = "JJ Serviços Eletricos" 
     titulo_projeto = "Relatório de Execução do Projeto"  
     numero_pagina = 1  
 
