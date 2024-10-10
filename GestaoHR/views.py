@@ -192,7 +192,7 @@ class ServicoDelete(DeleteView):
 def visualiazer_servicos(request):
     visualizar_sd= ServicoFilter(request.GET, queryset=Servico.objects.all())
     paginator = Paginator(visualizar_sd.qs, 20)
-    page_number = request.GET.get('page',1)
+    page_number = request.GET.get('page', 1)
     page_obj=paginator.get_page(page_number)
     return render(request, 'servico_view.html', {'ServicoFilter':visualizar_sd, 'page_obj':page_obj})
 
@@ -449,7 +449,7 @@ def arquivo_filtro(request):
 @sensitive_variables('password')
 def logar(request):
     if request.user.is_authenticated:
-        return redirect("")
+        return redirect("homapage")
     if request.method != "POST":
         return render(request, "login_teste.html")
     username = request.POST.get("username")
@@ -459,7 +459,9 @@ def logar(request):
         login(request, user)
         return redirect("homapage")
     else:
-        return HttpResponse("invalid credentials", status=401)
+        return render(request, "login_teste.html", {
+            "error_message": "Login ou senha inválidos"
+        })
     return render(request, 'base.html')
 
 #exportar execel colaborador
