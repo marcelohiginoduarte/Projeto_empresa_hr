@@ -273,6 +273,8 @@ class ServicoView(DetailView):
 
 #contar serviço
 
+@login_required
+@permission_required('GestaoHR.acesso_servicos', raise_exception=True)
 def intem_lista(request):
     contar_andamento = Servico.objects.filter(Status='Andamento').count()
     contar_programacao = Servico.objects.filter(Status='Programação').count()
