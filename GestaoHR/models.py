@@ -49,7 +49,7 @@ class collaborator(models.Model):
 
     class Meta:
         permissions = [
-            ('Acesso_RH', 'Acesso_HR'),
+            ('acesso_rh', 'Acesso ao departamento de RH'),
         ]
 
 class Aquivo(models.Model):

@@ -40,7 +40,9 @@ import os
 def home(request):
     return render(request, 'home.html',)
 
+
 @login_required
+#@permission_required('app_name.acesso_rh', raise_exception=True)
 def create_Collaborator(request):
     
     erro = None
@@ -343,7 +345,7 @@ def demanda_interna_update(request, pk):
 def demandainternavisualizartd(request):
     demanda = DemandaFilter(request.GET, queryset= DemandaInterna.objects.all().order_by('status'))
     paginator = Paginator(demanda.qs, 20)
-    page_number = request.GET.get('page',1)
+    page_number = request.GET.get('page', 1)
     page_obj=paginator.get_page(page_number)
     return render(request, 'demandainterna_views.html', {'DemandaFilter':demanda, 'page_obj':page_obj})
 
@@ -659,10 +661,12 @@ class DocumentListView(ListView):
 
 ############### ESTOQUE  ########################
 
+@login_required
 def listar_produtos(request):
     produtos = Produto.objects.all()
     return render(request, 'estoque_listarprodutos.html', {'produtos': produtos})
 
+@login_required
 def movimentacao_estoque(request, produto_id):
     produto = get_object_or_404(Produto, id=produto_id)
     if request.method == 'POST':
@@ -681,6 +685,7 @@ def movimentacao_estoque(request, produto_id):
         form = MovimentacaoForm()
     return render(request, 'estoque_movimentacao_estoque.html', {'produto': produto, 'form': form})
 
+@login_required
 def cadastra_produto(request):
     erro = None
     texto = None
@@ -698,6 +703,7 @@ def cadastra_produto(request):
 
     return render(request, 'estoque_cadastrar_produto.html', {'form':form, 'erro':erro, 'texto':texto})
 
+@login_required
 def registro_movimentacao(request):
     movimentacao  = MovimentacaoEstoque.objects.all()
     return render(request, 'estoque_registromovimentacao.html', {'movimentacao':movimentacao})
