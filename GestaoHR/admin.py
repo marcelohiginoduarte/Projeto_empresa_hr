@@ -1,6 +1,6 @@
 from django.contrib import admin
 from GestaoHR.models import collaborator, Aquivo, Servico, BancoArquivos, DemandaInterna, SESMT, ArquivoSesmt, arquivos_foto, FotosCampo, Produto
-
+from django.core.exceptions import PermissionDenied
 
 
 class ListandoCollaborator(admin.ModelAdmin):

@@ -179,6 +179,11 @@ class Servico(models.Model):
     @staticmethod
     def somar_valor_status_parcial(status):
         return Servico.objects.filter(Status=status).aggregate(Sum('Valor_parcial',default=0)).get('Valor_parcial__sum')
+    
+    class Meta:
+        permissions = [
+            ('acesso_servicos', 'Acesso ao gestao de servicos'),
+        ]
         
         
 
@@ -282,6 +287,11 @@ class BancoArquivos(models.Model):
     AES = models.FileField(upload_to='media/desenhoservico/Arquivos/', blank=True, null=True)
     ACOS = models.FileField(upload_to='media/desenhoservico/Arquivos/', blank=True, null=True)
 
+    class Meta:
+        permissions = [
+            ('acesso_demandaInterna', 'Acesso ao gestao de demandainterna'),
+        ]
+
 ############### fOTOS DE CAMPO ########################
 
 class arquivos_foto(models.Model):
@@ -306,6 +316,10 @@ class FotosCampo(models.Model):
     Equipamento_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     Equipamento_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     
+    class Meta:
+        permissions = [
+            ('acesso_fotoscampo', 'Acesso as fotos de campo'),
+        ]
 
 ############### SESMT ########################
 

@@ -42,7 +42,7 @@ def home(request):
 
 
 @login_required
-#@permission_required('app_name.acesso_rh', raise_exception=True)
+@permission_required('GestaoHR.acesso_rh' , raise_exception=True)
 def create_Collaborator(request):
     
     erro = None
@@ -73,6 +73,7 @@ def create_Collaborator(request):
 
 
 @login_required
+@permission_required('GestaoHR.acesso_rh' , raise_exception=True)
 def to_view_collaborator(request):
     if not request.user.has_perm('app_name.pode_ver_pagina'):
         # Adiciona uma mensagem de alerta
@@ -90,6 +91,7 @@ class DeletarColaborador(DeleteView):
 
 
 @login_required
+@permission_required('GestaoHR.acesso_rh' , raise_exception=True)
 def detalhe_fucionario(request, pk):
     colaboradores = get_object_or_404(collaborator, pk=pk)
     data_ferias = colaboradores.calcular_data_ferias()
@@ -103,7 +105,6 @@ class FazerUpdate(UpdateView):
     success_url = reverse_lazy('viewcollaborator')
 
 
-
 class VisualizarCollaborator(ListView):
     model = collaborator
     template_name = 'visuzalizar.html'
@@ -112,11 +113,13 @@ class VisualizarCollaborator(ListView):
     success_url = reverse_lazy('viewcollaborator')
 
 @login_required
+@permission_required('GestaoHR.acesso_rh' , raise_exception=True)
 def to_view_collaborator1(request):
     view_collaborator = collaboratorFilter(request.GET, queryset= collaborator.objects.all())
     return render(request, 'visuzalizar.html', {'collaboratorFilter':view_collaborator})
 
 @login_required
+@permission_required('GestaoHR.acesso_rh' , raise_exception=True)
 def listar_nomes(FilterView):
     model=collaborator
     context_object_name = 'Nome'
@@ -124,6 +127,7 @@ def listar_nomes(FilterView):
     template_name = 'vizualizar.html'
 
 @login_required
+@permission_required('GestaoHR.acesso_rh' , raise_exception=True)
 def uploadfotos(request):
     if request.method == 'POST':
         form = testform(request.POST, request.FILES)
@@ -136,6 +140,7 @@ def uploadfotos(request):
     
 
 @login_required
+@permission_required('GestaoHR.acesso_rh' , raise_exception=True)
 def visualizar_folhas_ponto(request):
     visualizar_folhas =AquivoFilter(request.GET, queryset= Aquivo.objects.all())
     return render(request, 'visualizar_folhas.html', {'AquivoFilter':visualizar_folhas})
@@ -148,6 +153,7 @@ class listar_nomestc(FilterView):
     context_object_name = 'aquivo'
 
 @login_required
+@permission_required('GestaoHR.acesso_rh' , raise_exception=True)
 def visualizar_com_id(request, pk):
     objeto = get_object_or_404(collaborator, pk=pk)
     contexto = {'objeto':objeto}
@@ -164,6 +170,7 @@ class DetalheView(DetailView):
 
 #cadastrar novos serviços
 @login_required
+@permission_required('GestaoHR.acesso_servicos', raise_exception=True)
 def create_servico(request):
     erro = None
     texto = None
@@ -191,6 +198,7 @@ class ServicoDelete(DeleteView):
 #visualizar serviços
 
 @login_required
+@permission_required('GestaoHR.acesso_servicos', raise_exception=True)
 def visualiazer_servicos(request):
     visualizar_sd= ServicoFilter(request.GET, queryset=Servico.objects.all())
     paginator = Paginator(visualizar_sd.qs, 20)
@@ -218,6 +226,7 @@ def preencher_formulario(sender, instance, **kwargs):
 
 
 @login_required
+@permission_required('GestaoHR.acesso_servicos', raise_exception=True)
 def listar_servico_paginas(request):
     todos = Servico.objects.all()
     paginator = Paginator(todos, 2)
@@ -242,6 +251,7 @@ class ServicoUpdateStatus(UpdateView):
     success_url = reverse_lazy('visualizartodosservios')
 
 @login_required
+@permission_required('GestaoHR.acesso_servicos', raise_exception=True)
 def servico_update_servico(request, pk):
     servicos = get_object_or_404(Servico, pk=pk)
     contexto = {'servicos':servicos}
@@ -249,6 +259,7 @@ def servico_update_servico(request, pk):
 
 #visualiazar serviço unitario
 @login_required
+@permission_required('GestaoHR.acesso_servicos', raise_exception=True)
 def servico_visualizar_com_id(request, pk):
     servico = get_object_or_404(Servico, pk=pk)
     contexto = {'servico':servico}
@@ -305,6 +316,7 @@ def somar_valor_status(request):
 #Demanda Internas
 
 @login_required
+@permission_required('GestaoHR.demandaInterna', raise_exception=True)
 def createdemanda(request):
     erro = None
     texto = None
@@ -334,6 +346,7 @@ class DemandaUpdate(UpdateView):
 
 
 @login_required
+@permission_required('GestaoHR.demandaInterna', raise_exception=True)
 def demanda_interna_update(request, pk):
     demandas = get_object_or_404(DemandaInterna, pk=pk)
     contexto = {'demandas':demandas}
@@ -342,6 +355,7 @@ def demanda_interna_update(request, pk):
 #visualaizar todas
 
 @login_required
+@permission_required('GestaoHR.demandaInterna', raise_exception=True)
 def demandainternavisualizartd(request):
     demanda = DemandaFilter(request.GET, queryset= DemandaInterna.objects.all().order_by('status'))
     paginator = Paginator(demanda.qs, 20)
@@ -583,6 +597,7 @@ class SesmtUpdate(UpdateView):
 #salvar projeto para foto
 
 @login_required
+@permission_required('GestaoHR.acesso_fotoscampo', raise_exception=True)
 def Salvar_projeto_foto(request):
     erro = None
     texto = None
@@ -603,6 +618,7 @@ def Salvar_projeto_foto(request):
 #verfotos
 
 @login_required
+@permission_required('GestaoHR.acesso_fotoscampo', raise_exception=True)
 def verfotos(request):
     fotos = FotosCampo.objects.all()
     return render(request, 'vertodasfotos.html', {'fotos':fotos})
@@ -611,6 +627,7 @@ def verfotos(request):
 
 
 @login_required
+@permission_required('GestaoHR.acesso_fotoscampo', raise_exception=True)
 def fotos_campo_view(request, pk):
     arquivos = get_object_or_404(FotosCampo, pk=pk)
     contexto={'arquivos':arquivos}
@@ -620,6 +637,7 @@ def fotos_campo_view(request, pk):
 #verprojetoativo
 
 @login_required
+@permission_required('GestaoHR.acesso_fotoscampo', raise_exception=True)
 def verprojetoativo(request):
     projetos_ativos = FotoFilter(request.GET, queryset=FotosCampo.objects.all())
     filtro = projetos_ativos.qs
@@ -667,6 +685,7 @@ def listar_produtos(request):
     return render(request, 'estoque_listarprodutos.html', {'produtos': produtos})
 
 @login_required
+@permission_required('GestaoHR.acesso_gestaoestoque', raise_exception=True)
 def movimentacao_estoque(request, produto_id):
     produto = get_object_or_404(Produto, id=produto_id)
     if request.method == 'POST':
@@ -686,6 +705,7 @@ def movimentacao_estoque(request, produto_id):
     return render(request, 'estoque_movimentacao_estoque.html', {'produto': produto, 'form': form})
 
 @login_required
+@permission_required('GestaoHR.acesso_gestaoestoque', raise_exception=True)
 def cadastra_produto(request):
     erro = None
     texto = None
@@ -704,6 +724,7 @@ def cadastra_produto(request):
     return render(request, 'estoque_cadastrar_produto.html', {'form':form, 'erro':erro, 'texto':texto})
 
 @login_required
+@permission_required('GestaoHR.acesso_gestaoestoque', raise_exception=True)
 def registro_movimentacao(request):
     movimentacao  = MovimentacaoEstoque.objects.all()
     return render(request, 'estoque_registromovimentacao.html', {'movimentacao':movimentacao})
