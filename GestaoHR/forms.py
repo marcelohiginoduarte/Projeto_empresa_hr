@@ -39,7 +39,7 @@ class Projeto_fotoforms(forms.ModelForm):
 class FotosCampoform(forms.ModelForm):
     class Meta:
         model = FotosCampo
-        fields = ['projeto','poste' ,'Poste_antes', 'Poste_depois', 'cava_antes', 'cava_depois', 'GPS_antes', 'GPS_depois', 'Estrutura_antes', 'Estrutura_depois', 'panoramica', 'Equipamento_antes', 'Equipamento_depois', 'Numero_serie_antes', 'Numero_serie_depois', 'Numero_placa_antes', 'Numero_placa_depois', 'Poda_antes', 'Poda_depois', 'concreto_calcada_antes', 'concreto_calcada_depois']
+        fields = ['projeto','poste' ,'Poste_antes', 'Poste_depois', 'cava_antes', 'cava_depois', 'GPS_antes', 'GPS_depois', 'Estrutura_antes', 'Estrutura_depois', 'panoramica', 'Equipamento_antes', 'Equipamento_depois', 'Numero_serie_antes', 'Numero_serie_depois', 'Numero_sap_antes', 'Numero_sap_depois','Numero_placa_antes', 'Numero_placa_depois', 'Poda_antes', 'Poda_depois', 'concreto_calcada_antes', 'concreto_calcada_depois']
     
 FotocampoFormSet = modelformset_factory(FotosCampo, fields=('projeto','poste' ,'Poste_antes', 'Poste_depois', 'cava_antes', 'cava_depois', 'GPS_antes', 'GPS_depois', 'Estrutura_antes', 'Estrutura_depois', 'panoramica', 'Equipamento_antes', 'Equipamento_depois'), extra=1)
 

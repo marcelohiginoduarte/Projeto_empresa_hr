@@ -317,6 +317,8 @@ class FotosCampo(models.Model):
     Equipamento_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     Numero_serie_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     Numero_serie_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Numero_sap_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Numero_sap_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     Numero_placa_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     Numero_placa_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     Poda_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
