@@ -315,7 +315,15 @@ class FotosCampo(models.Model):
     panoramica = models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     Equipamento_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     Equipamento_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
-    
+    Numero_serie_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Numero_serie_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Numero_placa_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Numero_placa_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Poda_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Poda_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    concreto_calcada_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    concreto_calcada_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+
     class Meta:
         permissions = [
             ('acesso_fotoscampo', 'Acesso as fotos de campo'),
@@ -406,3 +414,8 @@ class MovimentacaoEstoque(models.Model):
 
     def __str__(self):
         return f"{self.tipo} - {self.produto.nome} - {self.quantidade}"
+    
+    class Meta:
+        permissions = [
+            ('acesso_gestaoestoque', 'Acesso as gestão de estoque'),
+        ]
