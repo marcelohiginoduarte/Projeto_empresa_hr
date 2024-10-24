@@ -18,8 +18,8 @@ Acompanhamento de serviços realizados:<br>
 Sistema de Demandas Internas:<br>
     -Acompanhamento dos serviços dos colaboradores.<br>
     -Criação de sistema de status e outros tipos de arquivos.<br>
-    -CRUD.
-    -Exportação dos arquivos para Excel.
+    -CRUD.<br>
+    -Exportação dos arquivos para Excel.<br>
     -Em desenvolvimento: integração com ChatGPT para tirar dúvidas sobre o caderno de serviços.<br>
     -Em desenvolvimento: utilização de IA para automatizar atividades repetitivas, evitando erros.<br>
 
@@ -30,7 +30,7 @@ Gestão de Arquivos:<br>
 
 
 Área de Fotos (Evidências):<br>
-    -Armazenamento de fotos e PDFs.
+    -Armazenamento de fotos e PDFs.<br>
     -Geração de relatórios das fotos em PDF com apenas um clique.<br>
     -Inclusão de uma API para recebimento de fotos via smartphone, utilizando Flet.<br>
     -O sistema Flet pega as fotos da galeria e as envia para o sistema Django, arquivando os arquivos de forma organizada.
