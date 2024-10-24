@@ -850,7 +850,8 @@ def gerar_pdf(request, pk):
 def permission_denied_view(request, exception):
     return render(request, '403.html', status=403)
 
-
+@login_required
+@permission_required('GestaoHR.acesso_demandaInterna2', raise_exception=True)
 def consultar_servico(request):
     if request.method == 'POST':
         nome_servico = request.POST.get('nome_servico')
