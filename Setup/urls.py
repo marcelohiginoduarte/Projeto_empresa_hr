@@ -45,7 +45,7 @@ urlpatterns = [
     path('demandainterna/status/<int:pk>', views.DemandainternaStatus.as_view(), name='demandaatualizarstatus'),
     path('demanainterna/execel', views.demandainterna_exportar_execel, name='demanainternaexportarexcel'),
     path('demandainterna/dash', views.dashdemandainterna, name='dashdemandainterna'),
-
+    path('demandainterna/consultacadernoservico', views.consultar_servico, name='consultarcadernodeservico'),
 
     path('arquivo/criar', views.CreateArquivos, name='criararquivos'),
     path('arquivo/visualizar', views.visualizar_arquivos, name='visualizararquivos'),
@@ -78,7 +78,7 @@ urlpatterns = [
     path('estoqueregistromovimentacao', views.registro_movimentacao, name='registro_movimentacao'),
 
     path('enviodefotoapi', views.FotoUploadView.as_view(), name='upload-fotodecanoi'),
-
+    
     path('gerar_pdf/<int:pk>/', views.gerar_pdf, name='relatorio_pdf'),
 ]
 handler403 = permission_denied_view

@@ -35,7 +35,8 @@ from django.views.decorators.debug import sensitive_variables
 import io
 from django.conf import settings
 import os
-
+import pandas as pd
+from .utils import carregar_planilha_caderno_servico, buscar_informacoes
 
 @login_required
 def home(request):
@@ -848,3 +849,23 @@ def gerar_pdf(request, pk):
 
 def permission_denied_view(request, exception):
     return render(request, '403.html', status=403)
+
+
+def consultar_servico(request):
+    if request.method == 'POST':
+        nome_servico = request.POST.get('nome_servico')
+
+        
+        df = carregar_planilha_caderno_servico('caminho/para/sua/planilha.xlsx')
+
+        
+        informacoes = buscar_informacoes(df, nome_servico)
+
+        if informacoes:
+            return render(request, 'medicao_resultado.html', {'informacoes': informacoes})
+        else:
+            return render(request, 'medicao_resultado.html', {'error': 'Serviço não encontrado'})
+    
+    return render(request, 'medicao_consulta.html')
+
+

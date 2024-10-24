@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Deletar demandas{% endblock %}
+
+
+{% block 'Material' %}
+
+    {% if informacoes %}
+        <h2>Informações sobre o serviço</h2>
+        <ul>
+            {% for info in informacoes %}
+                <li>{{ info }}</li>
+            {% endfor %}
+        </ul>
+    {% elif error %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+{% endblock %}
+
+
