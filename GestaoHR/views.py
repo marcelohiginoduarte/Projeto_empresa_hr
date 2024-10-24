@@ -319,7 +319,7 @@ def somar_valor_status(request):
 #Demanda Internas
 
 @login_required
-@permission_required('GestaoHR.demandaInterna2', raise_exception=True)
+@permission_required('GestaoHR.acesso_demandaInterna2', raise_exception=True)
 def createdemanda(request):
     erro = None
     texto = None
@@ -349,7 +349,7 @@ class DemandaUpdate(UpdateView):
 
 
 @login_required
-@permission_required('GestaoHR.demandaInterna2', raise_exception=True)
+@permission_required('GestaoHR.acesso_demandaInterna2', raise_exception=True)
 def demanda_interna_update(request, pk):
     demandas = get_object_or_404(DemandaInterna, pk=pk)
     contexto = {'demandas':demandas}
@@ -358,7 +358,7 @@ def demanda_interna_update(request, pk):
 #visualaizar todas
 
 @login_required
-@permission_required('GestaoHR.demandaInterna2', raise_exception=True)
+@permission_required('GestaoHR.acesso_demandaInterna2', raise_exception=True)
 def demandainternavisualizartd(request):
     demanda = DemandaFilter(request.GET, queryset= DemandaInterna.objects.all().order_by('status'))
     paginator = Paginator(demanda.qs, 20)
