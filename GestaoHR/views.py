@@ -11,6 +11,7 @@ from django_filters.views import FilterView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
+from django.core.exceptions import PermissionDenied
 import pandas as pd
 from django.http import HttpResponse
 from django.db.models import Sum
@@ -843,3 +844,7 @@ def gerar_pdf(request, pk):
 
     buffer.seek(0)
     return HttpResponse(buffer, content_type='application/pdf')
+
+
+def permission_denied_view(request, exception):
+    return render(request, '403.html', status=403)

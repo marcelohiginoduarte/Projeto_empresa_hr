@@ -68,7 +68,7 @@ class DocumentForm(forms.ModelForm):
 class MovimentacaoForm(forms.ModelForm):
     class Meta:
         model = MovimentacaoEstoque
-        fields = ['tipo', 'quantidade', 'realizado_para']  # Adicionando o campo 'realizado_para'
+        fields = ['tipo', 'quantidade', 'realizado_para']  
         widgets = {
             'tipo': forms.Select(),
             'quantidade': forms.NumberInput(attrs={'min': 1}),
