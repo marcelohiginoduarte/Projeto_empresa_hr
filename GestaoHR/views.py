@@ -319,7 +319,7 @@ def somar_valor_status(request):
 #Demanda Internas
 
 @login_required
-@permission_required('GestaoHR.demandaInterna', raise_exception=True)
+@permission_required('GestaoHR.demandaInterna2', raise_exception=True)
 def createdemanda(request):
     erro = None
     texto = None
