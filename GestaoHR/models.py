@@ -218,6 +218,12 @@ class DemandaInterna(models.Model):
     arquivos_complementar1 = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)
     arquivos_complementar2 = models.FileField(upload_to='media/desenhoservico/Interna/', blank=True, null=True)
 
+    class Meta:
+        permissions = [
+            ('acesso_demandaInterna2', 'Acesso ao gestao de demandainterna2'),
+        ]
+
+
 class BancoArquivos(models.Model):
 
     tipo_servico=[
