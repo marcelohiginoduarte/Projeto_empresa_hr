@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}ACOS{% endblock %}
+
+{% block 'Material' %}
+
+
+<form method="post">
+    {% csrf_token %}
+    <label for="numero_projeto">Número do Projeto:</label>
+    <input type="text" id="numero_projeto" name="numero_projeto" required>
+
+    <label for="data_conclusao">Data de Conclusão:</label>
+    <input type="date" id="data_conclusao" name="data_conclusao" required>
+
+    <label for="endereco">Endereço:</label>
+    <input type="text" id="endereco" name="endereco" required>
+
+    <label for="data_assinatura">Data de Assinatura:</label>
+    <input type="date" id="data_assinatura" name="data_assinatura" required>
+
+    <button type="submit">Gerar PDF</button>
+</form>
+
+
+{% endblock %}

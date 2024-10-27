@@ -368,19 +368,13 @@ class ArquivoSesmt(models.Model):
         return self.Nome
 
 class Document(models.Model):
-    # Campo para armazenar o arquivo
     file = models.FileField(upload_to='documents/')
-    # Campo para armazenar a versão do arquivo
     version = models.PositiveIntegerField(default=1)
-    # Campo para armazenar a data da última atualização
     updated_at = models.DateTimeField(auto_now=True)
-    # Campo opcional para armazenar uma descrição do arquivo
     description = models.TextField(blank=True)
 
     class Meta:
-        # Define uma ordem padrão (opcional)
         ordering = ['-updated_at']
-        # Adiciona uma restrição para garantir que não existam arquivos duplicados com a mesma versão
         unique_together = ('file', 'version')
 
     def __str__(self):
@@ -427,3 +421,11 @@ class MovimentacaoEstoque(models.Model):
         permissions = [
             ('acesso_gestaoestoque', 'Acesso as gestão de estoque'),
         ]
+
+class CadernoServico(models.Model):
+    arquivo = models.FileField(upload_to='media/cadernos/servicos/', blank=True, null=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+
+class AES_ACOS(models.Model):
+    aes = models.FileField(upload_to='media/aes', blank=True, null=True)
+    acos = models.FileField(upload_to='media/acos', blank=True, null=True)

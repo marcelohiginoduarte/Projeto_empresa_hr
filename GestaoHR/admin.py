@@ -1,5 +1,5 @@
 from django.contrib import admin
-from GestaoHR.models import collaborator, Aquivo, Servico, BancoArquivos, DemandaInterna, SESMT, ArquivoSesmt, arquivos_foto, FotosCampo, Produto
+from GestaoHR.models import collaborator, Aquivo, Servico, BancoArquivos, DemandaInterna, SESMT, ArquivoSesmt, arquivos_foto, FotosCampo, Produto, AES_ACOS
 from django.core.exceptions import PermissionDenied
 
 
@@ -72,3 +72,9 @@ class Produtoadmin(admin.ModelAdmin):
     list_display = ('nome','codigo')
 
 admin.site.register(Produto, Produtoadmin)
+
+class AESACOSadmin(admin.ModelAdmin):
+    list_display = ('aes', 'acos')
+    list_display_links = ('aes', 'acos')
+
+admin.site.register(AES_ACOS, AESACOSadmin)

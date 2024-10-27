@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
 import pandas as pd
+from django.http import FileResponse
 from django.http import HttpResponse
 from django.db.models import Sum
 from asgiref.sync import sync_to_async
@@ -37,6 +38,9 @@ from django.conf import settings
 import os
 import pandas as pd
 from .utils import carregar_planilha_caderno_servico, buscar_informacoes
+from docx import Document
+from reportlab.lib.pagesizes import letter
+from docx2pdf import convert
 
 @login_required
 def home(request):
@@ -870,3 +874,40 @@ def consultar_servico(request):
     return render(request, 'medicao_consulta.html')
 
 
+def preencher_acos(request):
+    if request.method == "POST":
+        numero_projeto = request.POST.get("numero_projeto")
+        data_conclusao = request.POST.get("data_conclusao")
+        endereco = request.POST.get("endereco")
+        data_assinatura = request.POST.get("data_assinatura")
+
+        
+        doc = Document("media/media/acos/ACOS.docx")
+        for paragraph in doc.paragraphs:
+            if "[NUMERO_PROJETO]" in paragraph.text:
+                paragraph.text = paragraph.text.replace("[NUMERO_PROJETO]", numero_projeto)
+            if "[DATA_CONCLUSAO]" in paragraph.text:
+                paragraph.text = paragraph.text.replace("[DATA_CONCLUSAO]", data_conclusao)
+            if "[ENDERECO]" in paragraph.text:
+                paragraph.text = paragraph.text.replace("[ENDERECO]", endereco)
+            if "[DATA_ASSINATURA]" in paragraph.text:
+                paragraph.text = paragraph.text.replace("[DATA_ASSINATURA]", data_assinatura)
+
+        
+        doc_path = "media/media/modificado/ACOS.docx"
+        doc.save(doc_path)
+
+        
+        pdf_path = "media/media/modificado/ACOS.pdf"
+        convert(doc_path, pdf_path)
+
+        
+        pdf_buffer = io.BytesIO()
+        with open(pdf_path, "rb") as pdf_file:
+            pdf_buffer.write(pdf_file.read())
+        pdf_buffer.seek(0)  
+
+        
+        return FileResponse(pdf_buffer, as_attachment=True, filename="projeto_concluido.pdf")
+
+    return render(request, "acos.html")

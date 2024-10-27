@@ -46,6 +46,7 @@ urlpatterns = [
     path('demanainterna/execel', views.demandainterna_exportar_execel, name='demanainternaexportarexcel'),
     path('demandainterna/dash', views.dashdemandainterna, name='dashdemandainterna'),
     path('demandainterna/consultacadernoservico', views.consultar_servico, name='consultarcadernodeservico'),
+    path('demandainterna/acos', views.preencher_acos, name='Fazeracos'),
 
     path('arquivo/criar', views.CreateArquivos, name='criararquivos'),
     path('arquivo/visualizar', views.visualizar_arquivos, name='visualizararquivos'),
