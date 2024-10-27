@@ -41,6 +41,7 @@ from .utils import carregar_planilha_caderno_servico, buscar_informacoes
 from docx import Document
 from reportlab.lib.pagesizes import letter
 from docx2pdf import convert
+import pdfkit
 
 @login_required
 def home(request):
@@ -881,8 +882,10 @@ def preencher_acos(request):
         endereco = request.POST.get("endereco")
         data_assinatura = request.POST.get("data_assinatura")
 
-        
+        # Carrega o documento Word
         doc = Document("media/media/acos/ACOS.docx")
+
+        # Substitui os marcadores pelos valores do formulário
         for paragraph in doc.paragraphs:
             if "[NUMERO_PROJETO]" in paragraph.text:
                 paragraph.text = paragraph.text.replace("[NUMERO_PROJETO]", numero_projeto)
@@ -893,21 +896,21 @@ def preencher_acos(request):
             if "[DATA_ASSINATURA]" in paragraph.text:
                 paragraph.text = paragraph.text.replace("[DATA_ASSINATURA]", data_assinatura)
 
-        
+        # Salva o documento modificado
         doc_path = "media/media/modificado/ACOS.docx"
         doc.save(doc_path)
 
-        
+        # Converte o documento para PDF usando pdfkit
         pdf_path = "media/media/modificado/ACOS.pdf"
-        convert(doc_path, pdf_path)
+        pdfkit.from_file(doc_path, pdf_path)
 
-        
+        # Prepara o arquivo PDF para download
         pdf_buffer = io.BytesIO()
         with open(pdf_path, "rb") as pdf_file:
             pdf_buffer.write(pdf_file.read())
         pdf_buffer.seek(0)  
 
-        
+        # Retorna o PDF como resposta
         return FileResponse(pdf_buffer, as_attachment=True, filename="projeto_concluido.pdf")
 
     return render(request, "acos.html")
