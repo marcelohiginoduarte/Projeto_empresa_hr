@@ -43,6 +43,7 @@ from reportlab.lib.pagesizes import letter
 from docx2pdf import convert
 import pdfkit
 
+
 @login_required
 def home(request):
     return render(request, 'home.html',)
@@ -881,20 +882,8 @@ def preencher_acos(request):
         data_conclusao = request.POST.get("data_conclusao")
         endereco = request.POST.get("endereco")
         data_assinatura = request.POST.get("data_assinatura")
-
-        # Verificar se todos os campos estão preenchidos
-        if not all([numero_projeto, data_conclusao, endereco, data_assinatura]):
-            return HttpResponse("Por favor, preencha todos os campos necessários.", status=400)
-
-        # Caminho do documento
-        doc_path = os.path.join("media", "media", "acos", "ACOS.docx")
-        if not os.path.exists(doc_path):
-            return HttpResponse("Arquivo DOCX não encontrado.", status=404)
-
-        # Carrega o documento Word
-        doc = Document(doc_path)
-
-        # Substitui os marcadores pelos valores do formulário
+        
+        doc = Document("media/media/acos/ACOS.docx")
         for paragraph in doc.paragraphs:
             if "[NUMERO_PROJETO]" in paragraph.text:
                 paragraph.text = paragraph.text.replace("[NUMERO_PROJETO]", numero_projeto)
@@ -904,28 +893,17 @@ def preencher_acos(request):
                 paragraph.text = paragraph.text.replace("[ENDERECO]", endereco)
             if "[DATA_ASSINATURA]" in paragraph.text:
                 paragraph.text = paragraph.text.replace("[DATA_ASSINATURA]", data_assinatura)
-
-        # Caminho do documento modificado
-        modified_doc_path = os.path.join("media", "media", "modificado", "ACOS.docx")
-        doc.save(modified_doc_path)
-
-        # Converte o documento para PDF
-        pdf_path = os.path.join("media", "media", "modificado", "ACOS.pdf")
-        try:
-            pdfkit.from_file(modified_doc_path, pdf_path)
-        except Exception as e:
-            return HttpResponse(f"Erro ao converter para PDF: {str(e)}", status=500)
-
-        # Prepara o arquivo PDF para download
+        
+        doc_path = "media/media/modificado/ACOS.docx"
+        doc.save(doc_path)
+        
+        pdf_path = "media/media/modificado/ACOS.pdf"
+        convert(doc_path, pdf_path)
+        
         pdf_buffer = io.BytesIO()
-        try:
-            with open(pdf_path, "rb") as pdf_file:
-                pdf_buffer.write(pdf_file.read())
-            pdf_buffer.seek(0)
-        except FileNotFoundError:
-            return HttpResponse("Arquivo PDF não encontrado.", status=404)
-
+        with open(pdf_path, "rb") as pdf_file:
+            pdf_buffer.write(pdf_file.read())
+        pdf_buffer.seek(0)  
+        
         return FileResponse(pdf_buffer, as_attachment=True, filename="projeto_concluido.pdf")
-
     return render(request, "acos.html")
-
