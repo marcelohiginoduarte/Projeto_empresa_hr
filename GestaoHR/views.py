@@ -41,7 +41,6 @@ from .utils import carregar_planilha_caderno_servico, buscar_informacoes
 from docx import Document
 from reportlab.lib.pagesizes import letter
 from docx2pdf import convert
-import pdfkit
 import pypandoc
 
 @login_required
