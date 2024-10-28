@@ -6,6 +6,7 @@ from django.conf.urls import handler403
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from GestaoHR.views import permission_denied_view
+from dataclasses import _T_co
 
 
 

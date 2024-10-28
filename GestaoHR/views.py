@@ -928,3 +928,4 @@ def preencher_acos(request):
         return FileResponse(pdf_buffer, as_attachment=True, filename="projeto_concluido.pdf")
 
     return render(request, "acos.html")
+
