@@ -3,21 +3,33 @@
 
 {% block 'Material' %}
 
+<h3>Gerar ACOS</h3>
+<br>
+<span>Ola, esse aqui é um sistema para gerar o acos do serviço realizado, <br>
+    após o acos ser gerado ele vai ser baixado, automaticamente no seu compudador, <br>
+    e voce precisa assinar ele no site do GOV.
+</span>
 
 <form method="post">
     {% csrf_token %}
+    <br>
+    <br>
     <label for="numero_projeto">Número do Projeto:</label>
     <input type="text" id="numero_projeto" name="numero_projeto" required>
 
+    <br><br>
     <label for="data_conclusao">Data de Conclusão:</label>
     <input type="date" id="data_conclusao" name="data_conclusao" required>
 
+    <br><br>
     <label for="endereco">Endereço:</label>
     <input type="text" id="endereco" name="endereco" required>
 
+    <br><br>
     <label for="data_assinatura">Data de Assinatura:</label>
     <input type="date" id="data_assinatura" name="data_assinatura" required>
 
+    <br><br>
     <button type="submit">Gerar PDF</button>
 </form>
 

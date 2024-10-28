@@ -882,8 +882,17 @@ def preencher_acos(request):
         endereco = request.POST.get("endereco")
         data_assinatura = request.POST.get("data_assinatura")
 
+        # Verificar se todos os campos estão preenchidos
+        if not all([numero_projeto, data_conclusao, endereco, data_assinatura]):
+            return HttpResponse("Por favor, preencha todos os campos necessários.", status=400)
+
+        # Caminho do documento
+        doc_path = os.path.join("media", "media", "acos", "ACOS.docx")
+        if not os.path.exists(doc_path):
+            return HttpResponse("Arquivo DOCX não encontrado.", status=404)
+
         # Carrega o documento Word
-        doc = Document("media/media/acos/ACOS.docx")
+        doc = Document(doc_path)
 
         # Substitui os marcadores pelos valores do formulário
         for paragraph in doc.paragraphs:
@@ -896,21 +905,26 @@ def preencher_acos(request):
             if "[DATA_ASSINATURA]" in paragraph.text:
                 paragraph.text = paragraph.text.replace("[DATA_ASSINATURA]", data_assinatura)
 
-        # Salva o documento modificado
-        doc_path = "media/media/modificado/ACOS.docx"
-        doc.save(doc_path)
+        # Caminho do documento modificado
+        modified_doc_path = os.path.join("media", "media", "modificado", "ACOS.docx")
+        doc.save(modified_doc_path)
 
-        # Converte o documento para PDF usando pdfkit
-        pdf_path = "media/media/modificado/ACOS.pdf"
-        pdfkit.from_file(doc_path, pdf_path)
+        # Converte o documento para PDF
+        pdf_path = os.path.join("media", "media", "modificado", "ACOS.pdf")
+        try:
+            pdfkit.from_file(modified_doc_path, pdf_path)
+        except Exception as e:
+            return HttpResponse(f"Erro ao converter para PDF: {str(e)}", status=500)
 
         # Prepara o arquivo PDF para download
         pdf_buffer = io.BytesIO()
-        with open(pdf_path, "rb") as pdf_file:
-            pdf_buffer.write(pdf_file.read())
-        pdf_buffer.seek(0)  
+        try:
+            with open(pdf_path, "rb") as pdf_file:
+                pdf_buffer.write(pdf_file.read())
+            pdf_buffer.seek(0)
+        except FileNotFoundError:
+            return HttpResponse("Arquivo PDF não encontrado.", status=404)
 
-        # Retorna o PDF como resposta
         return FileResponse(pdf_buffer, as_attachment=True, filename="projeto_concluido.pdf")
 
     return render(request, "acos.html")
