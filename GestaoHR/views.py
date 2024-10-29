@@ -41,6 +41,7 @@ from .utils import carregar_planilha_caderno_servico, buscar_informacoes
 from docx import Document
 from reportlab.lib.pagesizes import letter
 from docx2pdf import convert
+import pdfkit
 import pypandoc
 
 @login_required
@@ -882,37 +883,29 @@ def preencher_acos(request):
         endereco = request.POST.get("endereco")
         data_assinatura = request.POST.get("data_assinatura")
         
-        # Caminhos dos arquivos
-        doc_path = os.path.join("media", "media", "acos", "ACOS.docx")
-        doc_modified_path = os.path.join("media", "media", "modificado", "ACOS.docx")
-        pdf_path = os.path.join("media", "media", "modificado", "ACOS.pdf")
+        doc = Document("media/media/acos/ACOS.docx")
         
-        try:
-            # Verifica se o arquivo DOCX existe
-            if not os.path.exists(doc_path):
-                return render(request, "acos.html", {"error": "Arquivo original não encontrado."})
-            
-            doc = Document(doc_path)
-            for paragraph in doc.paragraphs:
+        for paragraph in doc.paragraphs:
+            if "[NUMERO_PROJETO]" in paragraph.text:
                 paragraph.text = paragraph.text.replace("[NUMERO_PROJETO]", numero_projeto)
+            if "[DATA_CONCLUSAO]" in paragraph.text:
                 paragraph.text = paragraph.text.replace("[DATA_CONCLUSAO]", data_conclusao)
+            if "[ENDERECO]" in paragraph.text:
                 paragraph.text = paragraph.text.replace("[ENDERECO]", endereco)
+            if "[DATA_ASSINATURA]" in paragraph.text:
                 paragraph.text = paragraph.text.replace("[DATA_ASSINATURA]", data_assinatura)
-            
-            doc.save(doc_modified_path)
-            
-            # Convertendo DOCX para PDF usando pypandoc
-            pypandoc.convert_file(doc_modified_path, 'pdf', outputfile=pdf_path)
-            
-            # Lendo o PDF em um buffer
-            pdf_buffer = io.BytesIO()
-            with open(pdf_path, "rb") as pdf_file:
-                pdf_buffer.write(pdf_file.read())
-            pdf_buffer.seek(0)  
-            
-            return FileResponse(pdf_buffer, as_attachment=True, filename="projeto_concluido.pdf")
         
-        except Exception as e:
-            return render(request, "acos.html", {"error": str(e)})
+        doc_path = "media/media/modificado/ACOS.docx"
+        doc.save(doc_path)
+        
+        pdf_path = "media/media/modificado/ACOS.pdf"
+        pypandoc.convert_file(doc_path, 'pdf', outputfile=pdf_path)
+
+        pdf_buffer = io.BytesIO()
+        with open(pdf_path, "rb") as pdf_file:
+            pdf_buffer.write(pdf_file.read())
+        pdf_buffer.seek(0)  
+        
+        return FileResponse(pdf_buffer, as_attachment=True, filename="projeto_concluido.pdf")
     
     return render(request, "acos.html")

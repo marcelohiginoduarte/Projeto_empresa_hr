@@ -170,7 +170,7 @@ class Servico(models.Model):
     desenho_servico = models.FileField(upload_to='media/desenhoservico/arquivos/', blank=True, null=True)
     foto_antes = models.FileField(upload_to='media/desenhoservico/arquivos/', blank=True, null=True)
     foto_depois = models.FileField(upload_to='media/desenhoservico/arquivos/', blank=True, null=True)
-    Observacao = models.TextField(max_length=200, blank=True, null=True)
+    Observacao = models.TextField(max_length=800, blank=True, null=True)
 
     @staticmethod
     def somar_valor_status(status):
