@@ -12,19 +12,19 @@
 <h3>Ver fotos</h>
 <br>
 
-    <div class="row">
-        {% for foto in fotos %}
-            <div class="col-md-2 col-6 mb-3">
-                <div class="card text-center border-secondary" style="max-width: 10rem;">
-                    <div class="card-header bg-secondary text-white">
-                        <a href="{% url 'fotos_campo' projeto_nome=foto.projeto %}" class="text-white">{{ foto.projeto }}</a>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Qt Postes: {{ foto.poste }}</h5>
-                    </div>
+<div class="row">
+    {% for foto in fotos %}
+        <div class="col-md-2 col-6 mb-3">
+            <div class="card text-center border-secondary" style="max-width: 10rem;">
+                <div class="card-header bg-secondary text-white">
+                    <a href="{% url 'fotos_campo' projeto_nome=foto.projeto %}" class="projeto-link">{{ foto.projeto }}</a>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Qt Postes: {{ foto.poste }}</h5>
                 </div>
             </div>
-        {% endfor %}
-    </div>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}
 
