@@ -18,7 +18,7 @@
         {% for foto in fotos %}
         <div class="col-2 mb-3" >
             <div class="card card-gray mb-2 mr-2" style="max-width: 10rem;">
-                <div class="card-header"><a href="{% url 'fotos_campo' pk=foto.id %}">{{foto.projeto}}</a></div>
+                <div class="card-header"><a href="{% url 'fotos_campo' projeto_nome=foto.projeto %}">{{foto.projeto}}</a></div>
                 <div class="card-body">
                 <h5 class="card-title">Qt Postes {{foto.poste}}</h5>
                 </div>

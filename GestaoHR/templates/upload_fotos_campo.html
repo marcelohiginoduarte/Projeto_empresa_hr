@@ -11,66 +11,23 @@
 <br>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+    
+    <!-- Exibe apenas o formulário principal -->
     {{ arquivos_foto_form.as_p }}
+    
+    <!-- Renderiza o formset para o upload das fotos -->
+    {{ formset.management_form }}
     <div id="formset">
-        {{ formset.management_form }}
         {% for form in formset %}
             <div class="form-row">
                 {{ form.as_p }}
             </div>
         {% endfor %}
     </div>
-    <button type="button" id="add-photo">Incluir mais postes</button>
-    <button type="button" class="remove-form">Retirar postes</button>
-    <button type="submit">Salvar</button>
+    
+    <button type="submit">Salvar Fotos</button>
 </form>
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-    const formsetDiv = document.getElementById('formset');
-    const addPhotoButton = document.getElementById('add-photo');
-    const totalFormsInput = document.querySelector('#id_form-TOTAL_FORMS');
-    let totalForms = parseInt(totalFormsInput.value, 10);
 
-    addPhotoButton.addEventListener('click', function() {
-        const formRows = document.querySelectorAll('.form-row');
-        const newForm = formRows[formRows.length - 1].cloneNode(true);
 
-        // Adiciona o atributo data-new para os formulários clonados
-        newForm.setAttribute('data-new', 'true');
-
-        const regex = new RegExp(`form-(\\d+)-`, 'g');
-        newForm.innerHTML = newForm.innerHTML.replace(regex, `form-${totalForms}-`);
-
-        const inputs = newForm.querySelectorAll('input, textarea, select');
-        inputs.forEach(input => {
-            if (input.type !== 'hidden') {
-                input.value = '';
-            }
-        });
-
-        // Adiciona um botão de remoção
-        const removeButton = document.createElement('button');
-        removeButton.type = 'button';
-        removeButton.textContent = 'Remover';
-        removeButton.classList.add('remove-form');
-        newForm.appendChild(removeButton);
-
-        formsetDiv.appendChild(newForm);
-
-        totalForms += 1;
-        totalFormsInput.value = totalForms;
-    });
-
-    // Lida com o clique no botão de remoção
-    formsetDiv.addEventListener('click', function(event) {
-        if (event.target.classList.contains('remove-form')) {
-            event.target.parentElement.remove();
-            totalForms -= 1;
-            totalFormsInput.value = totalForms;
-        }
-    });
-});
-</script>
-<script src="{% static 'static/JS/formset-handler.js' %}"></script>
 
 {% endblock %}

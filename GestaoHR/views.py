@@ -529,25 +529,19 @@ FotocampoFormSet = modelformset_factory(FotosCampo, form=FotosCampoform, extra=1
 
 def upload_fotos(request): 
     if request.method == 'POST':
-        arquivos_foto_form = FotosCampoform(request.POST, request.FILES)
-        formset = FotocampoFormSet(request.POST, request.FILES)
+        formset = FotocampoFormSet(request.POST, request.FILES, queryset=FotosCampo.objects.none())
         
-        if arquivos_foto_form.is_valid() and formset.is_valid():
-            arquivos_foto = arquivos_foto_form.save()  # Salva a instância de 'arquivos_foto'
-            
-            # Associa o formset à instância de arquivos_foto
-            formset.instance = arquivos_foto  # Esta linha deve estar antes do 'formset.is_valid()'
-            
-            formset.save()  # Agora salva todas as fotos associadas a 'arquivos_foto'
+        if formset.is_valid():
+            formset.save()
             return redirect('vertodasasfotos')
     else:
-        arquivos_foto_form = FotosCampoform()
-        formset = FotocampoFormSet()
+        formset = FotocampoFormSet(queryset=FotosCampo.objects.none())
     
     return render(request, 'upload_fotos_campo.html', {
-        'arquivos_foto_form': arquivos_foto_form, 
         'formset': formset
     })
+
+
 
 #SESMT
 #criar arquivos
@@ -632,6 +626,16 @@ def Salvar_projeto_foto(request):
 def verfotos(request):
     fotos = FotosCampo.objects.all()
     return render(request, 'vertodasfotos.html', {'fotos':fotos})
+
+
+def verfotos_grupadas(request, projeto_nome):
+    arquivos = FotosCampo.objects.filter(projeto=projeto_nome)
+    print(f"Arquivos encontrados: {arquivos.count()} para o projeto {projeto_nome}")
+
+    return render(request, 'fotos_campo.html', {
+        'projeto_nome': projeto_nome,
+        'arquivos': arquivos,  # Renomeado para "arquivos" para ser consistente com o HTML
+    })
 
 #Fotos pequenas
 
@@ -908,4 +912,4 @@ def preencher_acos(request):
         
         return FileResponse(pdf_buffer, as_attachment=True, filename="projeto_concluido.pdf")
     
-    return render(request, "acos.html")
+    return render(request, "acos.html") 

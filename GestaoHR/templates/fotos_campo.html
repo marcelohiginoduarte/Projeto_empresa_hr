@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block 'titulo' %}JJ-Fotos campo{% endblock %}
-{% block 'excel' %}<a href="{% url 'relatorio_pdf' pk=arquivos.id %}">Gerar PDF</a>{% endblock %}
+{% block 'excel' %}<a href="#">Gerar PDF</a>{% endblock %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
 <style>
@@ -54,150 +54,153 @@ img {
 <body>
 {% block 'Material' %}
     <div class="gallery">
-
-        <h3>Evidências de execução do serviço {{ arquivos.projeto }}</h3>
-        <hr>
-        <div class="gallery-item">
-            <h5>Poste: {{ arquivos.poste }}</h5>
+        {% for arquivo in arquivos %} 
+            <h3>Evidências de execução do serviço {{ arquivo.poste }}</h3>
+            <hr>
+            <div class="gallery-item">
+            <h5>Poste: {{ arquivo.poste }}</h5>
             <hr>
             <div class="row" style="display: flex; gap: 20px;">
-            {% if arquivos.Poste_antes %}
-                <div class="image-container">
-                    <h4>Poste Antes:</h4>
-                    <img src="{{ arquivos.Poste_antes.url }}" alt="Poste Antes" style="width: 200px; height: auto;" class="zoom-img">
+                {% if arquivo.Poste_antes %}
+                    <div class="image-container">
+                        <h4>Poste Antes:</h4>
+                        <img src="{{ arquivo.Poste_antes.url }}" alt="Poste Antes" style="width: 200px; height: auto;" class="zoom-img">
+                    </div>
+                {% endif %}
+                {% if arquivo.Poste_depois %}
+                    <div>
+                        <h4>Poste Depois:</h4>
+                        <img src="{{ arquivo.Poste_depois.url }}" alt="Poste Depois" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
                 </div>
-            {% endif %}
-            {% if arquivos.Poste_depois %}
-                <div>
-                    <h4>Poste Depois:</h4>
-                    <img src="{{ arquivos.Poste_depois.url }}" alt="Poste Depois" style="width: 200px; height: auto;">
+                <div class="row" style="display: flex; gap: 20px;">
+            
+                {% if arquivo.cava_antes %}
+                    <div>
+                        <h4>Cava antes:</h4>
+                        <img src="{{ arquivo.cava_antes.url }}" alt="Cava antes" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.cava_depois %}
+                    <div>
+                        <h4>Cava depois:</h4>
+                        <img src="{{ arquivo.cava_depois.url }}" alt="Cava depois" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
                 </div>
-            {% endif %}
+                <div class="row" style="display: flex; gap: 20px;">
+                {% if arquivo.GPS_antes %}
+                    <div>
+                        <h4>GPS antes:</h4>
+                        <img src="{{ arquivo.GPS_antes.url }}" alt="GPS antes" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivos.GPS_depois %}
+                    <div>
+                        <h4>GPS depois:</h4>
+                        <img src="{{ arquivo.GPS_depois.url }}" alt="GPS depois" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                </div>
+                <div class="row" style="display: flex; gap: 20px;">
+                {% if arquivo.Estrutura_antes %}
+                    <div>
+                        <h4>Estrutura antes:</h4>
+                        <img src="{{ arquivo.Estrutura_antes.url }}" alt="Estrutura antes" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.Estrutura_depois %}
+                    <div>
+                        <h4>Estrutura depois:</h4>
+                        <img src="{{ arquivo.Estrutura_depois.url }}" alt="Estrutura depois" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                </div>
+                <div class="row" style="display: flex; gap: 20px;">
+                {% if arquivo.panoramica %}
+                    <div>
+                        <h4>Panorâmica:</h4>
+                        <img src="{{ arquivo.panoramica.url }}" alt="Panorâmica" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                </div>
+                <div class="row" style="display: flex; gap: 20px;">
+                {% if arquivo.Equipamento_antes %}
+                    <div>
+                        <h4>Equipamento antes:</h4>
+                        <img src="{{ arquivo.Equipamento_antes.url }}" alt="Equipamento antes" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.Equipamento_depois %}
+                    <div>
+                        <h4>Equipamento depois:</h4>
+                        <img src="{{ arquivo.Equipamento_depois.url }}" alt="Equipamento depois" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.Numero_serie_antes %}
+                    <div>
+                        <h4>Numero serie antes</h4>
+                        <img src="{{ arquivo.Numero_serie_antes.url }}" alt="Numero serie antes" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.Numero_serie_depois %}
+                    <div>
+                        <h4>Numero serie depois</h4>
+                        <img src="{{ arquivo.Numero_serie_depois.url }}" alt="Numero serie depois" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.Numero_sap_antes %}
+                    <div>
+                        <h4>Numero sap antes</h4>
+                        <img src="{{ arquivo.Numero_sap_antes.url }}" alt="Numero sap antes" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.Numero_sap_depois %}
+                    <div>
+                        <h4>Numero sap depois</h4>
+                        <img src="{{ arquivo.Numero_sap_depois.url }}" alt="Numero sap depois" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.Numero_placa_antes %}
+                    <div>
+                        <h4>Numero placa antes</h4>
+                        <img src="{{ arquivo.Numero_placa_antes.url }}" alt="Numero da placa antes" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.Numero_placa_depois %}
+                    <div>
+                        <h4>Numero placa depois</h4>
+                        <img src="{{ arquivo.Numero_placa_depois.url }}" alt="Numero da placa depois" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.Poda_antes %}
+                    <div>
+                        <h4>Poda antes</h4>
+                        <img src="{{ arquivo.Poda_antes.url }}" alt="Poda antes" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.Poda_depois %}
+                    <div>
+                        <h4>Poda antes</h4>
+                        <img src="{{ arquivo.Poda_depois.url }}" alt="Poda depois" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.concreto_calcada_antes %}
+                    <div>
+                        <h4>concreto calcada antes</h4>
+                        <img src="{{ arquivo.concreto_calcada_antes.url }}" alt="concreto calcada antes" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.concreto_calcada_depois %}
+                    <div>
+                        <h4>concreto calcada depois</h4>
+                        <img src="{{ arquivo.concreto_calcada_depois.url }}" alt="concreto calcada depois" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+            
             </div>
-            <div class="row" style="display: flex; gap: 20px;">
-            {% if arquivos.cava_antes %}
-                <div>
-                    <h4>Cava antes:</h4>
-                    <img src="{{ arquivos.cava_antes.url }}" alt="Cava antes" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.cava_depois %}
-                <div>
-                    <h4>Cava depois:</h4>
-                    <img src="{{ arquivos.cava_depois.url }}" alt="Cava depois" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            </div>
-            <div class="row" style="display: flex; gap: 20px;">
-            {% if arquivos.GPS_antes %}
-                <div>
-                    <h4>GPS antes:</h4>
-                    <img src="{{ arquivos.GPS_antes.url }}" alt="GPS antes" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.GPS_depois %}
-                <div>
-                    <h4>GPS depois:</h4>
-                    <img src="{{ arquivos.GPS_depois.url }}" alt="GPS depois" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            </div>
-            <div class="row" style="display: flex; gap: 20px;">
-            {% if arquivos.Estrutura_antes %}
-                <div>
-                    <h4>Estrutura antes:</h4>
-                    <img src="{{ arquivos.Estrutura_antes.url }}" alt="Estrutura antes" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.Estrutura_depois %}
-                <div>
-                    <h4>Estrutura depois:</h4>
-                    <img src="{{ arquivos.Estrutura_depois.url }}" alt="Estrutura depois" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            </div>
-            <div class="row" style="display: flex; gap: 20px;">
-            {% if arquivos.panoramica %}
-                <div>
-                    <h4>Panorâmica:</h4>
-                    <img src="{{ arquivos.panoramica.url }}" alt="Panorâmica" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            </div>
-            <div class="row" style="display: flex; gap: 20px;">
-            {% if arquivos.Equipamento_antes %}
-                <div>
-                    <h4>Equipamento antes:</h4>
-                    <img src="{{ arquivos.Equipamento_antes.url }}" alt="Equipamento antes" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.Equipamento_depois %}
-                <div>
-                    <h4>Equipamento depois:</h4>
-                    <img src="{{ arquivos.Equipamento_depois.url }}" alt="Equipamento depois" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.Numero_serie_antes %}
-                <div>
-                    <h4>Numero serie antes</h4>
-                    <img src="{{ arquivos.Numero_serie_antes.url }}" alt="Numero serie antes" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.Numero_serie_depois %}
-                <div>
-                    <h4>Numero serie depois</h4>
-                    <img src="{{ arquivos.Numero_serie_depois.url }}" alt="Numero serie depois" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.Numero_sap_antes %}
-                <div>
-                    <h4>Numero sap antes</h4>
-                    <img src="{{ arquivos.Numero_sap_antes.url }}" alt="Numero sap antes" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.Numero_sap_depois %}
-                <div>
-                    <h4>Numero sap depois</h4>
-                    <img src="{{ arquivos.Numero_sap_depois.url }}" alt="Numero sap depois" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.Numero_placa_antes %}
-                <div>
-                    <h4>Numero placa antes</h4>
-                    <img src="{{ arquivos.Numero_placa_antes.url }}" alt="Numero da placa antes" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.Numero_placa_depois %}
-                <div>
-                    <h4>Numero placa depois</h4>
-                    <img src="{{ arquivos.Numero_placa_depois.url }}" alt="Numero da placa depois" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.Poda_antes %}
-                <div>
-                    <h4>Poda antes</h4>
-                    <img src="{{ arquivos.Poda_antes.url }}" alt="Poda antes" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.Poda_depois %}
-                <div>
-                    <h4>Poda antes</h4>
-                    <img src="{{ arquivos.Poda_depois.url }}" alt="Poda depois" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.concreto_calcada_antes %}
-                <div>
-                    <h4>concreto calcada antes</h4>
-                    <img src="{{ arquivos.concreto_calcada_antes.url }}" alt="concreto calcada antes" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            {% if arquivos.concreto_calcada_depois %}
-                <div>
-                    <h4>concreto calcada depois</h4>
-                    <img src="{{ arquivos.concreto_calcada_depois.url }}" alt="concreto calcada depois" style="width: 200px; height: auto;">
-                </div>
-            {% endif %}
-            </div>
+        {% endfor %}
         </div>
 {% endblock %}
 </body>
