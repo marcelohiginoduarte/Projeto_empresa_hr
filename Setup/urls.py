@@ -80,7 +80,7 @@ urlpatterns = [
 
     path('enviodefotoapi', views.FotoUploadView.as_view(), name='upload-fotodecanoi'),
     
-    path('gerar_pdf/<int:pk>/', views.gerar_pdf, name='relatorio_pdf'),
+    path('gerar_pdf/<str:projeto_nome>/', views.gerar_pdf, name='relatorio_pdf'),
 ]
 handler403 = permission_denied_view
 if settings.DEBUG:

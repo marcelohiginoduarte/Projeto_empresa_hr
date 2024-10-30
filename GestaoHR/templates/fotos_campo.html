@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block 'titulo' %}JJ-Fotos campo{% endblock %}
-{% block 'excel' %}<a href="#">Gerar PDF</a>{% endblock %}
+{% block 'excel' %}
+    <a href="{% url 'relatorio_pdf' projeto_nome=projeto_nome %}">Gerar PDF</a>
+{% endblock %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
 <style>

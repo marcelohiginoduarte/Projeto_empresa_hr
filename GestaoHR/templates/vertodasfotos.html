@@ -1,30 +1,30 @@
 {% extends 'base.html' %}
-{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+{% block 'titulo' %}JJ Fotos{% endblock %}
 {% block 'excel' %}<a href="{% url 'exportarservicoexecel' %}">Exportar</a>{% endblock %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
 
 
-<h1>Ver fotos</h1>
-<body>
+
+
 {% block 'Material' %}
-    <h3>Galeria de Evidencias</h3>
-    <form method="get">
-        {{FotoFilter.form.as_p}}
-        <button class="btn btn-info" type="submit">Filtrar</button>
-    </form>
-    <hr>
+
+<h3>Ver fotos</h>
+<br>
+
     <div class="row">
         {% for foto in fotos %}
-        <div class="col-2 mb-3" >
-            <div class="card card-gray mb-2 mr-2" style="max-width: 10rem;">
-                <div class="card-header"><a href="{% url 'fotos_campo' projeto_nome=foto.projeto %}">{{foto.projeto}}</a></div>
-                <div class="card-body">
-                <h5 class="card-title">Qt Postes {{foto.poste}}</h5>
+            <div class="col-md-2 col-6 mb-3">
+                <div class="card text-center border-secondary" style="max-width: 10rem;">
+                    <div class="card-header bg-secondary text-white">
+                        <a href="{% url 'fotos_campo' projeto_nome=foto.projeto %}" class="text-white">{{ foto.projeto }}</a>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Qt Postes: {{ foto.poste }}</h5>
+                    </div>
                 </div>
             </div>
-        </div>
         {% endfor %}
     </div>
 {% endblock %}
-</body>
+

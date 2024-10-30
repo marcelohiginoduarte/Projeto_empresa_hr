@@ -625,7 +625,18 @@ def Salvar_projeto_foto(request):
 @permission_required('GestaoHR.acesso_fotoscampo', raise_exception=True)
 def verfotos(request):
     fotos = FotosCampo.objects.all()
-    return render(request, 'vertodasfotos.html', {'fotos':fotos})
+    projetos_exibidos = set()  # Usar um conjunto para evitar duplicatas
+    fotos_unicas = []
+
+    for foto in fotos:
+        if foto.projeto not in projetos_exibidos:
+            fotos_unicas.append(foto)
+            projetos_exibidos.add(foto.projeto)
+
+    context = {
+        'fotos': fotos_unicas,
+    }
+    return render(request, 'vertodasfotos.html', context)
 
 
 def verfotos_grupadas(request, projeto_nome):
@@ -772,19 +783,15 @@ class FotoUploadView(APIView):
 #gerar PDF das fotos campo  
 
 
-def gerar_pdf(request, pk):
+def gerar_pdf(request, projeto_nome):
     buffer = io.BytesIO()
-
-    
     p = canvas.Canvas(buffer, pagesize=A4)
     largura, altura = A4
 
-    
-    nome_empresa = "JJ Serviços Eletricos" 
-    titulo_projeto = "Relatório de Execução do Projeto"  
+    nome_empresa = "JJ Serviços Eletricos"
+    titulo_projeto = "Relatório de Execução do Projeto"
     numero_pagina = 1  
 
-    
     def desenhar_legenda(canvas_obj, empresa, projeto, altura_atual, pagina_atual):
         canvas_obj.setFont("Helvetica-Bold", 14)
         canvas_obj.drawString(50, altura_atual, f"Empresa: {empresa}")
@@ -794,68 +801,67 @@ def gerar_pdf(request, pk):
         canvas_obj.drawString(50, altura_atual - 60, f"Página: {pagina_atual}")
         return altura_atual - 80  
 
-    
     y_position = desenhar_legenda(p, nome_empresa, titulo_projeto, altura - 50, numero_pagina)
 
+    # Buscando as fotos do projeto
+    fotos = FotosCampo.objects.filter(projeto=projeto_nome)
+
+    if not fotos.exists():
+        raise Http404("Nenhuma foto encontrada para o projeto.")
+
     try:
-        foto = FotosCampo.objects.get(pk=pk)
+        for foto in fotos:
+            p.setFont("Helvetica", 12)
+            p.drawString(50, y_position, f"Projeto: {foto.projeto}")
+            y_position -= 20
 
-        p.setFont("Helvetica", 12)
-        p.drawString(50, y_position, f"Projeto: {foto.projeto}")
-        y_position -= 20
+            p.setFont("Helvetica-Bold", 12)
+            p.drawString(50, y_position, f"Poste: {foto.poste}")
+            y_position -= 20  
 
-        p.setFont("Helvetica-Bold", 12) 
-        p.drawString(50, y_position, f"Poste: {foto.poste}")
-        y_position -= 20  
+            campos_imagem = {
+                'Poste_antes': 'Poste Antes',
+                'Poste_depois': 'Poste Depois',
+                'cava_antes': 'Cava Antes',
+                'cava_depois': 'Cava Depois',
+                'GPS_antes': 'GPS Antes',
+                'GPS_depois': 'GPS Depois',
+                'Estrutura_antes': 'Estrutura Antes',
+                'Estrutura_depois': 'Estrutura Depois',
+                'panoramica': 'Panorâmica',
+                'Equipamento_antes': 'Equipamento Antes',
+                'Equipamento_depois': 'Equipamento Depois'
+            }
 
-        campos_imagem = {
-            'Poste_antes': 'Poste Antes',
-            'Poste_depois': 'Poste Depois',
-            'cava_antes': 'Cava Antes',
-            'cava_depois': 'Cava Depois',
-            'GPS_antes': 'GPS Antes',
-            'GPS_depois': 'GPS Depois',
-            'Estrutura_antes': 'Estrutura Antes',
-            'Estrutura_depois': 'Estrutura Depois',
-            'panoramica': 'Panorâmica',
-            'Equipamento_antes': 'Equipamento Antes',
-            'Equipamento_depois': 'Equipamento Depois'
-        }
+            for campo, titulo in campos_imagem.items():
+                imagem = getattr(foto, campo) 
+                if imagem and hasattr(imagem, 'path'):  # Confirma se a imagem existe e tem um caminho válido
+                    try:
+                        image_path = imagem.path
 
-        for campo, titulo in campos_imagem.items():
-            imagem = getattr(foto, campo) 
-            if imagem:  
-                try:
-                    image_path = imagem.path  
+                        if y_position - 160 < 50:  # Se a posição Y está muito baixa, crie uma nova página
+                            p.showPage()  
+                            numero_pagina += 1  
+                            y_position = altura - 50  
+                            y_position = desenhar_legenda(p, nome_empresa, titulo_projeto, y_position, numero_pagina)
 
-                    
-                    if y_position - 160 < 50:  
-                        p.showPage()  
-                        numero_pagina += 1  
-                        y_position = altura - 50  
-                        y_position = desenhar_legenda(p, nome_empresa, titulo_projeto, y_position, numero_pagina)
+                        p.drawImage(image_path, 50, y_position - 150, width=200, height=150)
+                        p.setFont("Helvetica-Bold", 12)
+                        p.drawString(50, y_position - 160, titulo)
+                        y_position -= 180  
 
-                    
-                    p.drawImage(image_path, 50, y_position - 150, width=200, height=150)
-                    
-                    
-                    p.setFont("Helvetica-Bold", 12)  
-                    p.drawString(50, y_position - 160, titulo)
-                    
-                    y_position -= 180  
+                    except Exception as e:
+                        print(f"Erro ao carregar a imagem {campo}: {str(e)}")
 
-                except Exception as e:
-                    print(f"Erro ao carregar a imagem: {str(e)}")
+    except Exception as e:
+        raise Http404("Erro ao gerar o PDF.")
 
-    except FotosCampo.DoesNotExist:
-        raise Http404("Foto não encontrada.")
-
+    # Fecha o PDF
     p.showPage()
     p.save()
 
     buffer.seek(0)
     return HttpResponse(buffer, content_type='application/pdf')
-
 
 def permission_denied_view(request, exception):
     return render(request, '403.html', status=403)
