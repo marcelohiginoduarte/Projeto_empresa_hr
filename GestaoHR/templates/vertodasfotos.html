@@ -9,12 +9,14 @@
 
 {% block 'Material' %}
 
-<form method="get">
-    {{ filterset.form.as_p }}
-    <button type="submit">Filtrar</button>
-</form>
-
-<h3>Ver fotos</h>
+<h3>Evidencias de Campo.</h>
+<hr>
+<div class="col-md-2 col-6 mb-3">
+    <form method="get">
+        {{ filterset.form.as_p }}
+        <button type="submit">Filtrar</button>
+    </form>
+</div>
 <br>
 
 <div class="row">

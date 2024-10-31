@@ -422,9 +422,12 @@ class MovimentacaoEstoque(models.Model):
             ('acesso_gestaoestoque', 'Acesso as gestão de estoque'),
         ]
 
-class CadernoServico(models.Model):
-    arquivo = models.FileField(upload_to='media/cadernos/servicos/', blank=True, null=True)
-    atualizado_em = models.DateTimeField(auto_now=True)
+class Caderno_servico(models.Model):
+    nome = models.CharField(max_length=100)
+    arquivo = models.FileField(upload_to='media/cadernoservico/')  
+
+    def __str__(self):
+        return self.nome
 
 class AES_ACOS(models.Model):
     aes = models.FileField(upload_to='media/aes', blank=True, null=True)

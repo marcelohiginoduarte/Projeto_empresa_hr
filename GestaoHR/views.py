@@ -2,7 +2,7 @@ from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, Document, Produto, MovimentacaoEstoque
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, Document, Produto, MovimentacaoEstoque, Caderno_servico
 from django.urls import reverse_lazy
 from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform, DocumentForm, MovimentacaoForm, CadastrarProduto
 from datetime import datetime, timedelta
@@ -876,16 +876,16 @@ def consultar_servico(request):
         nome_servico = request.POST.get('nome_servico')
 
         
-        df = carregar_planilha_caderno_servico('caminho/para/sua/planilha.xlsx')
+        planilha = Caderno_servico.objects.first()
+        if planilha:
+            df = carregar_planilha_caderno_servico(planilha.arquivo.path)
+            informacoes = buscar_informacoes(df, nome_servico)
 
-        
-        informacoes = buscar_informacoes(df, nome_servico)
+            if informacoes.empty:
+                return render(request, 'medicao_resultado.html', {'error': 'Serviço não encontrado'})
+            else:
+                return render(request, 'medicao_resultado.html', {'informacoes': informacoes.to_dict(orient='records')})
 
-        if informacoes:
-            return render(request, 'medicao_resultado.html', {'informacoes': informacoes})
-        else:
-            return render(request, 'medicao_resultado.html', {'error': 'Serviço não encontrado'})
-    
     return render(request, 'medicao_consulta.html')
 
 
