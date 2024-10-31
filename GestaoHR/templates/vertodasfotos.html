@@ -9,14 +9,19 @@
 
 {% block 'Material' %}
 
+<form method="get">
+    {{ filterset.form.as_p }}
+    <button type="submit">Filtrar</button>
+</form>
+
 <h3>Ver fotos</h>
 <br>
 
 <div class="row">
     {% for foto in fotos %}
         <div class="col-md-2 col-6 mb-3">
-            <div class="card text-center border-secondary" style="max-width: 5rem;">
-                <div class="card-header bg-secondary text-white style=font-size: 14px">
+            <div class="card text-center border-secondary" style="max-width: 20rem;">
+                <div class="card-header bg-secondary text-white style=font-size: 10px;">
                     <a href="{% url 'fotos_campo' projeto_nome=foto.projeto %}" class="projeto-link">{{ foto.projeto }}</a>
                 </div>
                 <div class="card-body">

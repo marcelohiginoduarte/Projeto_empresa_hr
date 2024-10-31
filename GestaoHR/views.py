@@ -625,16 +625,19 @@ def Salvar_projeto_foto(request):
 @permission_required('GestaoHR.acesso_fotoscampo', raise_exception=True)
 def verfotos(request):
     fotos = FotosCampo.objects.all()
+    filterset = FotoFilter(request.GET, queryset=fotos)  # Aplica o filtro ao queryset
     projetos_exibidos = set()  # Usar um conjunto para evitar duplicatas
     fotos_unicas = []
 
-    for foto in fotos:
+    # Filtra o queryset usando o filterset e remove duplicatas por projeto
+    for foto in filterset.qs:  # Usa o queryset filtrado
         if foto.projeto not in projetos_exibidos:
             fotos_unicas.append(foto)
             projetos_exibidos.add(foto.projeto)
 
     context = {
         'fotos': fotos_unicas,
+        'filterset': filterset,  # Passa o filtro para o template para exibir o formulário
     }
     return render(request, 'vertodasfotos.html', context)
 
