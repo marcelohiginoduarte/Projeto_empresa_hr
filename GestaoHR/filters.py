@@ -30,8 +30,8 @@ class ArquivoFilter(django_filters.FilterSet):
         fields = ['EI_OC']
 
 class FotoFilter(django_filters.FilterSet):
-    projeto = django_filters.CharFilter(lookup_expr='icontains')
-    
+    projeto = django_filters.CharFilter(label='Pesquisa', lookup_expr='icontains')
+
     class Meta:
         model = FotosCampo
         fields = ['projeto']
