@@ -978,3 +978,14 @@ def cadastrar_programacaoequipe(request):
 def ver_programacao(request):
     programacoes = ProgramacaoEquipes.objects.all()
     return render(request, 'programacao_vertodas.html', {'programacoes':programacoes})
+
+class AtualizarProgramacaoEquipes(UpdateView):
+    model = ProgramacaoEquipes
+    template_name = 'programacao_equipe_atualizar.html'
+    form_class =ProgramacaoEquipeForm
+    success_url = reverse_lazy('vertodaprogramacao')
+
+class DeletarProgramacaoEquipes(DeleteView):
+    model = ProgramacaoEquipes
+    template_name = 'equipe__confirm_delete.html'
+    success_url = reverse_lazy('vertodaprogramacao')

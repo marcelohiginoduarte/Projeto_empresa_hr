@@ -64,7 +64,7 @@
                 <td>{{programacoe.prazo}}</td>
                 <td>{{programacoe.valor_prev}}</td>
                 <td>{{programacoe.valor_final}}</td>
-                <td><a href="#">Editar</a></td>
-                <td><a href="#">Remover</a></td>
+                <td><a href="{% url 'atualizarprogramacão' pk=programacoe.id %}">Editar</a></td>
+                <td><a href="{% url 'deletarprogramacao' pk=programacoe.id %}">Remover</a></td>
             {% endfor %}
 {% endblock %}
