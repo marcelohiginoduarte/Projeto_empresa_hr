@@ -84,6 +84,11 @@ urlpatterns = [
     path('equipe/deletar/<int:pk>', views.DeletarEquipe.as_view(), name='deletarequipe'),
 
 
+    path('programacao/cadstro', views.cadastrar_programacaoequipe, name='cadastrarprogramacapequipe'),
+    path('programacao/vertoda', views.ver_programacao, name='vertodaprogramacao'),
+
+
+
     path('enviodefotoapi', views.FotoUploadView.as_view(), name='upload-fotodecanoi'),
     
     path('gerar_pdf/<str:projeto_nome>/', views.gerar_pdf, name='relatorio_pdf'),

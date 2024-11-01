@@ -645,6 +645,12 @@ class ProgramacaoEquipes(models.Model):
         ('Finalizado','Finalizado'),
     ]
 
+    turno = [
+        ('Dia','Dia'),
+        ('Manhã','Manhã'),
+        ('Tarde','Tarde'),
+    ]
+
     SI_OC = models.CharField(max_length=20, blank=False, null=False)
     Nota_PM = models.CharField(max_length=20, blank=True, null=True)
     Ordem_execucao = models.CharField(max_length=20, blank=True, null=True)
@@ -664,10 +670,19 @@ class ProgramacaoEquipes(models.Model):
     dia = models.CharField(max_length=20, blank=True, null=True)
     Mes = models.CharField(max_length=20, blank=True, null=True)
     ANO = models.CharField(max_length=200, blank=True, null=True)
+    turno = models.CharField(choices=turno, max_length=8, blank=False, null=False)
     prazo = models.CharField(max_length=200, blank=True, null=True)
     valor_prev = models.CharField(max_length=200, blank=True, null=True)
     valor_final = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return self.SI_OC
+    
+    def clean(self):
+        if ProgramacaoEquipes.objects.filter(Encarregado=self.Encarregado, dia=self.dia, Mes=self.Mes, ANO=self.ANO, turno=self.turno).exists():
+            raise ValidationError("Este encarregado já possui uma tarefa programada para essa data.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super(ProgramacaoEquipes, self).save(*args, **kwargs)
     

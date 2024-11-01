@@ -2,9 +2,9 @@ from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, Document, Produto, MovimentacaoEstoque, Caderno_servico, Equipe
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, Document, Produto, MovimentacaoEstoque, Caderno_servico, Equipe, ProgramacaoEquipes
 from django.urls import reverse_lazy
-from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform, DocumentForm, MovimentacaoForm, CadastrarProduto, CadastraEquipeform
+from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform, DocumentForm, MovimentacaoForm, CadastrarProduto, CadastraEquipeform, ProgramacaoEquipeForm
 from datetime import datetime, timedelta
 from .filters import collaboratorFilter, AquivoFilter, ArquivoFilter, ServicoFilter,DemandaFilter, FotoFilter
 from django_filters.views import FilterView
@@ -954,3 +954,27 @@ class DeletarEquipe(DeleteView):
     model = Equipe
     template_name = 'equipe__confirm_delete.html'
     success_url = reverse_lazy('vertodasequipes')
+
+
+@login_required
+def cadastrar_programacaoequipe(request):
+
+    erro = None
+    texto = None
+
+    if request.method == 'POST':
+        form = ProgramacaoEquipeForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('vertodaprogramacao')
+    else:
+        form = ProgramacaoEquipeForm()
+        erro = request.GET.get('erro')
+        texto = request.GET.get('texto')
+    
+    return render(request, 'programacao_cadastrar.html', {'form': form, 'erro': erro, 'texto': texto})
+
+
+def ver_programacao(request):
+    programacoes = ProgramacaoEquipes.objects.all()
+    return render(request, 'programacao_vertodas.html', {'programacoes':programacoes})

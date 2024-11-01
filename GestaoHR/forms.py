@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, arquivos_foto, Document, MovimentacaoEstoque, Produto, Equipe
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, arquivos_foto, Document, MovimentacaoEstoque, Produto, Equipe, ProgramacaoEquipes
 from django.forms import modelformset_factory
 
 class CollaboratorForm(forms.ModelForm):
@@ -90,3 +90,9 @@ class CadastraEquipeform(forms.ModelForm):
     class Meta:
         model = Equipe
         fields = ['Codigo_Equipe', 'Nome_encarregado', 'Mebro_equipe1', 'Mebro_equipe2', 'Mebro_equipe3', 'Mebro_equipe4', 'Mebro_equipe5', 'Mebro_equipe6']
+
+
+class ProgramacaoEquipeForm(forms.ModelForm):
+    class Meta:
+        model = ProgramacaoEquipes
+        fields = ['SI_OC', 'Nota_PM', 'Ordem_execucao', 'Status_sistema', 'Status_campo', 'QTD', 'Prio_DEF', 'Grupo_DEF', 'Alimentador', 'GPS_POSTE', 'linkmaps', 'tipo_servico', 'Local', 'Endereco', 'tipo_EQP', 'Encarregado', 'dia', 'Mes', 'ANO', 'turno','prazo', 'valor_prev', 'valor_final']

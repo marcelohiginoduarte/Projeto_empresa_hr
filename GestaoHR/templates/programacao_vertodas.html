@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Visualiar Programacão{% endblock %}
+{% block 'excel' %}<a href="#">Exportar</a>{% endblock %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
+
+{% block 'Material' %}
+    <h1>Visualizar Programação dos Serviços </h1>
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">SI/OC</th>
+            <th scope="col">Nota/PM</th>
+            <th scope="col">Ordem Execucao</th>
+            <th scope="col">Status sistema</th>
+            <th scope="col">Status campo</th>
+            <th scope="col">QTD</th>
+            <th scope="col">Prio_DEF</th>
+            <th scope="col">Grupo_DEF</th>
+            <th scope="col">Alimentador</th>
+            <th scope="col">GPS_POSTE</th>
+            <th scope="col">linkmaps</th>
+            <th scope="col">tipo Serviços</th>
+            <th scope="col">Local</th>
+            <th scope="col">Endereco</th>
+            <th scope="col">tipo_EQP</th>
+            <th scope="col">Encarregado</th>
+            <th scope="col">dia</th>
+            <th scope="col">Mes</th>
+            <th scope="col">ANO</th>
+            <th scope="col">Turno</th>
+            <th scope="col">prazo</th>
+            <th scope="col">valor_prev</th>
+            <th scope="col">valor_final</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Remover</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for programacoe in programacoes %}
+              <tr>
+                <td>{{programacoe.SI_OC}}</td>
+                <td>{{programacoe.Nota_PM}}</td>
+                <td>{{programacoe.Ordem_execucao}}</td>
+                <td>{{programacoe.Status_sistema}}</td>
+                <td>{{programacoe.Status_campo}}</td>
+                <td>{{programacoe.QTD}}</td>
+                <th>{{programacoe.Prio_DEF}}</th>
+                <td>{{ programacoe.Grupo_DEF}}</td>
+                <th>{{programacoe.Alimentador}}</th>
+                <th>{{programacoe.GPS_POSTE}}</th>
+                <th>{{programacoe.linkmaps}}</th>
+                <th>{{programacoe.tipo_servico}}</th>
+                <th>{{programacoe.Local}}</th>
+                <td>{{programacoe.Endereco}}</td>
+                <td>{{programacoe.tipo_EQP}}</td>
+                <th>{{programacoe.Encarregado}}</th>
+                <th>{{programacoe.dia}}</th>
+                <th>{{programacoe.Mes}}</th>
+                <td>{{programacoe.ANO}}</td>
+                <td>{{programacoe.turno}}</td>
+                <td>{{programacoe.prazo}}</td>
+                <td>{{programacoe.valor_prev}}</td>
+                <td>{{programacoe.valor_final}}</td>
+                <td><a href="#">Editar</a></td>
+                <td><a href="#">Remover</a></td>
+            {% endfor %}
+{% endblock %}
