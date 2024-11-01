@@ -18,7 +18,7 @@ class testform(forms.ModelForm):
 class Servicoform(forms.ModelForm):
     class Meta:
         model = Servico
-        fields = ['Numero_Servico', 'PEP', 'Servico', 'Mês_servico', 'Ano_servico','data_da_solicitacao', 'Municipio', 'Endereco', 'Status','data_programacao', 'Valor_parcial', 'Valor_final', 'desenho_servico','foto_antes', 'foto_depois' , 'Observacao']
+        fields = ['Tipo_investimento','Numero_Servico','Status','tipo_servico','Equipe','Status_SAP', 'Status','PEP', 'Servico', 'Mês_servico', 'Ano_servico', 'data_da_solicitacao','data_programacao', 'tecnico',  'Endereco', 'Municipio', 'Medicao','As_built','AES_ACOS','evidencias','Requisicao_ODD','Requisicao_ODI', 'Valor_parcial', 'Valor_final','Valor_pago', 'desenho_servico','foto_antes', 'foto_depois' , 'Observacao']
 
 class DemandaInternaform(forms.ModelForm):
     class Meta:
@@ -40,7 +40,7 @@ class FotosCampoform(forms.ModelForm):
     class Meta:
         model = FotosCampo
         fields = ['projeto','poste' ,'Poste_antes', 'Poste_depois', 'cava_antes', 'cava_depois', 'GPS_antes', 'GPS_depois', 'Estrutura_antes', 'Estrutura_depois', 'panoramica', 'Equipamento_antes', 'Equipamento_depois', 'Numero_serie_antes', 'Numero_serie_depois', 'Numero_sap_antes', 'Numero_sap_depois','Numero_placa_antes', 'Numero_placa_depois', 'Poda_antes', 'Poda_depois', 'concreto_calcada_antes', 'concreto_calcada_depois']
-    
+        
 FotocampoFormSet = modelformset_factory(FotosCampo, fields=('projeto','poste' ,'Poste_antes', 'Poste_depois', 'cava_antes', 'cava_depois', 'GPS_antes', 'GPS_depois', 'Estrutura_antes', 'Estrutura_depois', 'panoramica', 'Equipamento_antes', 'Equipamento_depois'), extra=1)
 
 

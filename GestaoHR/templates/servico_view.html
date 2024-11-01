@@ -31,16 +31,29 @@
     <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Serviço</th>
-            <th scope="col">PEP</th>
-            <th scope="col">Tipo Serviço</th>
+            <th scope="col">Tipo investimento</th>
+            <th scope="col">Ordem de serviço</th>
+            <th scope="col">PEP/Ordem</th>
+            <th scope="col">Tipo Plano</th>
             <th scope="col">Mês Servico</th>
             <th scope="col">Ano Servico</th>
+            <th scope="col">Status SAP</th>
             <th scope="col">Status</th>
+            <th scope="col">Equipe</th>
+            <th scope="col">Supervisor</th>
+            <th scope="col">Tipo de Serviço</th>
             <th scope="col">Municipio</th>
+            <th scope="col">Evidências</th>
+            <th scope="col">AES_ACOS</th>
+            <th scope="col">As_built</th>
+            <th scope="col">Medicao</th>
+            <th scope="col">Andamento</th>
+            <th scope="col">Requisicao ODI</th>
+            <th scope="col">Requisicao ODD</th>
             <th scope="col">Data Programação</th>
             <th scope="col">Valor Parcial</th>
             <th scope="col">Valor Final</th>
+            <th scope="col">Valor Pago</th>
             <th scope="col">Desenho Serviço</th>
             <th scope="col">Editar</th>
             <th scope="col">Remover</th>
@@ -50,16 +63,29 @@
         <tbody>
             {% for servico in page_obj.object_list %}
               <tr>
+                <td>{{servico.Tipo_investimento}}</td>
                 <td><a href="{% url 'servicounitario' pk=servico.id %}">{{servico.Numero_Servico}}</a></td>
                 <td>{{servico.PEP}}</td>
                 <td>{{servico.Servico}}</td>
                 <td>{{servico.Mês_servico}}</td>
                 <td>{{servico.Ano_servico}}</td>
+                <th>{{servico.Status_SAP}}</th>
                 <td><a href="{% url 'editarstatus' pk=servico.id %}">{{ servico.Status}}</a></td>
+                <th>{{servico.Equipe}}</th>
+                <th>{{servico.tecnico}}</th>
+                <th>{{servico.tipo_servico}}</th>
                 <td>{{servico.Municipio}}</td>
+                <th>{{servico.evidencias}}</th>
+                <th>{{servico.AES_ACOS}}</th>
+                <th>{{servico.As_built}}</th>
+                <td>{{servico.Medicao}}</td>
+                <td>{{servico.andamento}}%</td>
+                <td>{{servico.Requisicao_ODI}}</td>
+                <td>{{servico.Requisicao_ODD}}</td>
                 <td>{{servico.data_programacao}}</td>
                 <td>R${{ servico.Valor_parcial}}</td>
                 <td>R${{ servico.Valor_final}}</td>
+                <td>R${{ servico.Valor_pago}}</td>
                 <td>
                   {% if servico.desenho_servico  %}
                   <a href="{{servico.desenho_servico.url}}">Baixar PDF</a>

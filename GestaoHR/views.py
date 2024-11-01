@@ -248,7 +248,7 @@ def listar_servico_paginas(request):
 class ServicoUpdate(UpdateView):
     model = Servico
     template_name = 'servico_update.html'
-    fields = ['Numero_Servico', 'PEP', 'Servico', 'Mês_servico', 'Ano_servico', 'data_da_solicitacao', 'Municipio', 'Endereco', 'Status','data_programacao', 'Valor_parcial', 'Valor_final', 'desenho_servico','foto_antes', 'foto_depois' , 'Observacao']
+    fields = ['Numero_Servico','Valor_pago','Requisicao_ODD','Requisicao_ODI','Medicao','As_built','AES_ACOS','evidencias','tecnico','Status','tipo_servico','Equipe','Status_SAP','Tipo_investimento','PEP', 'Servico', 'Mês_servico', 'Ano_servico', 'data_da_solicitacao', 'Municipio', 'Endereco', 'Status','data_programacao', 'Valor_parcial', 'Valor_final', 'desenho_servico','foto_antes', 'foto_depois' , 'Observacao']
     success_url = reverse_lazy('visualizartodosservios')
 
 

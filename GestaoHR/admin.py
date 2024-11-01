@@ -1,5 +1,5 @@
 from django.contrib import admin
-from GestaoHR.models import collaborator, Aquivo, Servico, BancoArquivos, DemandaInterna, SESMT, ArquivoSesmt, arquivos_foto, FotosCampo, Produto, AES_ACOS, Caderno_servico
+from GestaoHR.models import collaborator, Aquivo, Servico, BancoArquivos, DemandaInterna, SESMT, ArquivoSesmt, arquivos_foto, FotosCampo, Produto, AES_ACOS, Caderno_servico, Equipe
 from django.core.exceptions import PermissionDenied
 
 
@@ -84,3 +84,9 @@ class Caderno_servicoadmin(admin.ModelAdmin):
     list_display_links = ('nome',)
 
 admin.site.register(Caderno_servico, Caderno_servicoadmin)
+
+class EquipeAdmin(admin.ModelAdmin):
+    list_display = ('Codigo_Equipe', 'Nome_encarregado')
+    list_display_links = ('Codigo_Equipe', 'Nome_encarregado')
+
+admin.site.register(Equipe, EquipeAdmin)

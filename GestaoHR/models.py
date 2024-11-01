@@ -72,6 +72,18 @@ class Aquivo(models.Model):
     Mes = models.CharField(max_length=6, choices=Mes_Mes, blank=False, null=False)
     Ano = models.IntegerField(default=datetime.now().year)
     
+class Equipe(models.Model):
+    Codigo_Equipe = models.CharField(max_length=50, blank=False, null=False, unique=True)
+    Nome_encarregado = models.CharField(max_length=150, blank=False, null=False)
+    Mebro_equipe1 = models.CharField(max_length=150, blank=True, null=True)
+    Mebro_equipe2 = models.CharField(max_length=150, blank=True, null=True)
+    Mebro_equipe3 = models.CharField(max_length=150, blank=True, null=True)
+    Mebro_equipe4 = models.CharField(max_length=150, blank=True, null=True)
+    Mebro_equipe5 = models.CharField(max_length=150, blank=True, null=True)
+    Mebro_equipe6 = models.CharField(max_length=150, blank=True, null=True)
+
+    def __str__(self):
+        return self.Codigo_Equipe
 
 class Servico(models.Model):
     tipo_servico=[
@@ -155,18 +167,106 @@ class Servico(models.Model):
         ('TAPES','TAPES'),
     ]
 
+    Arvore_investimento = [
+        ('Capex', 'Capex'),
+        ('Opex', 'Opex'),
+        ('0', '0'),
+    ]
+
+    status_sap = [
+        ('ABER/ABER','ABER/ABER'),
+        ('LIB/LOG','LIB/LOG'),
+        ('LIB/ATEC','LIB/ATEC'),
+        ('LIB/ENER', 'LIB/ENER'),
+        ('ENCE/ENCE','ENCE/ENCE'),
+        ("LIB/CKCP","LIB/CKCP"),
+        ("LIB/ENTE","LIB/ENTE"),
+        ("LIB/MED","LIB/MED"),
+        ("LIB/COMS","LIB/COMS"),
+        ("LIB/PEND","LIB/PEND"),
+        ("LIB/CONC","LIB/CONC"),
+        ("LIB/AVAL","LIB/AVAL"),
+        ("LIB/ANTE","LIB/ANTE"),
+        ("LIB/REC","LIB/REC"),
+        ("LIB/DLT","LIB/DLT"),
+        ("LIB/DEV","LIB/DEV"),
+        ("LIB/DFEC","LIB/DFEC"),
+        ('0', '0'),
+    ]
+
+    tipo_equipe = [
+        ('Linha Morta','Linha Morta'),
+        ('Linha Viva', 'Linha Viva'),
+        ('Poda', 'Poda'),
+        ('0', '0'),
+    ]
+
+    tipos_de_servicos = [
+        ('SUBS DE POSTE', 'SUBS DE POSTE'),
+        ('SUBS DE TRAFO', 'SUBS DE TRAFO'),
+        ('SUBS CONDUTOR', 'SUBS CONDUTOR'),
+        ('APOIO', 'APOIO'),
+        ('SUBS DE CHAVE FACA', 'SUBS DE CHAVE FACA'),
+        ('SUBS DE CHAVE FUS', 'SUBS DE CHAVE FUS'),
+        ('SUBS CONDUTOR', 'SUBS CONDUTOR'),
+        ('SUBS DE POSTE E TRAFO', 'SUBS DE POSTE E TRAFO'),
+        ('SUBS DE ESTRUTURA MT', 'SUBS DE ESTRUTURA MT'),
+        ('CONEXÃO', 'CONEXÃO'),
+        ('PODA', 'PODA'),
+        ('CAVA', 'CAVA'),
+        ('ESPAÇADOR', 'ESPAÇADOR'),
+        ('TALA', 'TALA'),
+        ('ELO FUSIVEL', 'ELO FUSIVEL'),
+        ('RELIGADOR', 'RELIGADOR'),
+        ('REGULADOR', 'REGULADOR'),
+        ('MUFLA', 'MUFLA'),
+        ('RECONDUTORAMENTO DE BT', 'RECONDUTORAMENTO DE BT'),
+        ('RECONDUTORAMENTO DE MT', 'RECONDUTORAMENTO DE MT'),
+        ('PODA GRANDE POSTE', 'PODA GRANDE POSTE'),
+        ('ABATE', 'ABATE'),
+        ('ESPAÇADOR', 'ESPAÇADOR'),
+        ('REGULAGEM', 'REGULAGEM'),
+        ('GLV-CONEXÃO-ARMAÇÃO', 'GLV-CONEXÃO-ARMAÇÃO'),
+        ('SUBS DE ESTRUTURA BT', 'SUBS DE ESTRUTURA BT'),
+        ('FLY-TAP', 'FLY-TAP'),
+        ('ARMAÇÃO E OUTROS', 'ARMAÇÃO E OUTROS'),
+        ('APRUMO DE POSTE', 'APRUMO DE POSTE'),
+        ('FECHAMENTO DE CAVA', 'FECHAMENTO DE CAVA'),
+        ('ELO FUSIVEL', 'ELO FUSIVEL'),
+        ('ABATE', 'ABATE'),
+        ('IMPLANTAÇÃO DE POSTE', 'IMPLANTAÇÃO DE POSTE'),
+        ('IMPLANTAÇÃO DE TRAFO', 'IMPLANTAÇÃO DE TRAFO'),
+        ('PODA PEQUENO POSTE', 'PODA PEQUENO POSTE'),
+        ('PODA MENOR DE 5 GALHOS', 'PODA MENOR DE 5 GALHOS'),
+        ('RETIRAR EQP MEDIÇÃO', 'RETIRAR EQP MEDIÇÃO'),
+    ]
+
+
+    Tipo_investimento = models.CharField(choices=Arvore_investimento, max_length=50, blank=True, null=True, default='')
     Numero_Servico = models.CharField(max_length=100, unique=True ,blank=False, null=False)
     PEP = models.CharField(max_length=40, unique=True, blank=False, null=False)
     Servico = models.CharField(choices=tipo_servico, max_length=50, blank=False, null=False, default='')
+    Status_SAP = models.CharField(choices=status_sap, max_length=50, blank=True, null=True, default='')
+    Equipe = models.ForeignKey(Equipe, max_length=50, blank=True, null=True, default='', on_delete=models.SET_NULL)
     Mês_servico = models.CharField(choices=Mes_Mes,max_length=4, blank=False, null=False, default='')
     Ano_servico = models.CharField(max_length=4,blank=False, null=False, default='')
     data_da_solicitacao = models.DateField(blank=False, null=False, default='')
+    tipo_servico = models.CharField(choices=tipos_de_servicos,max_length=50, blank=False, null=False, default='')
     Status = models.CharField(choices=tipo_status, max_length=25, blank=False, null=False, default='')
     Municipio = models.CharField(max_length=50,choices=Municipios, blank=False, null=False, default='')
     Endereco = models.CharField(max_length=100, blank=False, null=False)
     data_programacao = models.DateField(blank=True, null=True, default='')
+    tecnico = models.CharField(max_length=80, blank=False, null=False, default=False)
+    evidencias = models.BooleanField(blank=False, null=False, verbose_name="Evidências", default=False)
+    AES_ACOS = models.BooleanField(blank=False, null=False, default=False)
+    As_built = models.BooleanField(blank=False, null=False, default=False)
+    Medicao = models.BooleanField(blank=False, null=False, default=False)
+    andamento = models.IntegerField(default=0, editable=False)
+    Requisicao_ODI = models.BooleanField(blank=False, null=False, default=False)
+    Requisicao_ODD = models.BooleanField(blank=False, null=False, default=False)
     Valor_parcial = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     Valor_final = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    Valor_pago = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     desenho_servico = models.FileField(upload_to='media/desenhoservico/arquivos/', blank=True, null=True)
     foto_antes = models.FileField(upload_to='media/desenhoservico/arquivos/', blank=True, null=True)
     foto_depois = models.FileField(upload_to='media/desenhoservico/arquivos/', blank=True, null=True)
@@ -185,6 +285,17 @@ class Servico(models.Model):
             ('acesso_servicos', 'Acesso ao gestao de servicos'),
         ]
         
+    def get_evidencias_display(self):
+        return "Sim" if self.evidencias else "Não"
+    
+    def save(self, *args, **kwargs):
+        self.andamento = sum([
+            self.evidencias,
+            self.AES_ACOS,
+            self.As_built,
+            self.Medicao
+        ]) * 25
+        super().save(*args, **kwargs)
         
 
 class DemandaInterna(models.Model):

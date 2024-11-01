@@ -27,4 +27,34 @@
     .pagination .page-links a:hover {
         background-color: #e9ecef;
     }
+
+    .bolinha {
+        display: inline-block;
+        width: 20px; /* Tamanho da bolinha */
+        height: 20px;
+        border-radius: 50%; /* Deixa redondo */
+        margin-right: 5px; /* Espaço entre bolinhas e o texto */
+        border: 1px solid black;
+    }
+    
+    .verde {
+        background-color: green;
+    }
+    
+    .amarela {
+        background-color: yellow;
+    }
+    
+    .laranja {
+        background-color: orange;
+    }
+    
+    .vermelha {
+        background-color: red;
+    }
+    
+    .cinza {
+        background-color: gray;
+    }
+    
 </style>
