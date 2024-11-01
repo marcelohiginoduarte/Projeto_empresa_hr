@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, arquivos_foto, Document, MovimentacaoEstoque, Produto
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, arquivos_foto, Document, MovimentacaoEstoque, Produto, Equipe
 from django.forms import modelformset_factory
 
 class CollaboratorForm(forms.ModelForm):
@@ -85,3 +85,8 @@ class CadastrarProduto(forms.ModelForm):
     class Meta:
         model = Produto
         fields = ['nome', 'descricao', 'preco', 'quantidade', 'categoria', 'codigo']
+
+class CadastraEquipeform(forms.ModelForm):
+    class Meta:
+        model = Equipe
+        fields = ['Codigo_Equipe', 'Nome_encarregado', 'Mebro_equipe1', 'Mebro_equipe2', 'Mebro_equipe3', 'Mebro_equipe4', 'Mebro_equipe5', 'Mebro_equipe6']

@@ -78,6 +78,12 @@ urlpatterns = [
     path('estoquecadastra/', views.cadastra_produto, name='cadastrarproduto'),
     path('estoqueregistromovimentacao', views.registro_movimentacao, name='registro_movimentacao'),
 
+    path('equipe/cadstro', views.cadastrar_equipe, name='cadastrarequipe'),
+    path('equipe/visualizar', views.ver_equipes, name='vertodasequipes'),
+    path('equipe/atualizar/<int:pk>', views.AtualizarEquipe.as_view(), name='atualizarequipe'),
+    path('equipe/deletar/<int:pk>', views.DeletarEquipe.as_view(), name='deletarequipe'),
+
+
     path('enviodefotoapi', views.FotoUploadView.as_view(), name='upload-fotodecanoi'),
     
     path('gerar_pdf/<str:projeto_nome>/', views.gerar_pdf, name='relatorio_pdf'),

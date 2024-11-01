@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block 'titulo' %}Ver Equipes{% endblock %}
+
+{% block 'Material' %}
+    <h3>Visualizar Todas Equipes </h3>
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Codigo da EQP</th>
+            <th scope="col">Encaregado</th>
+            <th scope="col">Eletricista</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Remover</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for equipe in equipes %}
+            <tr>
+                <td><a href="#">{{equipe.Codigo_Equipe}}</a></td>
+                <td>{{equipe.Nome_encarregado}}</td>
+                <td>{{equipe.Mebro_equipe1}}</td>
+                <td><a href="{% url 'atualizarequipe' pk=equipe.id %}">Editar</a></td>
+                <td><a href="{% url 'deletarequipe' pk=equipe.id %}">Remover</a></td>
+            </tr>
+            {% endfor %}
+{% endblock %}

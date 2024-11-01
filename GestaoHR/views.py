@@ -2,9 +2,9 @@ from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, Document, Produto, MovimentacaoEstoque, Caderno_servico
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, Document, Produto, MovimentacaoEstoque, Caderno_servico, Equipe
 from django.urls import reverse_lazy
-from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform, DocumentForm, MovimentacaoForm, CadastrarProduto
+from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform, DocumentForm, MovimentacaoForm, CadastrarProduto, CadastraEquipeform
 from datetime import datetime, timedelta
 from .filters import collaboratorFilter, AquivoFilter, ArquivoFilter, ServicoFilter,DemandaFilter, FotoFilter
 from django_filters.views import FilterView
@@ -922,3 +922,35 @@ def preencher_acos(request):
         return FileResponse(pdf_buffer, as_attachment=True, filename="projeto_concluido.pdf")
     
     return render(request, "acos.html") 
+
+def cadastrar_equipe(request):
+
+    erro = None
+    texto = None
+
+    if request.method == 'POST':
+        form = CadastraEquipeform(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('vertodasequipes')
+    else:
+        form = CadastraEquipeform()
+        erro = request.GET.get('erro')
+        texto = request.GET.get('texto')
+    
+    return render(request, 'equipe_cadastrar.html', {'form': form, 'erro': erro, 'texto': texto})
+
+def ver_equipes(request):
+    equipes = Equipe.objects.all()
+    return render(request, 'equipes_vertodas.html', {'equipes':equipes})
+
+class AtualizarEquipe(UpdateView):
+    model = Equipe
+    template_name = 'equipe_atualizar.html'
+    form_class =CadastraEquipeform
+    success_url = reverse_lazy('vertodasequipes')
+
+class DeletarEquipe(DeleteView):
+    model = Equipe
+    template_name = 'equipe__confirm_delete.html'
+    success_url = reverse_lazy('vertodasequipes')
