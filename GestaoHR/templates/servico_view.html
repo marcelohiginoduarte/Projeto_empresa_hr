@@ -1,28 +1,31 @@
 {% extends 'base.html' %}
-{% block 'titulo' %}Visualizar Colaboradores{% endblock %}
+{% block 'titulo' %}Todos os Serviços{% endblock %}
 {% block 'excel' %}<a href="{% url 'exportarservicoexecel' %}">Exportar</a>{% endblock %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'CSS/pagina.css' %}" />
 
 {% block 'Material' %}
     <h1>Visualizar todos os Serviços </h1>
-    <form method="get">
-      {{ServicoFilter.form.as_p}}
-      <button class="btn btn-info" type="submit">Filtrar</button>
-    </form>
-    <hr>
-    <div class="pagination">
-      <span class="page-links">
+  <form method="get">
+    {{ ServicoFilter.form.as_p }}
+    <button class="btn btn-info" type="submit">Filtrar</button>
+  </form>
+  
+  <!-- Exibindo a paginação -->
+  <div class="pagination">
+      <span class="step-links">
           {% if page_obj.has_previous %}
-              <a href="{% url 'visualizartodosservios' %}?page={{ page_obj.previous_page_number }}">Anterior</a>
+              <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page=1">&laquo; first</a>
+              <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}">previous</a>
           {% endif %}
-
+  
           <span class="current">
-              Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+              Pagina {{ page_obj.number }} do {{ page_obj.paginator.num_pages }}
           </span>
-
+  
           {% if page_obj.has_next %}
-              <a href="{% url 'visualizartodosservios' %}?page={{ page_obj.next_page_number }}">Próxima</a>
+              <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}">next</a>
+              <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.paginator.num_pages }}">&raquo; last</a>
           {% endif %}
       </span>
   </div>
