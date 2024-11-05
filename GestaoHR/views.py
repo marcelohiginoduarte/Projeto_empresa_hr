@@ -989,3 +989,36 @@ class DeletarProgramacaoEquipes(DeleteView):
     model = ProgramacaoEquipes
     template_name = 'equipe__confirm_delete.html'
     success_url = reverse_lazy('vertodaprogramacao')
+
+def calendario_view(request):
+    tarefas = ProgramacaoEquipes.objects.all()
+
+    calendario = {}
+    for tarefa in tarefas:
+        dia = tarefa.dia
+        mes = tarefa.Mes
+        if mes not in calendario:
+            calendario[mes] = {}
+        if dia not in calendario[mes]:
+            calendario[mes][dia] = []
+        calendario[mes][dia].append({
+            'SI_OC': tarefa.SI_OC,
+            'Encarregado': tarefa.Encarregado
+        })
+
+    return render(request, 'programacao_calendario.html', {'calendario': calendario})
+
+def calendario_dados(request):
+    # Filtra todas as tarefas que você quer exibir no calendário
+    tarefas = ProgramacaoEquipes.objects.all()
+
+    # Converte para o formato JSON para o FullCalendar
+    eventos = []
+    for tarefa in tarefas:
+        eventos.append({
+            'title': f'{tarefa.SI_OC} - {tarefa.Encarregado}',
+            'start': f'{tarefa.ANO}-{tarefa.Mes.zfill(2)}-{tarefa.dia.zfill(2)}',  # Formato de data ISO
+            'allDay': True  # Configura se o evento dura o dia todo
+        })
+
+    return JsonResponse(eventos, safe=False)

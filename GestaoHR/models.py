@@ -649,6 +649,7 @@ class ProgramacaoEquipes(models.Model):
         ('Dia','Dia'),
         ('Manhã','Manhã'),
         ('Tarde','Tarde'),
+        ('Diversos', 'Diversos'),
     ]
 
     SI_OC = models.CharField(max_length=20, blank=False, null=False)
@@ -679,8 +680,9 @@ class ProgramacaoEquipes(models.Model):
         return self.SI_OC
     
     def clean(self):
-        if ProgramacaoEquipes.objects.filter(Encarregado=self.Encarregado, dia=self.dia, Mes=self.Mes, ANO=self.ANO, turno=self.turno).exists():
-            raise ValidationError("Este encarregado já possui uma tarefa programada para essa data.")
+        if self.turno != "Diversos":
+            if ProgramacaoEquipes.objects.filter(Encarregado=self.Encarregado, dia=self.dia, Mes=self.Mes, ANO=self.ANO, turno=self.turno).exists():
+                raise ValidationError("Este encarregado já possui uma tarefa programada para essa data.")
 
     def save(self, *args, **kwargs):
         self.full_clean()
