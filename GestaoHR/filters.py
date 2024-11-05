@@ -12,9 +12,12 @@ class AquivoFilter(django_filters.FilterSet):
         fields = {'Nome':['icontains']}
 
 class ServicoFilter (django_filters.FilterSet):
+    Numero_Servico = django_filters.CharFilter(label='Pesquisa', lookup_expr='icontains')
+
     class Meta:
         model = Servico
-        fields = ['Numero_Servico', 'Mês_servico','Ano_servico'] 
+        fields = ['Numero_Servico', 'Mês_servico','Ano_servico']
+         
 
 class DemandaFilter(django_filters.FilterSet):
     class Meta:

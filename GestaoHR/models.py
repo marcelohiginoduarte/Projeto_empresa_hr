@@ -97,6 +97,7 @@ class Servico(models.Model):
         ('Espera','Espera'),
         ('Concluido','Concluido'),
         ('Fechamento','Fechamento'),
+        ('Almoxerifado','Almoxerifado'),
         ('Pagamento','Pagamento'),
         ('Recebido','Recebido'),
     ]
