@@ -399,6 +399,7 @@ def dashdemandainterna(request):
     contarEnviadoEquatorial = DemandaInterna.objects.filter(status='Enviado Equatorial').count()
     contarAprovadoEquatorial = DemandaInterna.objects.filter(status='Aprovado Equatorial').count()
     contarCorreçãoEquatorial = DemandaInterna.objects.filter(status='Correção Equatorial').count()
+    contarAguardandoEquatorial = DemandaInterna.objects.filter(status='Aguardando Equatorial').count()
 
     context ={
         'contaraguardando':contaraguardando,
@@ -408,6 +409,7 @@ def dashdemandainterna(request):
         'contarEnviadoEquatorial':contarEnviadoEquatorial,
         'contarAprovadoEquatorial':contarAprovadoEquatorial,
         'contarCorreçãoEquatorial':contarCorreçãoEquatorial,
+        'contarAguardandoEquatorial':contarAguardandoEquatorial,
 
     }
 
