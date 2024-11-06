@@ -312,6 +312,7 @@ class DemandaInterna(models.Model):
         ('Andamento', 'Andamento'),
         ('Realizado', 'Realizado'),
         ('Correção', 'Correção'),
+        ('Aguardando Equatorial', 'Aguardando Equatorial'),
         ('Enviado Equatorial', 'Enviado Equatorial'),
         ('Aprovado Equatorial', 'Aprovado Equatorial'),
         ('Correção Equatorial', 'Correção Equatorial'),
@@ -688,4 +689,16 @@ class ProgramacaoEquipes(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         super(ProgramacaoEquipes, self).save(*args, **kwargs)
+
+
+
+class ItemServico(models.Model):
+    iten = models.CharField(max_length=3)
+    codigo = models.CharField(max_length=50)
+    descricao = models.CharField(max_length=200)
+    QTD = models.DecimalField(max_digits=10, decimal_places=2)
+    valor_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    def __str__(self):
+        return f"{self.codigo} - {self.descricao}"
     

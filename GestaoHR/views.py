@@ -2,7 +2,7 @@ from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
-from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, Document, Produto, MovimentacaoEstoque, Caderno_servico, Equipe, ProgramacaoEquipes
+from GestaoHR.models import collaborator, Aquivo, Servico, DemandaInterna, BancoArquivos, FotosCampo, arquivos_foto, SESMT, ArquivoSesmt, Document, Produto, MovimentacaoEstoque, Caderno_servico, Equipe, ProgramacaoEquipes, ItemServico
 from django.urls import reverse_lazy
 from .forms import CollaboratorForm, testform, Servicoform, DemandaInternaform, BancoArquivoform, FotosCampoform, FotocampoFormSet, SESMTFORM, ArquivoSesmtForm, Projeto_fotoforms, arquivos_fotos_projetoform, DocumentForm, MovimentacaoForm, CadastrarProduto, CadastraEquipeform, ProgramacaoEquipeForm
 from datetime import datetime, timedelta
@@ -1022,3 +1022,26 @@ def calendario_dados(request):
         })
 
     return JsonResponse(eventos, safe=False)
+
+def importar_planilha(caminho_arquivo):
+    df = pd.read_excel(caminho_arquivo)
+    for _, row in df.iterrows():
+        item = ItemServico(
+            codigo=row['Codigo'],  
+            descricao=row['Descricao'],  
+            valor_unitario=row['Valor Unitario']
+        )
+        item.save()
+
+def adicionar_medicao(request):
+    valor_acumulado = 0
+    if request.method == 'POST':
+        form = ItemServico(request.POST)
+        if form.is_valid():
+            form.save()  # Salva e calcula automaticamente
+            # Atualiza o valor acumulado com o valor total da nova medição
+            valor_acumulado += form.instance.valor_total
+            return redirect('lista_medicoes')  # Redireciona para a lista de medições
+
+    form = MedicaoForm()
+    return render(request, 'adicionar_medicao.html', {'form': form, 'valor_acumulado': valor_acumulado})
