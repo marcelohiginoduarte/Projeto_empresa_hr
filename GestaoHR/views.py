@@ -801,10 +801,9 @@ def gerar_pdf_fotos_grupadas(request, projeto_nome):
     nome_empresa = "JJ Serviços Eletricos"
     titulo_projeto = f"Relatório de Fotos do Projeto: {projeto_nome}"
     numero_pagina = 1
-    imagens_por_pagina = 5  # Quantidade máxima de imagens por página
-    imagens_na_pagina = 0  # Contador de imagens na página atual
+    imagens_por_pagina = 5  
+    imagens_na_pagina = 0 
 
-    # Função para desenhar a legenda
     def desenhar_legenda(canvas_obj, empresa, projeto, altura_atual, pagina_atual):
         canvas_obj.setFont("Helvetica-Bold", 14)
         canvas_obj.drawString(50, altura_atual, f"Empresa: {empresa}")
@@ -814,89 +813,79 @@ def gerar_pdf_fotos_grupadas(request, projeto_nome):
         canvas_obj.drawString(50, altura_atual - 60, f"Página: {pagina_atual}")
         return altura_atual - 80
 
-    # Desenha a primeira legenda
+        if foto:
+            canvas_obj.setFont("Helvetica", 12)
+            canvas_obj.drawString(50, altura_atual, f"Projeto: {foto.projeto}")
+            altura_atual -= 20
+
+            canvas_obj.setFont("Helvetica-Bold", 12)
+            canvas_obj.drawString(50, altura_atual, f"Poste: {foto.poste}")
+            altura_atual -= 20
+
+            canvas_obj.setFont("Helvetica", 10)
+            canvas_obj.drawString(50, altura_atual, f"Supervisor: {foto.Supervisor}")
+            altura_atual -= 15
+
+            equipe_nome = foto.Equipe.Nome_encarregado if foto.Equipe else "Não atribuída"
+            canvas_obj.drawString(50, altura_atual, f"Equipe: {equipe_nome}")
+            altura_atual -= 15
+
+            canvas_obj.drawString(50, altura_atual, f"Cidade: {foto.Cidade}")
+            altura_atual -= 15
+            canvas_obj.drawString(50, altura_atual, f"Endereço: {foto.Endereco}")
+            altura_atual -= 15
+            canvas_obj.drawString(50, altura_atual, f"Ocorrência: {foto.ocorrencia}")
+            altura_atual -= 15
+            canvas_obj.drawString(50, altura_atual, f"GPS: {foto.GPS}")
+            altura_atual -= 15
+
+    return altura_atual
+
     y_position = desenhar_legenda(p, nome_empresa, titulo_projeto, altura - 50, numero_pagina)
 
-    # Função para desenhar as imagens lado a lado
     def draw_images_side_by_side(image_fields, labels, y_pos):
         nonlocal numero_pagina, y_position, imagens_na_pagina
 
-        x_offset = 50  # Posição inicial de x
-        max_width = 200  # Largura máxima das imagens
-        gap = 20  # Espaço entre as imagens
+        x_offset = 50  
+        max_width = 200  
+        gap = 20  
 
-        # Desenha as imagens lado a lado
         for image_field, label in zip(image_fields, labels):
             if image_field and hasattr(image_field, 'path') and image_field.path:
                 image_path = image_field.path
 
-                # Se o espaço disponível for muito pequeno, cria-se uma nova página
-                if y_pos - 160 < 50 or imagens_na_pagina >= imagens_por_pagina:
-                    p.showPage()  # Cria uma nova página
-                    numero_pagina += 1  # Incrementa o número da página
-                    y_pos = altura - 50  # Reseta a posição para o topo da página
+                if y_pos - 180 < 50 or imagens_na_pagina >= imagens_por_pagina:
+                    p.showPage()  
+                    numero_pagina += 1  
+                    y_pos = altura - 50  
 
-                    # Desenha a legenda na nova página
                     y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina)
+                    imagens_na_pagina = 0  
 
-                    imagens_na_pagina = 0  # Reseta o contador de imagens para a nova página
-
-                # Desenha a imagem
                 p.drawImage(image_path, x_offset, y_pos - 150, width=max_width, height=150)
                 p.setFont("Helvetica-Bold", 12)
-                p.drawString(x_offset, y_pos - 160, label)
+                p.drawString(x_offset, y_pos - 170, label)
 
-                # Ajusta a posição de x para a próxima imagem na mesma linha
                 x_offset += max_width + gap
                 imagens_na_pagina += 1
 
-                # Se o espaço para a próxima imagem ultrapassar o limite da largura, move para a próxima linha
                 if x_offset + max_width + gap > largura - 50:
-                    x_offset = 50  # Reseta para a posição inicial
-                    y_pos -= 160  # Move para a próxima linha
-                    imagens_na_pagina = 0  # Reseta o contador para a próxima linha
+                    x_offset = 50  
+                    y_pos -= 180  
+                    imagens_na_pagina = 0  
 
-            # Verifica se a posição y não ultrapassa o limite inferior da página
-            if y_pos - 160 < 50:
-                p.showPage()  # Se ultrapassar, cria uma nova página
-                numero_pagina += 1  # Incrementa o número da página
-                y_pos = altura - 50  # Reseta a posição para o topo da página
-                y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina)  # Reposição da legenda
-                imagens_na_pagina = 0  # Reseta o contador de imagens para a nova página
+            if y_pos - 180 < 50:
+                p.showPage()
+                numero_pagina += 1  
+                y_pos = altura - 50  
+                y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina)  
+                imagens_na_pagina = 0  
 
         return y_pos
 
-
-
-    # Processa as fotos do banco de dados e cria o conteúdo no PDF
     try:
         for foto in arquivos:
-            p.setFont("Helvetica", 12)
-            p.drawString(50, y_position, f"Projeto: {foto.projeto}")
-            y_position -= 20
-
-            p.setFont("Helvetica-Bold", 12)
-            p.drawString(50, y_position, f"Poste: {foto.poste}")
-            y_position -= 20
-
-            p.setFont("Helvetica", 10)
-            p.drawString(50, y_position, f"Supervisor: {foto.Supervisor}")
-            y_position -= 15
-
-            equipe_nome = foto.Equipe.Nome_encarregado if foto.Equipe else "Não atribuída"
-            p.drawString(50, y_position, f"Equipe: {equipe_nome}")
-            y_position -= 15
-
-            p.drawString(50, y_position, f"Cidade: {foto.Cidade}")
-            y_position -= 15
-            p.drawString(50, y_position, f"Endereço: {foto.Endereco}")
-            y_position -= 15
-            p.drawString(50, y_position, f"Ocorrência: {foto.ocorrencia}")
-            y_position -= 15
-            p.drawString(50, y_position, f"GPS: {foto.GPS}")
-            y_position -= 15
-
-            # Desenhando as imagens lado a lado, se existirem
+            
             y_position = draw_images_side_by_side(
                 [foto.Poste_antes, foto.Poste_depois],
                 ["Poste Antes", "Poste Depois"],
@@ -956,7 +945,6 @@ def gerar_pdf_fotos_grupadas(request, projeto_nome):
     except Exception as e:
         raise Http404(f"Erro ao gerar o PDF: {str(e)}")
 
-    # Finaliza o PDF
     p.showPage()
     p.save()
 
