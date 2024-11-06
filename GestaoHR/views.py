@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
 import pandas as pd
-from django.http import FileResponse
+from django.http import FileResponse, Http404
 from django.http import HttpResponse
 from django.db.models import Sum
 from asgiref.sync import sync_to_async
@@ -33,7 +33,7 @@ from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from django.views.decorators.debug import sensitive_variables
-import io
+import io 
 from django.conf import settings
 import os
 import pandas as pd
@@ -43,6 +43,8 @@ from reportlab.lib.pagesizes import letter
 from docx2pdf import convert
 import pdfkit
 import pypandoc
+from io import BytesIO
+
 
 @login_required
 def home(request):
@@ -786,17 +788,23 @@ class FotoUploadView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 #gerar PDF das fotos campo  
+def gerar_pdf_fotos_grupadas(request, projeto_nome):
+    arquivos = FotosCampo.objects.filter(projeto=projeto_nome)
 
+    if not arquivos.exists():
+        raise Http404("Nenhuma foto encontrada para o projeto.")
 
-def gerar_pdf(request, projeto_nome):
-    buffer = io.BytesIO()
+    buffer = BytesIO()
     p = canvas.Canvas(buffer, pagesize=A4)
     largura, altura = A4
 
     nome_empresa = "JJ Serviços Eletricos"
-    titulo_projeto = "Relatório de Execução do Projeto"
-    numero_pagina = 1  
+    titulo_projeto = f"Relatório de Fotos do Projeto: {projeto_nome}"
+    numero_pagina = 1
+    imagens_por_pagina = 5  # Quantidade máxima de imagens por página
+    imagens_na_pagina = 0  # Contador de imagens na página atual
 
+    # Função para desenhar a legenda
     def desenhar_legenda(canvas_obj, empresa, projeto, altura_atual, pagina_atual):
         canvas_obj.setFont("Helvetica-Bold", 14)
         canvas_obj.drawString(50, altura_atual, f"Empresa: {empresa}")
@@ -804,69 +812,159 @@ def gerar_pdf(request, projeto_nome):
         canvas_obj.drawString(50, altura_atual - 20, f"Projeto: {projeto}")
         canvas_obj.drawString(50, altura_atual - 40, "Relatório de Fotos")
         canvas_obj.drawString(50, altura_atual - 60, f"Página: {pagina_atual}")
-        return altura_atual - 80  
+        return altura_atual - 80
 
+    # Desenha a primeira legenda
     y_position = desenhar_legenda(p, nome_empresa, titulo_projeto, altura - 50, numero_pagina)
 
-    # Buscando as fotos do projeto
-    fotos = FotosCampo.objects.filter(projeto=projeto_nome)
+    # Função para desenhar as imagens lado a lado
+    def draw_images_side_by_side(image_fields, labels, y_pos):
+        nonlocal numero_pagina, y_position, imagens_na_pagina
 
-    if not fotos.exists():
-        raise Http404("Nenhuma foto encontrada para o projeto.")
+        x_offset = 50  # Posição inicial de x
+        max_width = 200  # Largura máxima das imagens
+        gap = 20  # Espaço entre as imagens
 
+        # Desenha as imagens lado a lado
+        for image_field, label in zip(image_fields, labels):
+            if image_field and hasattr(image_field, 'path') and image_field.path:
+                image_path = image_field.path
+
+                # Se o espaço disponível for muito pequeno, cria-se uma nova página
+                if y_pos - 160 < 50 or imagens_na_pagina >= imagens_por_pagina:
+                    p.showPage()  # Cria uma nova página
+                    numero_pagina += 1  # Incrementa o número da página
+                    y_pos = altura - 50  # Reseta a posição para o topo da página
+
+                    # Desenha a legenda na nova página
+                    y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina)
+
+                    imagens_na_pagina = 0  # Reseta o contador de imagens para a nova página
+
+                # Desenha a imagem
+                p.drawImage(image_path, x_offset, y_pos - 150, width=max_width, height=150)
+                p.setFont("Helvetica-Bold", 12)
+                p.drawString(x_offset, y_pos - 160, label)
+
+                # Ajusta a posição de x para a próxima imagem na mesma linha
+                x_offset += max_width + gap
+                imagens_na_pagina += 1
+
+                # Se o espaço para a próxima imagem ultrapassar o limite da largura, move para a próxima linha
+                if x_offset + max_width + gap > largura - 50:
+                    x_offset = 50  # Reseta para a posição inicial
+                    y_pos -= 160  # Move para a próxima linha
+                    imagens_na_pagina = 0  # Reseta o contador para a próxima linha
+
+            # Verifica se a posição y não ultrapassa o limite inferior da página
+            if y_pos - 160 < 50:
+                p.showPage()  # Se ultrapassar, cria uma nova página
+                numero_pagina += 1  # Incrementa o número da página
+                y_pos = altura - 50  # Reseta a posição para o topo da página
+                y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina)  # Reposição da legenda
+                imagens_na_pagina = 0  # Reseta o contador de imagens para a nova página
+
+        return y_pos
+
+
+
+    # Processa as fotos do banco de dados e cria o conteúdo no PDF
     try:
-        for foto in fotos:
+        for foto in arquivos:
             p.setFont("Helvetica", 12)
             p.drawString(50, y_position, f"Projeto: {foto.projeto}")
             y_position -= 20
 
             p.setFont("Helvetica-Bold", 12)
             p.drawString(50, y_position, f"Poste: {foto.poste}")
-            y_position -= 20  
+            y_position -= 20
 
-            campos_imagem = {
-                'Poste_antes': 'Poste Antes',
-                'Poste_depois': 'Poste Depois',
-                'cava_antes': 'Cava Antes',
-                'cava_depois': 'Cava Depois',
-                'GPS_antes': 'GPS Antes',
-                'GPS_depois': 'GPS Depois',
-                'Estrutura_antes': 'Estrutura Antes',
-                'Estrutura_depois': 'Estrutura Depois',
-                'panoramica': 'Panorâmica',
-                'Equipamento_antes': 'Equipamento Antes',
-                'Equipamento_depois': 'Equipamento Depois'
-            }
+            p.setFont("Helvetica", 10)
+            p.drawString(50, y_position, f"Supervisor: {foto.Supervisor}")
+            y_position -= 15
 
-            for campo, titulo in campos_imagem.items():
-                imagem = getattr(foto, campo) 
-                if imagem and hasattr(imagem, 'path'):  # Confirma se a imagem existe e tem um caminho válido
-                    try:
-                        image_path = imagem.path
+            equipe_nome = foto.Equipe.Nome_encarregado if foto.Equipe else "Não atribuída"
+            p.drawString(50, y_position, f"Equipe: {equipe_nome}")
+            y_position -= 15
 
-                        if y_position - 160 < 50:  # Se a posição Y está muito baixa, crie uma nova página
-                            p.showPage()  
-                            numero_pagina += 1  
-                            y_position = altura - 50  
-                            y_position = desenhar_legenda(p, nome_empresa, titulo_projeto, y_position, numero_pagina)
+            p.drawString(50, y_position, f"Cidade: {foto.Cidade}")
+            y_position -= 15
+            p.drawString(50, y_position, f"Endereço: {foto.Endereco}")
+            y_position -= 15
+            p.drawString(50, y_position, f"Ocorrência: {foto.ocorrencia}")
+            y_position -= 15
+            p.drawString(50, y_position, f"GPS: {foto.GPS}")
+            y_position -= 15
 
-                        p.drawImage(image_path, 50, y_position - 150, width=200, height=150)
-                        p.setFont("Helvetica-Bold", 12)
-                        p.drawString(50, y_position - 160, titulo)
-                        y_position -= 180  
-
-                    except Exception as e:
-                        print(f"Erro ao carregar a imagem {campo}: {str(e)}")
+            # Desenhando as imagens lado a lado, se existirem
+            y_position = draw_images_side_by_side(
+                [foto.Poste_antes, foto.Poste_depois],
+                ["Poste Antes", "Poste Depois"],
+                y_position
+            )
+            y_position = draw_images_side_by_side(
+                [foto.cava_antes, foto.cava_depois],
+                ["Cava Antes", "Cava Depois"],
+                y_position
+            )
+            y_position = draw_images_side_by_side(
+                [foto.GPS_antes, foto.GPS_depois],
+                ["GPS Antes", "GPS Depois"],
+                y_position
+            )
+            y_position = draw_images_side_by_side(
+                [foto.Estrutura_antes, foto.Estrutura_depois],
+                ["Estrutura Antes", "Estrutura Depois"],
+                y_position
+            )
+            y_position = draw_images_side_by_side(
+                [foto.panoramica, foto.Equipamento_antes],
+                ["Panorâmica", "Equipamento Antes"],
+                y_position
+            )
+            y_position = draw_images_side_by_side(
+                [foto.Equipamento_depois, foto.Numero_serie_antes],
+                ["Equipamento Depois", "Número Série Antes"],
+                y_position
+            )
+            y_position = draw_images_side_by_side(
+                [foto.Numero_serie_depois, foto.Numero_sap_antes],
+                ["Número Série Depois", "Número SAP Antes"],
+                y_position
+            )
+            y_position = draw_images_side_by_side(
+                [foto.Numero_sap_depois, foto.Numero_placa_antes],
+                ["Número SAP Depois", "Número Placa Antes"],
+                y_position
+            )
+            y_position = draw_images_side_by_side(
+                [foto.Numero_placa_depois, foto.Poda_antes],
+                ["Número Placa Depois", "Poda Antes"],
+                y_position
+            )
+            y_position = draw_images_side_by_side(
+                [foto.Poda_depois, foto.concreto_calcada_antes],
+                ["Poda Depois", "Concreto Calçada Antes"],
+                y_position
+            )
+            y_position = draw_images_side_by_side(
+                [foto.concreto_calcada_depois],
+                ["Concreto Calçada Depois"],
+                y_position
+            )
 
     except Exception as e:
-        raise Http404("Erro ao gerar o PDF.")
+        raise Http404(f"Erro ao gerar o PDF: {str(e)}")
 
-    # Fecha o PDF
+    # Finaliza o PDF
     p.showPage()
     p.save()
 
     buffer.seek(0)
     return HttpResponse(buffer, content_type='application/pdf')
+
+
+
 
 def permission_denied_view(request, exception):
     return render(request, '403.html', status=403)
