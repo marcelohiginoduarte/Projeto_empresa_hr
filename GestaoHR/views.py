@@ -787,7 +787,7 @@ class FotoUploadView(APIView):
         print("Erros de validação:", serializer.errors)  # Adicione isto para depuração
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-#gerar PDF das fotos campo  
+
 def gerar_pdf_fotos_grupadas(request, projeto_nome):
     arquivos = FotosCampo.objects.filter(projeto=projeto_nome)
 
@@ -804,44 +804,28 @@ def gerar_pdf_fotos_grupadas(request, projeto_nome):
     imagens_por_pagina = 5  
     imagens_na_pagina = 0 
 
-    def desenhar_legenda(canvas_obj, empresa, projeto, altura_atual, pagina_atual):
+    def desenhar_legenda(canvas_obj, empresa, projeto, altura_atual, pagina_atual, foto):
         canvas_obj.setFont("Helvetica-Bold", 14)
         canvas_obj.drawString(50, altura_atual, f"Empresa: {empresa}")
         canvas_obj.setFont("Helvetica", 12)
         canvas_obj.drawString(50, altura_atual - 20, f"Projeto: {projeto}")
         canvas_obj.drawString(50, altura_atual - 40, "Relatório de Fotos")
         canvas_obj.drawString(50, altura_atual - 60, f"Página: {pagina_atual}")
-        return altura_atual - 80
 
         if foto:
-            canvas_obj.setFont("Helvetica", 12)
-            canvas_obj.drawString(50, altura_atual, f"Projeto: {foto.projeto}")
-            altura_atual -= 20
-
-            canvas_obj.setFont("Helvetica-Bold", 12)
-            canvas_obj.drawString(50, altura_atual, f"Poste: {foto.poste}")
-            altura_atual -= 20
-
-            canvas_obj.setFont("Helvetica", 10)
-            canvas_obj.drawString(50, altura_atual, f"Supervisor: {foto.Supervisor}")
-            altura_atual -= 15
-
+            canvas_obj.drawString(50, altura_atual - 80, f"Projeto: {foto.projeto}")
+            canvas_obj.drawString(50, altura_atual - 100, f"Poste: {foto.poste}")
+            canvas_obj.drawString(50, altura_atual - 120, f"Supervisor: {foto.Supervisor}")
             equipe_nome = foto.Equipe.Nome_encarregado if foto.Equipe else "Não atribuída"
-            canvas_obj.drawString(50, altura_atual, f"Equipe: {equipe_nome}")
-            altura_atual -= 15
+            canvas_obj.drawString(50, altura_atual - 140, f"Equipe: {equipe_nome}")
+            canvas_obj.drawString(50, altura_atual - 160, f"Cidade: {foto.Cidade}")
+            canvas_obj.drawString(50, altura_atual - 180, f"Endereço: {foto.Endereco}")
+            canvas_obj.drawString(50, altura_atual - 200, f"Ocorrência: {foto.ocorrencia}")
+            canvas_obj.drawString(50, altura_atual - 220, f"GPS: {foto.GPS}")
 
-            canvas_obj.drawString(50, altura_atual, f"Cidade: {foto.Cidade}")
-            altura_atual -= 15
-            canvas_obj.drawString(50, altura_atual, f"Endereço: {foto.Endereco}")
-            altura_atual -= 15
-            canvas_obj.drawString(50, altura_atual, f"Ocorrência: {foto.ocorrencia}")
-            altura_atual -= 15
-            canvas_obj.drawString(50, altura_atual, f"GPS: {foto.GPS}")
-            altura_atual -= 15
+        return altura_atual - 240
 
-    return altura_atual
-
-    y_position = desenhar_legenda(p, nome_empresa, titulo_projeto, altura - 50, numero_pagina)
+    y_position = altura - 50  # Início na parte superior da página
 
     def draw_images_side_by_side(image_fields, labels, y_pos):
         nonlocal numero_pagina, y_position, imagens_na_pagina
@@ -858,8 +842,7 @@ def gerar_pdf_fotos_grupadas(request, projeto_nome):
                     p.showPage()  
                     numero_pagina += 1  
                     y_pos = altura - 50  
-
-                    y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina)
+                    y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina, foto)  
                     imagens_na_pagina = 0  
 
                 p.drawImage(image_path, x_offset, y_pos - 150, width=max_width, height=150)
@@ -878,14 +861,15 @@ def gerar_pdf_fotos_grupadas(request, projeto_nome):
                 p.showPage()
                 numero_pagina += 1  
                 y_pos = altura - 50  
-                y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina)  
+                y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina, foto)  
                 imagens_na_pagina = 0  
 
         return y_pos
 
     try:
         for foto in arquivos:
-            
+            y_position = desenhar_legenda(p, nome_empresa, titulo_projeto, y_position, numero_pagina, foto)
+
             y_position = draw_images_side_by_side(
                 [foto.Poste_antes, foto.Poste_depois],
                 ["Poste Antes", "Poste Depois"],
