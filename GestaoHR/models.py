@@ -312,6 +312,7 @@ class DemandaInterna(models.Model):
         ('Andamento', 'Andamento'),
         ('Realizado', 'Realizado'),
         ('Correção', 'Correção'),
+        ('OPEX', 'OPEX'),
         ('Aguardando Equatorial', 'Aguardando Equatorial'),
         ('Enviado Equatorial', 'Enviado Equatorial'),
         ('Aprovado Equatorial', 'Aprovado Equatorial'),
