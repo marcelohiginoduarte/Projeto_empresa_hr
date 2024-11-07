@@ -496,6 +496,8 @@ class FotosCampo(models.Model):
     Poda_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     concreto_calcada_antes= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     concreto_calcada_depois= models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Tela_Ocorencia = models.ImageField(upload_to='fotos/campos', blank=True, null=True)
+    Trajeto = models.ImageField(upload_to='fotos/campos', blank=True, null=True)
     Data = models.DateField(blank=True, null=True)
     Supervisor = models.CharField(max_length=25, blank=False, null=False)
     Equipe = models.ForeignKey(Equipe, on_delete=models.SET_DEFAULT, default=1)

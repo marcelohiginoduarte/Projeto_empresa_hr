@@ -200,6 +200,18 @@ img {
                         <img src="{{ arquivo.concreto_calcada_depois.url }}" alt="concreto calcada depois" style="width: 200px; height: auto;">
                     </div>
                 {% endif %}
+                {% if arquivo.Tela_Ocorencia %}
+                    <div>
+                        <h4>Tela da Ocorrencia</h4>
+                        <img src="{{ arquivo.Tela_Ocorencia.url }}" alt="Tela da ocorencia" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
+                {% if arquivo.Trajeto %}
+                    <div>
+                        <h4>Trajeto</h4>
+                        <img src="{{ arquivo.Trajeto.url }}" alt="Trajeto" style="width: 200px; height: auto;">
+                    </div>
+                {% endif %}
             
             </div>
         {% endfor %}

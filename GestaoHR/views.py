@@ -796,75 +796,83 @@ def gerar_pdf_fotos_grupadas(request, projeto_nome):
 
     buffer = BytesIO()
     p = canvas.Canvas(buffer, pagesize=A4)
-    largura, altura = A4
+    largura, altura = A4  # A4 é uma tupla (largura, altura)
 
     nome_empresa = "JJ Serviços Eletricos"
     titulo_projeto = f"Relatório de Fotos do Projeto: {projeto_nome}"
     numero_pagina = 1
-    imagens_por_pagina = 5  
-    imagens_na_pagina = 0 
+    imagens_por_pagina = 5
+    imagens_na_pagina = 0
 
     def desenhar_legenda(canvas_obj, empresa, projeto, altura_atual, pagina_atual, foto):
         canvas_obj.setFont("Helvetica-Bold", 14)
-        canvas_obj.drawString(50, altura_atual, f"Empresa: {empresa}")
+        canvas_obj.drawString(120, altura_atual, f"Empresa: {empresa}")
         canvas_obj.setFont("Helvetica", 12)
         canvas_obj.drawString(50, altura_atual - 20, f"Projeto: {projeto}")
         canvas_obj.drawString(50, altura_atual - 40, "Relatório de Fotos")
         canvas_obj.drawString(50, altura_atual - 60, f"Página: {pagina_atual}")
 
         if foto:
-            canvas_obj.drawString(50, altura_atual - 80, f"Projeto: {foto.projeto}")
-            canvas_obj.drawString(50, altura_atual - 100, f"Poste: {foto.poste}")
-            canvas_obj.drawString(50, altura_atual - 120, f"Supervisor: {foto.Supervisor}")
+            x_offset = largura - 250  # Ajuste para não ultrapassar os limites
+            canvas_obj.setFont("Helvetica", 10)
+            canvas_obj.drawString(x_offset, altura_atual - 20, f"Supervisor: {foto.Supervisor}")
             equipe_nome = foto.Equipe.Nome_encarregado if foto.Equipe else "Não atribuída"
-            canvas_obj.drawString(50, altura_atual - 140, f"Equipe: {equipe_nome}")
-            canvas_obj.drawString(50, altura_atual - 160, f"Cidade: {foto.Cidade}")
-            canvas_obj.drawString(50, altura_atual - 180, f"Endereço: {foto.Endereco}")
-            canvas_obj.drawString(50, altura_atual - 200, f"Ocorrência: {foto.ocorrencia}")
-            canvas_obj.drawString(50, altura_atual - 220, f"GPS: {foto.GPS}")
+            canvas_obj.drawString(x_offset, altura_atual - 40, f"Equipe: {equipe_nome}")
+            canvas_obj.drawString(x_offset, altura_atual - 60, f"Cidade: {foto.Cidade}")
+            canvas_obj.drawString(x_offset, altura_atual - 80, f"Endereço: {foto.Endereco}")
+            canvas_obj.drawString(x_offset, altura_atual - 100, f"Ocorrência: {foto.ocorrencia}")
+            canvas_obj.drawString(x_offset, altura_atual - 120, f"GPS: {foto.GPS}")
 
-        return altura_atual - 240
+        return altura_atual - 140  # Retorna a posição y ajustada
 
-    y_position = altura - 50  # Início na parte superior da página
+    y_position = altura - 50  # A posição inicial de y está no topo da página
+    primeira_pagina = True
 
     def draw_images_side_by_side(image_fields, labels, y_pos):
         nonlocal numero_pagina, y_position, imagens_na_pagina
 
-        x_offset = 50  
-        max_width = 200  
-        gap = 20  
+        x_offset = 50  # Posição inicial em x
+        max_width = 200  # Largura da imagem
+        gap = 20  # Espaço entre as imagens
+        max_images_per_row = 2  # Quantas imagens por linha
 
         for image_field, label in zip(image_fields, labels):
             if image_field and hasattr(image_field, 'path') and image_field.path:
                 image_path = image_field.path
 
+                # Se não houver mais espaço suficiente para desenhar, crie uma nova página
                 if y_pos - 180 < 50 or imagens_na_pagina >= imagens_por_pagina:
-                    p.showPage()  
-                    numero_pagina += 1  
-                    y_pos = altura - 50  
-                    y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina, foto)  
-                    imagens_na_pagina = 0  
+                    p.showPage()  # Cria uma nova página
+                    numero_pagina += 1
+                    y_pos = altura - 50  # Reinicia a posição y
+                    y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina, None)
+                    imagens_na_pagina = 0  # Reseta as imagens na página
 
+                # Desenha a imagem
                 p.drawImage(image_path, x_offset, y_pos - 150, width=max_width, height=150)
                 p.setFont("Helvetica-Bold", 12)
                 p.drawString(x_offset, y_pos - 170, label)
 
-                x_offset += max_width + gap
+                # Ajusta a posição x e y
+                x_offset += max_width + gap  # Move para a próxima posição x
+
+                # Se a linha estiver cheia, reinicie o x e mova para a próxima linha
+                if x_offset + max_width + gap > largura - 50:
+                    x_offset = 50  # Reinicia a posição de x
+                    y_pos -= 180  # Move para baixo para a próxima linha de imagens
+                    imagens_na_pagina += max_images_per_row  # Incrementa o número de imagens na página
+
                 imagens_na_pagina += 1
 
-                if x_offset + max_width + gap > largura - 50:
-                    x_offset = 50  
-                    y_pos -= 180  
-                    imagens_na_pagina = 0  
+                # Se o espaço de y para a próxima linha não for suficiente, cria uma nova página
+                if y_pos - 180 < 50:
+                    p.showPage()  # Cria nova página se o espaço acabar
+                    numero_pagina += 1
+                    y_pos = altura - 50  # Reinicia a posição y
+                    y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina, None)  
+                    imagens_na_pagina = 0  # Reseta as imagens na página
 
-            if y_pos - 180 < 50:
-                p.showPage()
-                numero_pagina += 1  
-                y_pos = altura - 50  
-                y_pos = desenhar_legenda(p, nome_empresa, titulo_projeto, y_pos, numero_pagina, foto)  
-                imagens_na_pagina = 0  
-
-        return y_pos
+        return y_pos  # Retorna a nova posição de y
 
     try:
         for foto in arquivos:
@@ -934,7 +942,6 @@ def gerar_pdf_fotos_grupadas(request, projeto_nome):
 
     buffer.seek(0)
     return HttpResponse(buffer, content_type='application/pdf')
-
 
 
 
