@@ -2,7 +2,6 @@ from django import forms
 from GestaoHR.models import (
     collaborator,
     Aquivo,
-    Servico,
     DemandaInterna,
     BancoArquivos,
     FotosCampo,
@@ -12,7 +11,6 @@ from GestaoHR.models import (
     Document,
     MovimentacaoEstoque,
     Produto,
-    Equipe,
     ProgramacaoEquipes,
 )
 from django.forms import modelformset_factory
@@ -46,40 +44,6 @@ class testform(forms.ModelForm):
         fields = ["Nome", "Arquivo_ponto", "Mes", "Ano"]
 
 
-class Servicoform(forms.ModelForm):
-    class Meta:
-        model = Servico
-        fields = [
-            "Tipo_investimento",
-            "Numero_Servico",
-            "Status",
-            "tipo_servico",
-            "Equipe",
-            "Status_SAP",
-            "Status",
-            "PEP",
-            "Servico",
-            "Mês_servico",
-            "Ano_servico",
-            "data_da_solicitacao",
-            "data_programacao",
-            "tecnico",
-            "Endereco",
-            "Municipio",
-            "Medicao",
-            "As_built",
-            "AES_ACOS",
-            "evidencias",
-            "Requisicao_ODD",
-            "Requisicao_ODI",
-            "Valor_parcial",
-            "Valor_final",
-            "Valor_pago",
-            "desenho_servico",
-            "foto_antes",
-            "foto_depois",
-            "Observacao",
-        ]
 
 
 class DemandaInternaform(forms.ModelForm):
@@ -252,19 +216,6 @@ class CadastrarProduto(forms.ModelForm):
         fields = ["nome", "descricao", "preco", "quantidade", "categoria", "codigo"]
 
 
-class CadastraEquipeform(forms.ModelForm):
-    class Meta:
-        model = Equipe
-        fields = [
-            "Codigo_Equipe",
-            "Nome_encarregado",
-            "Mebro_equipe1",
-            "Mebro_equipe2",
-            "Mebro_equipe3",
-            "Mebro_equipe4",
-            "Mebro_equipe5",
-            "Mebro_equipe6",
-        ]
 
 
 class ProgramacaoEquipeForm(forms.ModelForm):

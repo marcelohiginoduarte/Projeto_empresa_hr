@@ -2,7 +2,6 @@ from django.contrib import admin
 from GestaoHR.models import (
     collaborator,
     Aquivo,
-    Servico,
     BancoArquivos,
     DemandaInterna,
     SESMT,
@@ -31,14 +30,6 @@ class ListandoArquivo(admin.ModelAdmin):
 
 
 admin.site.register(Aquivo, ListandoArquivo)
-
-
-class ListandoServico(admin.ModelAdmin):
-    list_display = ("PEP", "Municipio")
-    list_display_links = ("PEP", "Municipio")
-
-
-admin.site.register(Servico, ListandoServico)
 
 
 class Listandobdarquivos(admin.ModelAdmin):
@@ -112,9 +103,4 @@ class Caderno_servicoadmin(admin.ModelAdmin):
 admin.site.register(Caderno_servico, Caderno_servicoadmin)
 
 
-class EquipeAdmin(admin.ModelAdmin):
-    list_display = ("Codigo_Equipe", "Nome_encarregado")
-    list_display_links = ("Codigo_Equipe", "Nome_encarregado")
 
-
-admin.site.register(Equipe, EquipeAdmin)

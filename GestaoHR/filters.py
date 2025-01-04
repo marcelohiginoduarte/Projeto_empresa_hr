@@ -1,5 +1,5 @@
 import django_filters
-from .models import collaborator, BancoArquivos, Servico, DemandaInterna, FotosCampo
+from .models import collaborator, BancoArquivos, DemandaInterna, FotosCampo
 
 
 class collaboratorFilter(django_filters.FilterSet):
@@ -13,15 +13,6 @@ class AquivoFilter(django_filters.FilterSet):
         model = collaborator
         fields = {"Nome": ["icontains"]}
 
-
-class ServicoFilter(django_filters.FilterSet):
-    Numero_Servico = django_filters.CharFilter(
-        label="Pesquisa", lookup_expr="icontains"
-    )
-
-    class Meta:
-        model = Servico
-        fields = ["Numero_Servico", "Mês_servico", "Ano_servico"]
 
 
 class DemandaFilter(django_filters.FilterSet):
