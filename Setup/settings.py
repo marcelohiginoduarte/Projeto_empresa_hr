@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'demandainterna',
     'Arquivo',
     'Fotoscampo',
+    'Sesmt',
     
 ]
 
