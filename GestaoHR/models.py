@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
 from django.utils import timezone
@@ -12,8 +13,8 @@ class collaborator(models.Model):
         ("Operacional", "Operacional"),
     ]
     Nome = models.CharField(max_length=150, blank=False, null=False)
-    CPF = models.CharField(max_length=11, unique=True, blank=False, null=False)
-    RG = models.CharField(max_length=12, unique=True, blank=True, null=True)
+    CPF = models.CharField(max_length=22, unique=False, blank=False, null=False)
+    RG = models.CharField(max_length=12, unique=False, blank=True, null=True)
     Servico = models.CharField(max_length=20, choices=tipo_servico)
     CNH = models.CharField(max_length=12, blank=True, null=True)
     Vencimento_CNH = models.DateField(blank=True, null=True)
@@ -53,82 +54,6 @@ class collaborator(models.Model):
     class Meta:
         permissions = [
             ("acesso_rh", "Acesso ao departamento de RH"),
-        ]
-
-
-class Aquivo(models.Model):
-    Mes_Mes = [
-        ("Jan", "Jan"),
-        ("Fev", "Fev"),
-        ("Mar", "Mar"),
-        ("Abr", "Abr"),
-        ("Mai", "Mai"),
-        ("Jun", "Jun"),
-        ("Jul", "Jul"),
-        ("Ago", "Ago"),
-        ("Set", "Set"),
-        ("Out", "Out"),
-        ("Nov", "Nov"),
-        ("Dez", "Dez"),
-    ]
-    Nome = models.ForeignKey(
-        collaborator, on_delete=models.CASCADE, related_name="arquivos_mensal"
-    )
-    Arquivo_ponto = models.FileField(upload_to="media/imagens/Controle_folha_ponto/")
-    Mes = models.CharField(max_length=6, choices=Mes_Mes, blank=False, null=False)
-    Ano = models.IntegerField(default=datetime.now().year)
-
-
-class DemandaInterna(models.Model):
-    tipo_atividade = [
-        ("Desenho", "Desenho"),
-        ("Medição", "Medição"),
-        ("Verificar campo", "Verificar Campo"),
-        ("Documentação", "Documentação"),
-    ]
-
-    tipo_status = [
-        ("Aguardando", "Aguardando"),
-        ("Andamento", "Andamento"),
-        ("Realizado", "Realizado"),
-        ("Correção", "Correção"),
-        ("OPEX", "OPEX"),
-        ("Aguardando Equatorial", "Aguardando Equatorial"),
-        ("Enviado Equatorial", "Enviado Equatorial"),
-        ("Aprovado Equatorial", "Aprovado Equatorial"),
-        ("Correção Equatorial", "Correção Equatorial"),
-    ]
-
-    Atividade = models.CharField(max_length=100, blank=False, null=False)
-    tipo = models.CharField(
-        max_length=50, choices=tipo_atividade, blank=False, null=False
-    )
-    responsavel = models.CharField(max_length=50, blank=True, null=True, default="")
-    status = models.CharField(
-        max_length=30, choices=tipo_status, blank=False, null=False
-    )
-    data_solicitacao = models.DateField(blank=True, null=True)
-    data_conclusão = models.DateField(blank=True, null=True)
-    responsavel_demanda = models.CharField(
-        max_length=50, blank=True, null=True, default=""
-    )
-    Observacao = models.TextField(max_length=200, blank=True, null=True)
-    arquivos = models.FileField(
-        upload_to="media/desenhoservico/Interna/", blank=True, null=True
-    )
-    arquivos_complementar = models.FileField(
-        upload_to="media/desenhoservico/Interna/", blank=True, null=True
-    )
-    arquivos_complementar1 = models.FileField(
-        upload_to="media/desenhoservico/Interna/", blank=True, null=True
-    )
-    arquivos_complementar2 = models.FileField(
-        upload_to="media/desenhoservico/Interna/", blank=True, null=True
-    )
-
-    class Meta:
-        permissions = [
-            ("acesso_demandaInterna2", "Acesso ao gestao de demandainterna2"),
         ]
 
 
@@ -191,7 +116,7 @@ class BancoArquivos(models.Model):
         ("TAPES", "TAPES"),
     ]
 
-    EI_OC = models.CharField(max_length=100, unique=True, blank=False, null=False)
+    EI_OC = models.CharField(max_length=100, unique=False, blank=False, null=False)
     tipo = models.CharField(
         max_length=50, choices=tipo_servico, blank=False, null=False
     )
@@ -227,125 +152,6 @@ class arquivos_foto(models.Model):
 
     def __str__(self):
         return self.projeto
-
-
-class FotosCampo(models.Model):
-
-    Municipios = [
-        ("ALVORADA", "ALVORADA"),
-        ("ARROIO DOS RATOS", "ARROIO DOS RATOS"),
-        ("BARRA DO RIBEIRO", "BARRA DO RIBEIRO"),
-        ("BUTIÁ", "BUTIÁ"),
-        ("CHARQUEADAS", "CHARQUEADAS"),
-        ("ELDORADO DO SUL", "ELDORADO DO SUL"),
-        ("GUAÍBA", "GUAÍBA"),
-        ("MARIANA PIMENTEL", "MARIANA PIMENTEL"),
-        ("MINAS DO LEÃO", "MINAS DO LEÃO"),
-        ("PANTANO GRANDE", "PANTANO GRANDE"),
-        ("PORTO ALEGRE", "PORTO ALEGRE"),
-        ("SÃO JERÔNIMO", "SÃO JERÔNIMO"),
-        ("VIAMÃO", "VIAMÃO"),
-        ("AMARAL FERRADOR", "AMARAL FERRADOR"),
-        ("ARAMBARÉ", "ARAMBARÉ"),
-        ("ARROIO DO PADRE", "ARROIO DO PADRE"),
-        ("ARROIO GRANDE", "ARROIO GRANDE"),
-        ("BAGÉ", "BAGÉ"),
-        ("BARAO DO TRIUNFO", "BARAO DO TRIUNFO"),
-        ("CAMAQUÃ", "CAMAQUÃ"),
-        ("CANDIOTA", "CANDIOTA"),
-        ("CANGUÇU", "CANGUÇU"),
-        ("CAPÃO DO LEÃO", "CAPÃO DO LEÃO"),
-        ("CERRITO", "CERRITO"),
-        ("CERRO GRANDE DO SUL", "CERRO GRANDE DO SUL"),
-        ("CHUÍ", "CHUÍ"),
-        ("CHUVISCA", "CHUVISCA"),
-        ("CRISTAL", "CRISTAL"),
-        ("DOM FELICIANO", "BDOM FELICIANO"),
-        ("DOM PEDRITO", "DOM PEDRITO"),
-        ("ENCRUZILHADA DO SUL", "ENCRUZILHADA DO SUL"),
-        ("HERVAL", "HERVAL"),
-        ("HULHA NEGRA", "HULHA NEGRA"),
-        ("JAGUARÃO", "JAGUARÃO"),
-        ("LAVRAS DO SUL", "LAVRAS DO SUL"),
-        ("MORRO REDONDO", "MORRO REDONDO"),
-        ("PEDRAS ALTAS", "PEDRAS ALTAS"),
-        ("PEDRO OSÓRIO", "PEDRO OSÓRIO"),
-        ("PELOTAS", "PELOTAS"),
-        ("JAGUARÃO", "JAGUARÃO"),  # aqui
-        ("PINHEIRO MACHADO", "PINHEIRO MACHADO"),
-        ("PIRATINI", "PIRATINI"),
-        ("RIO GRANDE", "RIO GRANDE"),
-        ("SÃO LOURENÇO DO SUL", "SÃO LOURENÇO DO SUL"),
-        ("SENTINELA DO SUL", "SENTINELA DO SUL"),
-        ("Sertão Santana", "Sertão Santana"),
-        ("SANTA VITÓRIA DO PALMAR", "SANTA VITÓRIA DO PALMAR"),
-        ("TAPES", "TAPES"),
-    ]
-
-    projeto = models.CharField(max_length=15, null=False, blank=False)
-    poste = models.CharField(max_length=4, null=False, blank=False)
-    Poste_antes = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    Poste_depois = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    cava_antes = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    cava_depois = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    GPS_antes = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    GPS_depois = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    Estrutura_antes = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    Estrutura_depois = models.ImageField(
-        upload_to="fotos/campos", blank=True, null=True
-    )
-    panoramica = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    Equipamento_antes = models.ImageField(
-        upload_to="fotos/campos", blank=True, null=True
-    )
-    Equipamento_depois = models.ImageField(
-        upload_to="fotos/campos", blank=True, null=True
-    )
-    Numero_serie_antes = models.ImageField(
-        upload_to="fotos/campos", blank=True, null=True
-    )
-    Numero_serie_depois = models.ImageField(
-        upload_to="fotos/campos", blank=True, null=True
-    )
-    Numero_sap_antes = models.ImageField(
-        upload_to="fotos/campos", blank=True, null=True
-    )
-    Numero_sap_depois = models.ImageField(
-        upload_to="fotos/campos", blank=True, null=True
-    )
-    Numero_placa_antes = models.ImageField(
-        upload_to="fotos/campos", blank=True, null=True
-    )
-    Numero_placa_depois = models.ImageField(
-        upload_to="fotos/campos", blank=True, null=True
-    )
-    Poda_antes = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    Poda_depois = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    concreto_calcada_antes = models.ImageField(
-        upload_to="fotos/campos", blank=True, null=True
-    )
-    concreto_calcada_depois = models.ImageField(
-        upload_to="fotos/campos", blank=True, null=True
-    )
-    Tela_Ocorencia = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    Trajeto = models.ImageField(upload_to="fotos/campos", blank=True, null=True)
-    Data = models.DateField(blank=True, null=True)
-    Supervisor = models.CharField(max_length=25, blank=False, null=False)
-    Equipe = models.ForeignKey(Equipe, on_delete=models.SET_DEFAULT, default=1)
-    Cidade = models.CharField(
-        choices=Municipios, max_length=100, blank=False, null=False
-    )
-    Endereco = models.CharField(max_length=300, blank=False, null=False)
-    ocorrencia = models.CharField(max_length=20, blank=False, null=False)
-    GPS = models.CharField(max_length=20, blank=False, null=False)
-    servico = models.CharField(max_length=300, blank=False, null=False)
-    horario_inicio = models.TimeField(blank=False, null=False)
-    horario_fim = models.TimeField(blank=True, null=True)
-
-    class Meta:
-        permissions = [
-            ("acesso_fotoscampo", "Acesso as fotos de campo"),
-        ]
 
 
 class SESMT(models.Model):
@@ -390,9 +196,6 @@ class ArquivoSesmt(models.Model):
     Nome = models.CharField(max_length=50)
     arquivo = models.FileField(upload_to="media/sesmt/sesmt_t")
     data_envio = models.DateTimeField(auto_now_add=True)
-    versao_anterior = models.ForeignKey(
-        "self", null=True, blank=True, on_delete=models.SET_NULL, related_name="versoes"
-    )
 
     def __str__(self):
         return self.Nome
@@ -406,10 +209,20 @@ class Document(models.Model):
 
     class Meta:
         ordering = ["-updated_at"]
-        unique_together = ("file", "version")
+        constraints = [
+            models.UniqueConstraint(fields=["file", "version"], name="unique_file_version")
+        ]
 
     def __str__(self):
         return f"{self.file.name} (v{self.version})"
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # Increment the version if the file already exists
+            latest_doc = Document.objects.filter(file=self.file).order_by("-version").first()
+            if latest_doc:
+                self.version = latest_doc.version + 1
+        super().save(*args, **kwargs)
 
 
 class Produto(models.Model):
@@ -427,7 +240,7 @@ class Produto(models.Model):
         max_length=50,
         choices=TIPO_CATEGORIA,
     )
-    codigo = models.CharField(max_length=100, unique=True)
+    codigo = models.CharField(max_length=100, unique=False)
     data_entrada = models.DateField(auto_now_add=True)
 
     def __str__(self):

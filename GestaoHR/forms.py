@@ -1,10 +1,7 @@
 from django import forms
 from GestaoHR.models import (
     collaborator,
-    Aquivo,
-    DemandaInterna,
     BancoArquivos,
-    FotosCampo,
     SESMT,
     ArquivoSesmt,
     arquivos_foto,
@@ -13,8 +10,6 @@ from GestaoHR.models import (
     Produto,
     ProgramacaoEquipes,
 )
-from django.forms import modelformset_factory
-
 
 class CollaboratorForm(forms.ModelForm):
     class Meta:
@@ -38,33 +33,6 @@ class CollaboratorForm(forms.ModelForm):
         ]
 
 
-class testform(forms.ModelForm):
-    class Meta:
-        model = Aquivo
-        fields = ["Nome", "Arquivo_ponto", "Mes", "Ano"]
-
-
-
-
-class DemandaInternaform(forms.ModelForm):
-    class Meta:
-        model = DemandaInterna
-        fields = [
-            "Atividade",
-            "tipo",
-            "responsavel",
-            "status",
-            "data_solicitacao",
-            "data_conclusão",
-            "responsavel_demanda",
-            "arquivos",
-            "Observacao",
-            "arquivos_complementar",
-            "arquivos_complementar1",
-            "arquivos_complementar2",
-        ]
-
-
 class BancoArquivoform(forms.ModelForm):
     class Meta:
         model = BancoArquivos
@@ -81,73 +49,7 @@ class BancoArquivoform(forms.ModelForm):
         ]
 
 
-class Projeto_fotoforms(forms.ModelForm):
-    class Meta:
-        model = arquivos_foto
-        fields = ["projeto"]
 
-
-class FotosCampoform(forms.ModelForm):
-    class Meta:
-        model = FotosCampo
-        fields = [
-            "projeto",
-            "poste",
-            "Data",
-            "Supervisor",
-            "Equipe",
-            "Cidade",
-            "Endereco",
-            "ocorrencia",
-            "servico",
-            "horario_inicio",
-            "GPS",
-            "horario_fim",
-            "Poste_antes",
-            "Poste_depois",
-            "cava_antes",
-            "cava_depois",
-            "GPS_antes",
-            "GPS_depois",
-            "Estrutura_antes",
-            "Estrutura_depois",
-            "panoramica",
-            "Equipamento_antes",
-            "Equipamento_depois",
-            "Numero_serie_antes",
-            "Numero_serie_depois",
-            "Numero_sap_antes",
-            "Numero_sap_depois",
-            "Numero_placa_antes",
-            "Numero_placa_depois",
-            "Poda_antes",
-            "Poda_depois",
-            "concreto_calcada_antes",
-            "concreto_calcada_depois",
-            "Tela_Ocorencia",
-            "Trajeto",
-        ]
-
-
-FotocampoFormSet = modelformset_factory(
-    FotosCampo,
-    fields=(
-        "projeto",
-        "poste",
-        "Poste_antes",
-        "Poste_depois",
-        "cava_antes",
-        "cava_depois",
-        "GPS_antes",
-        "GPS_depois",
-        "Estrutura_antes",
-        "Estrutura_depois",
-        "panoramica",
-        "Equipamento_antes",
-        "Equipamento_depois",
-    ),
-    extra=1,
-)
 
 
 class SESMTFORM(forms.ModelForm):
@@ -177,13 +79,9 @@ class SESMTFORM(forms.ModelForm):
 class ArquivoSesmtForm(forms.ModelForm):
     class Meta:
         model = ArquivoSesmt
-        fields = ["Nome", "arquivo", "versao_anterior"]
+        fields = ["Nome", "arquivo"]
 
 
-class arquivos_fotos_projetoform(forms.ModelForm):
-    class Meta:
-        model = arquivos_foto
-        fields = ["projeto", "ativo"]
 
 
 class DocumentForm(forms.ModelForm):
@@ -214,8 +112,6 @@ class CadastrarProduto(forms.ModelForm):
     class Meta:
         model = Produto
         fields = ["nome", "descricao", "preco", "quantidade", "categoria", "codigo"]
-
-
 
 
 class ProgramacaoEquipeForm(forms.ModelForm):

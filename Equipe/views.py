@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from Equipe.models import Equipe
 from Equipe.forms import CadastraEquipeform

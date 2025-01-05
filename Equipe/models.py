@@ -2,7 +2,7 @@ from django.db import models
 
 class Equipe(models.Model):
     Codigo_Equipe = models.CharField(
-        max_length=50, blank=False, null=False, unique=True
+        max_length=50, blank=False, null=False, unique=False
     )
     Nome_encarregado = models.CharField(max_length=150, blank=False, null=False)
     Mebro_equipe1 = models.CharField(max_length=150, blank=True, null=True)

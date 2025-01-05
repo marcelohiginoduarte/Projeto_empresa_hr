@@ -34,6 +34,9 @@ INSTALLED_APPS = [
     'django_filters',
     'Servico',
     'Equipe',
+    'demandainterna',
+    'Arquivo',
+    'Fotoscampo',
     
 ]
 

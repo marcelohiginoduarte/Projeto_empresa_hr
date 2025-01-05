@@ -1,17 +1,13 @@
 from django.contrib import admin
 from GestaoHR.models import (
     collaborator,
-    Aquivo,
     BancoArquivos,
-    DemandaInterna,
     SESMT,
     ArquivoSesmt,
     arquivos_foto,
-    FotosCampo,
     Produto,
     AES_ACOS,
     Caderno_servico,
-    Equipe,
 )
 
 
@@ -24,28 +20,12 @@ class ListandoCollaborator(admin.ModelAdmin):
 admin.site.register(collaborator, ListandoCollaborator)
 
 
-class ListandoArquivo(admin.ModelAdmin):
-    list_display = ("Nome", "Arquivo_ponto")
-    list_display_links = ("Nome", "Arquivo_ponto")
-
-
-admin.site.register(Aquivo, ListandoArquivo)
-
-
 class Listandobdarquivos(admin.ModelAdmin):
     list_display = ("EI_OC", "municipio")
     list_display_links = ("EI_OC", "municipio")
 
 
 admin.site.register(BancoArquivos, Listandobdarquivos)
-
-
-class ListandoDemandaInterna(admin.ModelAdmin):
-    list_display = ("Atividade", "tipo")
-    list_display_links = ("Atividade", "tipo")
-
-
-admin.site.register(DemandaInterna, ListandoDemandaInterna)
 
 
 class ListandoSESMT(admin.ModelAdmin):
@@ -70,14 +50,6 @@ class arquivofotocampo(admin.ModelAdmin):
 
 
 admin.site.register(arquivos_foto, arquivofotocampo)
-
-
-class fotoadmin(admin.ModelAdmin):
-    list_display = ("projeto",)
-    list_display_links = ("projeto",)
-
-
-admin.site.register(FotosCampo, fotoadmin)
 
 
 class Produtoadmin(admin.ModelAdmin):

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import FotosCampo
+from Fotoscampo.models import FotosCampo
 
 
 class FotoSerializer(serializers.ModelSerializer):

@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='bancoarquivos',
             name='municipio',
-            field=models.CharField(default='Arroio dos ratos', max_length=11),
+            field=models.CharField(default='Arroio dos ratos', max_length=30),
             preserve_default=False,
         ),
     ]
