@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'Arquivo',
     'Fotoscampo',
     'Sesmt',
+    'Estoque',
+    'Programacao',
     
 ]
 

@@ -3,7 +3,6 @@ from GestaoHR.models import (
     collaborator,
     BancoArquivos,
     arquivos_foto,
-    Produto,
     AES_ACOS,
     Caderno_servico,
 )
@@ -32,13 +31,6 @@ class arquivofotocampo(admin.ModelAdmin):
 
 
 admin.site.register(arquivos_foto, arquivofotocampo)
-
-
-class Produtoadmin(admin.ModelAdmin):
-    list_display = ("nome", "codigo")
-
-
-admin.site.register(Produto, Produtoadmin)
 
 
 class AESACOSadmin(admin.ModelAdmin):

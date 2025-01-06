@@ -15,16 +15,6 @@ from GestaoHR.views import (home,
                             ArquivoViews,
                             logar,
                             logout_view,
-                            listar_produtos,
-                            movimentacao_estoque,
-                            cadastra_produto,
-                            registro_movimentacao,
-                            cadastrar_programacaoequipe,
-                            ver_programacao,
-                            calendario_view,
-                            AtualizarProgramacaoEquipes,
-                            DeletarProgramacaoEquipes,
-                            calendario_dados,
                             )
 from django.conf.urls.static import static 
 from django.conf.urls import handler403
@@ -44,6 +34,8 @@ urlpatterns = [
     path('arquivo', include('Arquivo.urls')),
     path('fotoscampo', include('Fotoscampo.urls')),
     path('sesmt', include('Sesmt.urls')),
+    path('estoque', include('Estoque.urls')),
+    path('programacao', include('Programacao.urls')),
 
     path('create/', create_Collaborator, name='createcollaborador'),
     path('view/collaborator', to_view_collaborator, name='viewcollaborator'),
@@ -54,26 +46,13 @@ urlpatterns = [
     path('verdetalhe/<int:pk>/', DetalheView.as_view(), name='detalheviews'),
     path('verdetalhe/deletar/<int:pk>/', DeletarColaborador.as_view(), name='deletarcolaborador'),
     path('exportar_execel', exportar_para_execel_colaboradores, name='exportarexecelcolaboradores'),
-
-    
     path('arquivo/criar', CreateArquivos, name='criararquivos'),
     path('arquivo/visualizar', visualizar_arquivos, name='visualizararquivos'),
     path('arquivo/visualizar/<int:pk>', ArquivoUodate.as_view(), name='visualizararquivospk'),
     path('arquivo/views/<int:pk>', ArquivoViews.as_view(), name='verarquivos'),
     path('logar', logar, name='login'),
     path('logout', logout_view, name='logout'),
-
-    path('estoque/', listar_produtos, name='listarestoque'),
-    path('estoquemovimentacao/<int:produto_id>', movimentacao_estoque, name='movimentacaoestoque'),
-    path('estoquecadastra/', cadastra_produto, name='cadastrarproduto'),
-    path('estoqueregistromovimentacao', registro_movimentacao, name='registro_movimentacao'),
-
-    path('programacao/cadstro', cadastrar_programacaoequipe, name='cadastrarprogramacapequipe'),
-    path('programacao/vertoda', ver_programacao, name='vertodaprogramacao'),
-    path('programacao/calendario', calendario_view, name='vertodaprogramacaoemcalendario'),
-    path('programacao/atualizar/<int:pk>', AtualizarProgramacaoEquipes.as_view(), name='atualizarprogramacão'),
-    path('programacao/deletar/<int:pk>', DeletarProgramacaoEquipes.as_view(), name='deletarprogramacao'),
-    path('calendario-dados/', calendario_dados, name='calendario_dados'),
+    
 ]
 handler403 = permission_denied_view
 if settings.DEBUG:

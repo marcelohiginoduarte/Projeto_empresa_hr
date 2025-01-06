@@ -5,18 +5,13 @@ from GestaoHR.models import (
     collaborator,
     BancoArquivos,
     arquivos_foto,
-    Produto,
-    MovimentacaoEstoque,
     Caderno_servico,
-    ProgramacaoEquipes,
     ItemServico,
 )
 from django.urls import reverse_lazy
 from .forms import (
     CollaboratorForm,
     BancoArquivoform,
-    MovimentacaoForm,
-    ProgramacaoEquipeForm,
 )
 from datetime import datetime
 from .filters import (
@@ -98,9 +93,6 @@ def to_view_collaborator(request):
     return render(
         request, "view_collaborator.html", {"collaboratorfilter": view_collaborator}
     )
-
-
-# Deletar colaborador
 
 
 class DeletarColaborador(DeleteView):
@@ -317,149 +309,6 @@ def exportar_para_execel_colaboradores(request):
 def logout_view(request):
     logout(request)
     return redirect("homapage")
-
-
-
-
-@login_required
-def listar_produtos(request):
-    produtos = Produto.objects.all()
-    return render(request, "estoque_listarprodutos.html", {"produtos": produtos})
-
-
-@login_required
-@permission_required("GestaoHR.acesso_gestaoestoque", raise_exception=True)
-def movimentacao_estoque(request, produto_id):
-    produto = get_object_or_404(Produto, id=produto_id)
-    if request.method == "POST":
-        form = MovimentacaoForm(request.POST)
-        if form.is_valid():
-            movimentacao = form.save(commit=False)
-            movimentacao.produto = produto
-            if movimentacao.tipo == "ENTRADA":
-                produto.quantidade += movimentacao.quantidade
-            elif (
-                movimentacao.tipo == "SAIDA"
-                and produto.quantidade >= movimentacao.quantidade
-            ):
-                produto.quantidade -= movimentacao.quantidade
-            produto.save()
-            movimentacao.save()
-            return redirect("listarestoque")
-    else:
-        form = MovimentacaoForm()
-    return render(
-        request, "estoque_movimentacao_estoque.html", {"produto": produto, "form": form}
-    )
-
-
-@login_required
-@permission_required("GestaoHR.acesso_gestaoestoque", raise_exception=True)
-def cadastra_produto(request):
-    erro = None
-    texto = None
-
-    if request.method == "POST":
-        form = CadastrarProduto(request.POST, request.FILES)
-        print(form.errors)
-        if form.is_valid():
-            form.save()
-            return redirect("listarestoque")
-    else:
-        form = CadastrarProduto()
-        erro = request.GET.get("erro")
-        texto = request.GET.get("texto")
-
-    return render(
-        request,
-        "estoque_cadastrar_produto.html",
-        {"form": form, "erro": erro, "texto": texto},
-    )
-
-
-@login_required
-@permission_required("GestaoHR.acesso_gestaoestoque", raise_exception=True)
-def registro_movimentacao(request):
-    movimentacao = MovimentacaoEstoque.objects.all()
-    return render(
-        request, "estoque_registromovimentacao.html", {"movimentacao": movimentacao}
-    )
-
-
-
-@login_required
-def cadastrar_programacaoequipe(request):
-
-    erro = None
-    texto = None
-
-    if request.method == "POST":
-        form = ProgramacaoEquipeForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect("vertodaprogramacao")
-    else:
-        form = ProgramacaoEquipeForm()
-        erro = request.GET.get("erro")
-        texto = request.GET.get("texto")
-
-    return render(
-        request,
-        "programacao_cadastrar.html",
-        {"form": form, "erro": erro, "texto": texto},
-    )
-
-
-def ver_programacao(request):
-    programacoes = ProgramacaoEquipes.objects.all()
-    return render(request, "programacao_vertodas.html", {"programacoes": programacoes})
-
-
-class AtualizarProgramacaoEquipes(UpdateView):
-    model = ProgramacaoEquipes
-    template_name = "programacao_equipe_atualizar.html"
-    form_class = ProgramacaoEquipeForm
-    success_url = reverse_lazy("vertodaprogramacao")
-
-
-class DeletarProgramacaoEquipes(DeleteView):
-    model = ProgramacaoEquipes
-    template_name = "equipe__confirm_delete.html"
-    success_url = reverse_lazy("vertodaprogramacao")
-
-
-def calendario_view(request):
-    tarefas = ProgramacaoEquipes.objects.all()
-
-    calendario = {}
-    for tarefa in tarefas:
-        dia = tarefa.dia
-        mes = tarefa.Mes
-        if mes not in calendario:
-            calendario[mes] = {}
-        if dia not in calendario[mes]:
-            calendario[mes][dia] = []
-        calendario[mes][dia].append(
-            {"SI_OC": tarefa.SI_OC, "Encarregado": tarefa.Encarregado}
-        )
-
-    return render(request, "programacao_calendario.html", {"calendario": calendario})
-
-
-def calendario_dados(request):
-    tarefas = ProgramacaoEquipes.objects.all()
-
-    eventos = []
-    for tarefa in tarefas:
-        eventos.append(
-            {
-                "title": f"{tarefa.SI_OC} - {tarefa.Encarregado}",
-                "start": f"{tarefa.ANO}-{tarefa.Mes.zfill(2)}-{tarefa.dia.zfill(2)}",
-                "allDay": True,
-            }
-        )
-
-    return JsonResponse(eventos, safe=False)
 
 
 def importar_planilha(caminho_arquivo):
