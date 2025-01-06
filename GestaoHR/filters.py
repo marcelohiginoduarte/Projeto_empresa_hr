@@ -1,5 +1,5 @@
 import django_filters
-from .models import collaborator, BancoArquivos
+from .models import collaborator
 
 
 class collaboratorFilter(django_filters.FilterSet):
@@ -13,7 +13,4 @@ class AquivoFilter(django_filters.FilterSet):
         model = collaborator
         fields = {"Nome": ["icontains"]}
 
-class ArquivoFilter(django_filters.FilterSet):
-    class Meta:
-        model = BancoArquivos
-        fields = ["EI_OC"]
+

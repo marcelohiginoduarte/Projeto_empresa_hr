@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Sesmt',
     'Estoque',
     'Programacao',
+    'Bancoarquivos'
     
 ]
 

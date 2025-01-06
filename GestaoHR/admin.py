@@ -1,7 +1,6 @@
 from django.contrib import admin
 from GestaoHR.models import (
     collaborator,
-    BancoArquivos,
     arquivos_foto,
     AES_ACOS,
     Caderno_servico,
@@ -15,14 +14,6 @@ class ListandoCollaborator(admin.ModelAdmin):
 
 
 admin.site.register(collaborator, ListandoCollaborator)
-
-
-class Listandobdarquivos(admin.ModelAdmin):
-    list_display = ("EI_OC", "municipio")
-    list_display_links = ("EI_OC", "municipio")
-
-
-admin.site.register(BancoArquivos, Listandobdarquivos)
 
 
 class arquivofotocampo(admin.ModelAdmin):

@@ -3,7 +3,6 @@ from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
 from GestaoHR.models import (
     collaborator,
-    BancoArquivos,
     arquivos_foto,
     Caderno_servico,
     ItemServico,
@@ -11,12 +10,10 @@ from GestaoHR.models import (
 from django.urls import reverse_lazy
 from .forms import (
     CollaboratorForm,
-    BancoArquivoform,
 )
 from datetime import datetime
 from .filters import (
     collaboratorFilter,
-    ArquivoFilter,
 )
 from django_filters.views import FilterView
 from django.contrib.auth import authenticate, login, logout
@@ -194,83 +191,6 @@ class DetalheView(DetailView):
     model = collaborator
     template_name = "visualizar_colaborador_unitario.html"
     context_object_name = "objeto"
-
-# Banco de arquivos
-
-
-@login_required
-def CreateArquivos(request):
-    erro = None
-    texto = None
-
-    if request.method == "POST":
-        form = BancoArquivoform(request.POST, request.FILES)
-        print(form.errors)
-        if form.is_valid():
-            form.save()
-            return redirect("visualizararquivos")
-    else:
-        form = BancoArquivoform()
-        erro = request.GET.get("erro")
-        texto = request.GET.get("texto")
-
-    return render(
-        request, "arquivos_criar.html", {"form": form, "erro": erro, "texto": texto}
-    )
-
-
-@login_required
-def visualizar_arquivos(request):
-    arquivos = ArquivoFilter(request.GET, queryset=BancoArquivos.objects.all())
-    return render(request, "arquivos_visualizartd.html", {"ArquivoFilter": arquivos})
-
-
-class ArquivoUodate(UpdateView):
-    model = BancoArquivos
-    template_name = "arquivo_update.html"
-    fields = [
-        "EI_OC",
-        "tipo",
-        "municipio",
-        "AS_Biult",
-        "Responsavel",
-        "Medicao",
-        "DWG",
-        "AES",
-        "ACOS",
-    ]
-    success_url = "visualizararquivos"
-
-
-@login_required
-def atualizar_arquivos(request, pk):
-    arquivos = get_object_or_404(BancoArquivos, pk=pk)
-    contexto = {"arquivos": arquivos}
-    return render(request, "arquivo_update.html", contexto)
-
-
-# Arquivoviews
-
-
-class ArquivoViews(DetailView):
-    model = BancoArquivos
-    template_name = "arqvuivo_unitario.html"
-    context_object_name = "detalhe"
-
-    def get_success_url(self):
-        return reverse_lazy("#", kwargs={"pk": self.object.pk})
-
-
-# filtro
-
-
-@login_required
-def arquivo_filtro(request):
-    filtro = BancoArquivos.objects.all()
-    return render(request, "arquivos_visualizartd.html", {"filtro": filtro})
-
-
-# login
 
 
 @sensitive_variables("password")
