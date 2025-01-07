@@ -5,7 +5,6 @@ from GestaoHR.models import (
     collaborator,
     arquivos_foto,
     Caderno_servico,
-    ItemServico,
 )
 from django.urls import reverse_lazy
 from .forms import (

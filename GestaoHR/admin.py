@@ -2,9 +2,9 @@ from django.contrib import admin
 from GestaoHR.models import (
     collaborator,
     arquivos_foto,
-    AES_ACOS,
     Caderno_servico,
 )
+
 
 
 class ListandoCollaborator(admin.ModelAdmin):
@@ -22,14 +22,6 @@ class arquivofotocampo(admin.ModelAdmin):
 
 
 admin.site.register(arquivos_foto, arquivofotocampo)
-
-
-class AESACOSadmin(admin.ModelAdmin):
-    list_display = ("aes", "acos")
-    list_display_links = ("aes", "acos")
-
-
-admin.site.register(AES_ACOS, AESACOSadmin)
 
 
 class Caderno_servicoadmin(admin.ModelAdmin):
