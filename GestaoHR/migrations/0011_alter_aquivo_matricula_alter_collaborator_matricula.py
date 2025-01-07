@@ -4,6 +4,9 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
+import django.db.models.deletion
+from django.db import migrations, models
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -14,11 +17,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='aquivo',
             name='matricula',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='GestaoHR.collaborator', to_field='matricula'),
-        ),
-        migrations.AlterField(
-            model_name='collaborator',
-            name='matricula',
-            field=models.CharField(blank=True, max_length=15, null=True, unique=True),
+            field=models.CharField(blank=True, max_length=15, null=True),  # Mudança de ForeignKey para CharField
         ),
     ]
+

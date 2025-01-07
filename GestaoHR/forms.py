@@ -16,7 +16,6 @@ class CollaboratorForm(forms.ModelForm):
             "CNH",
             "Vencimento_CNH",
             "Data_contratacao",
-            "matricula",
             "ASO",
             "validade_aso",
             "PIS",

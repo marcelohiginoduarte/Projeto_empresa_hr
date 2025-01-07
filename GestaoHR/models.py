@@ -2,6 +2,7 @@ from django.db import models
 from datetime import timedelta
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from Equipe.models import Equipe
 
 
 class collaborator(models.Model):
@@ -53,7 +54,6 @@ class collaborator(models.Model):
             ("acesso_rh", "Acesso ao departamento de RH"),
         ]
 
-
 class arquivos_foto(models.Model):
     projeto = models.CharField(max_length=25, null=False, blank=False)
     ativo = models.BooleanField(default=True)
@@ -68,19 +68,3 @@ class Caderno_servico(models.Model):
 
     def __str__(self):
         return self.nome
-
-
-class AES_ACOS(models.Model):
-    aes = models.FileField(upload_to="media/aes", blank=True, null=True)
-    acos = models.FileField(upload_to="media/acos", blank=True, null=True)
-
-
-class ItemServico(models.Model):
-    iten = models.CharField(max_length=3)
-    codigo = models.CharField(max_length=50)
-    descricao = models.CharField(max_length=200)
-    QTD = models.DecimalField(max_digits=10, decimal_places=2)
-    valor_unitario = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return f"{self.codigo} - {self.descricao}"
