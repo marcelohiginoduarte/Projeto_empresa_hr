@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import sys
 from celery.schedules import crontab
 from decouple import config
 
@@ -19,7 +20,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*',]
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+sys.path.append(os.path.join(BASE_DIR, "apps"))
 # Application definition
 
 INSTALLED_APPS = [
